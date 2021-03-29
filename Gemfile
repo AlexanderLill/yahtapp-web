@@ -25,6 +25,8 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'tailwindcss-rails'
+
 # This will allow us to manage Cross Origin Resource Sharing (CORS) and determine which URLs are allowed to make requests to our server
 gem 'rack-cors'
 
