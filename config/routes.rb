@@ -10,11 +10,11 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { registrations: 'registrations' }
 
-  scope :api, defaults: { format: :json } do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get 'post/index'
       post :auth, to: 'authentication#create'
-      get  '/auth' => 'authentication#fetch'
+      resources :users, only: %w[show]
     end
     namespace :v2 do
       # Things yet to come

@@ -38,6 +38,11 @@ development:
     DATABASE_NAME: 'yaht'
     DATABASE_USERNAME: 'postgres'
     DATABASE_PASSWORD: ''
+test:
+  DATABASE_USERNAME: 'postgres'
+  DATABASE_PASSWORD: ''
+  DATABASE_URL: postgres://127.0.0.1
+  DATABASE_NAME: 'yaht_test'
 ````
 
 ### Installing Postgres
@@ -48,9 +53,13 @@ Or without a background service: ` pg_ctl -D /usr/local/var/postgres start`
 Create a user and a database:
 1. Run the interactive console: `psql postgres -h localhost`
 2. Run `CREATE USER postgres SUPERUSER; CREATE DATABASE yaht OWNER postgres;`
+3. Run `CREATE DATABASE yaht_test OWNER postgres;`
 
 ### Installing Redis
 Run `brew install redis`
+
+### Running Tests / Spec Files
+Run `bundle exec rspec spec`
 
 ## Workaround for gem `puma` on MacOS
 
