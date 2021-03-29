@@ -32,6 +32,8 @@ gem 'rack-cors'
 
 gem 'devise'
 
+gem "honeybadger", "~> 4.0"
+
 gem 'jwt'
 
 # allows setting / reading from environment variables in config/application.yml
