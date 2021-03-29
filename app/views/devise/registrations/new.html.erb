@@ -10,6 +10,13 @@
     </div>
 
     <div class="field">
+      <%= f.label :username %>
+      <div class="mt-1">
+        <%= f.text_field :username, autocomplete: "username" %>
+      </div>
+    </div>
+
+    <div class="field">
       <%= f.label :password %>
       <div class="mt-1">
         <%= f.password_field :password, autocomplete: "new-password" %>
