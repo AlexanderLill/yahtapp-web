@@ -5,18 +5,7 @@ class ApiController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
   rescue_from ActionController::ParameterMissing, with: :param_missing
 
-  def param_missing
-    render json: {
-      'errors': [
-        {
-          'status': '404',
-          'title': 'Parameter'
-        }
-      ]
-    }, status: 404
-  end
-
-  def not_found(exception)
+  def param_missing(exception)
     render json: {
       'errors': [
         {
@@ -25,6 +14,17 @@ class ApiController < ApplicationController
         }
       ]
     }, status: 422
+  end
+
+  def not_found
+    render json: {
+      'errors': [
+        {
+          'status': '404',
+          'title': "Entity not found."
+        }
+      ]
+    }, status: 404
   end
 
 
