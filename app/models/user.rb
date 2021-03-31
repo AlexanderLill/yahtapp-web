@@ -12,4 +12,10 @@ class User < ApplicationRecord
                Rails.application.secrets.secret_key_base)
   end
 
+  attr_writer :login
+
+  def login
+    @login || self.username || self.email
+  end
+
 end
