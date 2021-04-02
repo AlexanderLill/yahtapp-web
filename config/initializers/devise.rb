@@ -325,8 +325,8 @@ module Devise
         success! User.find(payload['sub'])
       rescue ::JWT::ExpiredSignature
         fail! 'Auth token has expired'
-      rescue ::JWT::DecodeError
-        fail! 'Auth token is invalid'
+      rescue ::JWT::DecodeError => e
+        fail! "Auth token is invalid: #{e.message}"
       end
     end
   end
