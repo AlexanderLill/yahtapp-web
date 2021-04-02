@@ -12,6 +12,11 @@
   </head>
 
   <body>
+    <% flash.each do |type, msg| %>
+      <%= render 'shared/notification', type: type do %>
+        <%= msg.html_safe %>
+      <% end  %>
+    <% end %>
     <%= yield %>
   </body>
 </html>
