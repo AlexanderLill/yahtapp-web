@@ -38,11 +38,13 @@ development:
     DATABASE_NAME: 'yaht'
     DATABASE_USERNAME: 'postgres'
     DATABASE_PASSWORD: ''
+    DEVISE_JWT_SECRET_KEY: 'your-secret'
 test:
   DATABASE_USERNAME: 'postgres'
   DATABASE_PASSWORD: ''
   DATABASE_URL: postgres://127.0.0.1
   DATABASE_NAME: 'yaht_test'
+  DEVISE_JWT_SECRET_KEY: 'your-secret'
 ````
 
 ### Installing Postgres

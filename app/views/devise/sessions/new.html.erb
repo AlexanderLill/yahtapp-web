@@ -1,9 +1,9 @@
 <%= render "devise/shared/devise_template", title: "Sign in to your account" do %>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "space-y-6"}) do |f| %>
       <div class="field">
-        <%= f.label :email %>
+        <%= f.label :login, "E-Mail / Username" %>
         <div class="mt-1">
-          <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+          <%= f.text_field :login, autofocus: true, autocomplete: "email" %>
         </div>
       </div>
 

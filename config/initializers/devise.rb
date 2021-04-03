@@ -263,7 +263,7 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
-  # config.navigational_formats = ['*/*', :html]
+  config.navigational_formats = ['*/*', :html, :json]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
@@ -280,9 +280,23 @@ Devise.setup do |config|
   config.warden do |manager|
       #   manager.intercept_401 = false
       #   manager.default_strategies(scope: :user).unshift :some_external_strategy
-      manager.strategies.add :jwt, Devise::Strategies::JWT
-      manager.default_strategies(scope: :user).unshift :jwt
+      # manager.strategies.add :jwt, Devise::Strategies::JWT
+      # manager.default_strategies(scope: :user).unshift :jwt
+      manager.failure_app = FailureApp
   end
+
+  config.jwt do |jwt|
+    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
+    jwt.dispatch_requests = [
+      ['POST', %r{^/api/v[0-9]+/auth$}]
+    ]
+    jwt.revocation_requests = [
+      ['DELETE', %r{^/api/v[0-9]+/auth$}]
+    ]
+    jwt.request_formats = { user: [:json] }
+    jwt.expiration_time = 7.day.to_i
+  end
+
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
@@ -310,24 +324,4 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
-end
-
-module Devise
-  module Strategies
-    class JWT < Base
-      def valid?
-        request.headers['Authorization'].present?
-      end
-
-      def authenticate!
-        token = request.headers.fetch('Authorization', '').split(' ').last
-        payload = JsonWebToken.decode(token)
-        success! User.find(payload['sub'])
-      rescue ::JWT::ExpiredSignature
-        fail! 'Auth token has expired'
-      rescue ::JWT::DecodeError => e
-        fail! "Auth token is invalid: #{e.message}"
-      end
-    end
-  end
 end

@@ -1,6 +1,29 @@
 class ApplicationController < ActionController::Base
-  skip_before_action :verify_authenticity_token
+
   before_action :configure_permitted_parameters, if: :devise_controller?
+
+  rescue_from ActionController::InvalidAuthenticityToken,
+              with: :invalid_auth_token
+  before_action :set_current_user, if: :json_request?
+
+  private
+
+  def json_request?
+    request.format.json?
+  end
+
+
+  def invalid_auth_token
+    respond_to do |format|
+      format.html { redirect_to sign_in_path, error: 'Login invalid or expired' }
+      format.json { head 401 }
+    end
+  end
+
+  # So we can use Pundit policies for api_users
+  def set_current_user
+    @current_user ||= warden.authenticate(scope: :api_user)
+  end
 
   # configures the permitted parameters for devise (i.e. used on registration / sign up)
   def configure_permitted_parameters

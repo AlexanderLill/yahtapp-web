@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Api::V1::AuthenticationController, type: :request do
+describe Api::V1::SessionsController, type: :request do
 
   let (:user) { create(:user) }
   version = :v1
@@ -10,7 +10,7 @@ describe Api::V1::AuthenticationController, type: :request do
     before do
       login_with_api(user)
       puts response.headers['Authorization']
-      @response = response
+      @response = response.headers['Authorization']
       get "#{api_path}/users/#{user.id}", headers: {
         'Authorization': response.headers['Authorization']
       }

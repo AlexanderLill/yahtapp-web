@@ -32,9 +32,9 @@ gem 'rack-cors'
 
 gem 'devise'
 
-gem "honeybadger", "~> 4.0"
+gem 'devise-jwt'
 
-gem 'jwt'
+gem "honeybadger", "~> 4.0"
 
 # allows setting / reading from environment variables in config/application.yml
 gem 'figaro'

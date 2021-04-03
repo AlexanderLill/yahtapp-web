@@ -3,18 +3,20 @@ Rails.application.routes.draw do
   root 'welcome#index'
   get 'dashboard' => "dashboard#index"
 
-  #resources :users
-  devise_scope :user do
-    get "/login" => "devise/sessions#new" # custom path to login/sign_in
-    get "/register" => "devise/registrations#new", as: "new_user_registration" # custom path to sign_up/registration
-  end
-
-  devise_for :users, controllers: { registrations: 'registrations' }
+  # Devise (login/logout) for HTML requests
+  devise_for :users, controllers: { registrations: 'registrations' }, defaults: { format: :html }, path: '', sign_out_via: %i[get post delete], path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
+    registration: 'register'
+  }
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get 'post/index'
-      post :auth, to: 'authentication#create'
+      devise_scope :user do
+        post :auth, to: 'sessions#create'
+        delete :auth, to: 'sessions#destroy'
+      end
       resources :users, only: %w[show]
     end
     namespace :v2 do
