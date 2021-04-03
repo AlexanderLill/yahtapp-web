@@ -103,3 +103,21 @@ This will also output the corresponding database queries that are executed.
 self.parent&.closed?
 ```
 The `&` safe navigation operator can be used to prevent any nil errors.
+
+
+### Generating Models + Migrations
+```bash
+$ rails generate model Article title:string body:text
+```
+- `:string` is for small data types such as a title
+- `:text` is for longer pieces of textual data, i.e. paragraphs
+- `:integer` for whole numbers
+- `:decimal` for decimals (use when numbers need to be really precise)
+- `:float` also for decimals (use when you don't care about precision too much i.e. only 3-4 significant digits) [Explanation](https://stackoverflow.com/questions/8514167/float-vs-decimal-in-activerecord)
+- `:boolean` is for storing true or false values
+- `:date` store only the date
+- `:datetime` store the date and time into a column (handles timezone)
+- `:timestamp` for storing date and time into a column (timezone independent)
+- `:binary` is for storing data such as images, audio, or movies
+- `:primary_key` unique key that can uniquely identify each row in a table
+- `:references` will create a reference to the id of the model for a 'belongs_to' relationship
