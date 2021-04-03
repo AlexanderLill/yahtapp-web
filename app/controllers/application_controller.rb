@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def after_sign_in_path_for(resource)
+    dashboard_path
+  end
+
   # So we can use Pundit policies for api_users
   def set_current_user
     @current_user ||= warden.authenticate(scope: :api_user)
