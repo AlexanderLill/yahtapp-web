@@ -10,7 +10,6 @@ describe Api::V1::SessionsController, type: :request do
     before do
       login_with_api(user)
       puts response.headers['Authorization']
-      @response = response.headers['Authorization']
       get "#{api_path}/users/#{user.id}", headers: {
         'Authorization': response.headers['Authorization']
       }
@@ -46,6 +45,27 @@ describe Api::V1::SessionsController, type: :request do
     end
 
     it 'returns 401' do
+      expect(response.status).to eq(401)
+    end
+  end
+
+  context 'When logging out' do
+    before do
+      login_with_api(user)
+      @token = response.headers['Authorization']
+      delete "#{api_path}/auth", headers: {
+        'Authorization': @token
+      }
+    end
+
+    it 'returns 204' do
+      expect(response.status).to eq(204)
+    end
+
+    it 'prevents token from being used again' do
+      get "#{api_path}/users/#{user.id}", headers: {
+        'Authorization': @token
+      }
       expect(response.status).to eq(401)
     end
   end
