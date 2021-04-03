@@ -4,3 +4,7 @@
 
 @import 'forms';
 @import 'buttons';
+
+.container {
+  @apply max-w-7xl mx-auto;
+}

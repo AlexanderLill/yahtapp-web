@@ -12,11 +12,17 @@
   </head>
 
   <body>
-    <% flash.each do |type, msg| %>
-      <%= render 'shared/notification', type: type do %>
-        <%= msg.html_safe %>
-      <% end  %>
-    <% end %>
-    <%= yield %>
+    <div class="flex flex-col min-h-screen">
+      <div class="flex flex-col flex-grow">
+        <% flash.each do |type, msg| %>
+          <%= render 'shared/notification', type: type do %>
+            <%= msg.html_safe %>
+          <% end  %>
+        <% end %>
+        <%= yield %>
+      </div>
+      <%= render 'shared/footer' %>
+    </div>
+
   </body>
 </html>
