@@ -136,6 +136,8 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
     minitest (5.14.4)
+    montrose (0.12.0)
+      activesupport (>= 5.2, <= 7.0)
     msgpack (1.4.2)
     nio4r (2.5.7)
     nokogiri (1.11.2)
@@ -286,6 +288,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   jsonapi-rspec
   listen (~> 3.3)
+  montrose
   pg
   puma (~> 5.0)
   pundit

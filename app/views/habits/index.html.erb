@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Habits</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Goal</th>
+      <th>User</th>
+      <th>Recurrence</th>
+      <th>Duration</th>
+      <th>Is template</th>
+      <th>Is skippable</th>
+      <th>Type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @habits.each do |habit| %>
+      <tr>
+        <td><%= habit.title %></td>
+        <td><%= habit.goal_id %></td>
+        <td><%= habit.user_id %></td>
+        <td><%= habit.recurrence %></td>
+        <td><%= habit.duration %></td>
+        <td><%= habit.is_template %></td>
+        <td><%= habit.is_skippable %></td>
+        <td><%= habit.type %></td>
+        <td><%= link_to 'Show', habit %></td>
+        <td><%= link_to 'Edit', edit_habit_path(habit) %></td>
+        <td><%= link_to 'Destroy', habit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Habit', new_habit_path, class: 'btn btn-primary' %>

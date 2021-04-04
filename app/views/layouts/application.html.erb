@@ -19,7 +19,7 @@
             <%= msg.html_safe %>
           <% end  %>
         <% end %>
-        <%= yield %>
+        <%= content_for?(:content) ? yield(:content) : yield %>
       </div>
       <%= render 'shared/footer' %>
     </div>

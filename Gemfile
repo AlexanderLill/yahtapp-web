@@ -36,7 +36,10 @@ gem 'devise-jwt'
 
 gem 'pundit'
 
-gem "honeybadger", "~> 4.0"
+# for scheduling / recurrences
+gem 'montrose'
+
+gem 'honeybadger', '~> 4.0'
 
 # allows setting / reading from environment variables in config/application.yml
 gem 'figaro'

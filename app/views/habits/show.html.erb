@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @habit.title %>
+</p>
+
+<p>
+  <strong>Goal:</strong>
+  <%= @habit.goal_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @habit.user_id %>
+</p>
+
+<p>
+  <strong>Recurrence:</strong>
+  <%= @habit.recurrence %>
+</p>
+
+<p>
+  <strong>Duration:</strong>
+  <%= @habit.duration %>
+</p>
+
+<p>
+  <strong>Is template:</strong>
+  <%= @habit.is_template %>
+</p>
+
+<p>
+  <strong>Is skippable:</strong>
+  <%= @habit.is_skippable %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @habit.type %>
+</p>
+
+<%= link_to 'Edit', edit_habit_path(@habit) %> |
+<%= link_to 'Back', habits_path %>

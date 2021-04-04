@@ -4,7 +4,11 @@
 
 @import 'forms';
 @import 'buttons';
+@import 'typography';
 
 .container {
   @apply max-w-7xl mx-auto;
+}
+.container-small {
+  @apply max-w-5xl mx-auto;
 }

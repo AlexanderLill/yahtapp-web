@@ -1,0 +1,2 @@
+class HabitPolicy < GoalPolicy
+end

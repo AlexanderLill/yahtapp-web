@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  goal: one
+  user: one
+  reccurence: MyString
+  duration: 1
+  is_template: false
+  is_skippable: false
+  type: 
+
+two:
+  title: MyString
+  goal: two
+  user: two
+  reccurence: MyString
+  duration: 1
+  is_template: false
+  is_skippable: false
+  type: 
