@@ -9,6 +9,9 @@ class User < ApplicationRecord
 
   attr_writer :login
 
+  enum role: [:subscriber,:researcher,:admin]
+
+  # used by devise to allow login via username or email
   def login
     @login || self.username || self.email
   end

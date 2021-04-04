@@ -121,3 +121,8 @@ $ rails generate model Article title:string body:text
 - `:binary` is for storing data such as images, audio, or movies
 - `:primary_key` unique key that can uniquely identify each row in a table
 - `:references` will create a reference to the id of the model for a 'belongs_to' relationship
+
+#### Adding A Column to an existing Model
+```bash
+$ rails generate migration add_email_to_users email:string
+```
