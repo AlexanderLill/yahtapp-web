@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     registration: 'register'
   }
 
+  resources :goals
+
+  # API part
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get 'post/index'
