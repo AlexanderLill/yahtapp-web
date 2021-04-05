@@ -59,6 +59,17 @@ class HabitsController < ApplicationController
     end
   end
 
+  def get_recurrence_from_param
+    frequency = habit_params[:recurrence_frequency] # :weekly, :daily
+    day_of_week = habit_params[:recurrence_day_of_week]
+    at = habit_params[:recurrence_at]
+    # todo: find out if we can combine multiple Montrose.daily.at("12pm")
+    # todo find a way to
+    if frequency == :weekly
+      Montrose.daily.day_of_week(:monday, :tuesday)
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_habit
@@ -67,6 +78,6 @@ class HabitsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def habit_params
-      params.require(:habit).permit(:title, :goal_id, :user_id, :recurrence, :duration, :is_template, :is_skippable, :type)
+      params.require(:habit).permit(:title, :goal_id, :user_id, :recurrence_frequency, :recurrence_at, :duration, :is_template, :is_skippable, :type)
     end
 end

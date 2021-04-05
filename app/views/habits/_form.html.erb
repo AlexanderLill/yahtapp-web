@@ -25,6 +25,12 @@
     <%= form.label :recurrence %>
     <%= form.text_field :recurrence %>
   </div>
+  <div clas="flex flex-row">
+    <div class="field">
+      <%= form.label :recurrence_frequency, "Frequency" %>
+      <%= form.select :recurrence_frequency, options_for_select([ "daily", "weekly" ], "weekly") %>
+    </div>
+  </div>
 
   <div class="field">
     <%= form.label :duration %>
