@@ -34,14 +34,8 @@
       </div>
       <div class="sm:col-span-3">
         <div class="field">
-          <%= form.label :recurrence_type, "Frequency" %>
-          <%= form.select :recurrence_type, options_for_select({"daily" => "day", "weekly" =>"week"}, habit.recurrence_type) %>
-        </div>
-      </div>
-      <div class="sm:col-span-3">
-        <div class="field">
           <%= form.label :recurrence_on, "On" %>
-          <div class="grid grid-flow-col grid-cols-2 grid-rows-4 gap-2">
+          <div class="grid grid-flow-col grid-cols-3 grid-rows-3 gap-2">
             <% [ {label: "Mon", value: "monday"}, {label: "Tue", value: "tuesday"}, {label: "Wed", value: "wednesday"}, {label: "Thu", value: "thursday"}, {label: "Fri", value: "friday"}, {label: "Sat", value: "saturday"}, {label: "Sun", value: "sunday"}].each_with_index do |day,i| %>
               <div class="relative flex items-start">
                 <div class="flex items-center h-5">
@@ -59,7 +53,7 @@
         <div class="field">
           <%= form.label :recurrence_at, "At" %>
           <%= form.text_field :recurrence_at,  {class: 'js-choice', multiple: false} %>
-          <p class="mt-2 text-sm text-gray-500" id="email-description">Enter values in the format HH:MM. Separate multiple values with a comma.</p>
+          <p class="mt-2 text-sm text-gray-500" id="email-description">Format: HH:MM. Separate multiple values with a comma.</p>
         </div>
       </div>
       <div class="sm:col-span-3">

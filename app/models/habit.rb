@@ -7,18 +7,14 @@ class Habit < ApplicationRecord
 
   attribute :recurrence_at, :string
   attribute :recurrence_on, :string, array: true
-  attribute :recurrence_type, :string
-
-  validates :recurrence_type, inclusion: { in: %w(week day)}
 
   validate :recurrence_on, :validate_recurrence_on
   validate :recurrence_at, :validate_recurrence_at
   validates :duration, numericality: { only_integer: true}
   validates :title, presence: true
-  validates :recurrence_on, presence:true, if: -> { recurrence_type == "week" }
-  validates :recurrence_on, absence:true, if: -> { recurrence_type == "week" }
+  validates :recurrence_on, presence:true
 
-  after_validation :add_recurrence_from_params
+  before_save :add_recurrence_from_params
 
   # Schedule consists of multiple recurrences
   # add_recurrence
@@ -80,16 +76,6 @@ class Habit < ApplicationRecord
     schedule.rules.first.to_h[:on]
   end
 
-  def recurrence_type
-    unless @recurrence_type.nil?
-      return @recurrence_type
-    end
-    if self.schedule.nil?
-      return nil
-    end
-    schedule.rules.first.to_h[:every].to_s
-  end
-
   # parses the underlying schedule and returns only the "at" (time specification)
   def recurrence_at
     unless @recurrence_at.nil?
@@ -111,10 +97,6 @@ class Habit < ApplicationRecord
 
   def recurrence_at=(value)
     @recurrence_at=value
-  end
-
-  def recurrence_type=(value)
-    @recurrence_type=value
   end
 
   def clear_schedule
@@ -159,17 +141,19 @@ class Habit < ApplicationRecord
     end
   end
 
+  # transforms a string of times to an array
+  # e.g. "12:00, 09:00" will be turned into ["12:00","09:00"]
   def transform_string_to_times(string)
     string.scan(/([0-9]+:[0-9]+|[0-9]+\.[0-9]+|[0-9]{4})/i).flatten
   end
 
+  # transforms the two attributes recurrence_on and recurrence_at into
+  # an underlying montrose schedule that will be saved to the DB
   def add_recurrence_from_params
-    puts recurrence_at, recurrence_on, recurrence_type
     on = recurrence_on.map(&:to_sym)
     at = transform_string_to_times(recurrence_at)
-    type = recurrence_type
     clear_schedule
-    add_recurrence(type: type, on: on, at: at)
+    add_recurrence(type: :week, on: on, at: at)
   end
 
 end
