@@ -44,7 +44,7 @@ test:
   DATABASE_PASSWORD: ''
   DATABASE_URL: postgres://127.0.0.1
   DATABASE_NAME: 'yaht_test'
-  DEVISE_JWT_SECRET_KEY: 'your-secret'
+  DEVISE_JWT_SECRET_KEY: 'your-secret' # run '$ rails secret' to generate it
 ````
 
 ### Installing Postgres

@@ -18,13 +18,32 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
-// cusotm components
+
+// custom components
 import "./Notification"
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
+document.addEventListener("turbo:load", initiate)
+document.addEventListener("turbolinks:load", initiate)
+document.addEventListener("turbo:before-stream-render", initiate)
+function initiate() {
+    initiateChoices()
+}
+const choiceConfig = {
+    addItems: true,
+    duplicateItemsAllowed: false,
+    removeItemButton: true,
+    addItemFilter: "/[0-9]{1,2}:[0-9]{2}/m" // allows input in the format XX:XX
+}
 
+function initiateChoices() {
+    if (document.querySelectorAll("input.js-choice").length !== 0) {
+        // TODO: replace with Tagify.js https://github.com/yairEO/tagify
+        //const choices = new Choices('input.js-choice', choiceConfig);
+    }
+}
 
 import "stylesheets/application"

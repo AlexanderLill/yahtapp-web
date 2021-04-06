@@ -11,6 +11,7 @@ class HabitsController < ApplicationController
 
   # GET /habits/1 or /habits/1.json
   def show
+    @occurrences = @habit.occurrences
   end
 
   # GET /habits/new
@@ -25,7 +26,6 @@ class HabitsController < ApplicationController
   # POST /habits or /habits.json
   def create
     @habit = Habit.new(habit_params)
-
     respond_to do |format|
       if @habit.save
         format.html { redirect_to @habit, notice: "Habit was successfully created." }
@@ -59,6 +59,13 @@ class HabitsController < ApplicationController
     end
   end
 
+  def set_recurrence_from_param
+    type = habit_params[:recurrence_type] # :week, :day
+    on = habit_params[:recurrence_on]
+    at = habit_params[:recurrence_at]
+    @habit.add_recurrence(type: type, on: on, at: at)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_habit
@@ -67,6 +74,6 @@ class HabitsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def habit_params
-      params.require(:habit).permit(:title, :goal_id, :user_id, :recurrence, :duration, :is_template, :is_skippable, :type)
+      params.require(:habit).permit(:title, :goal_id, :user_id, :recurrence_type, :duration, :is_template, :is_skippable, :type,:recurrence_at, :recurrence_on => [])
     end
 end

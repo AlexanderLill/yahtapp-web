@@ -1,3 +1,16 @@
+<%
+  def timesteps
+    hour_step = (1.to_f/24/4)
+
+    date_time = DateTime.new(2015,4,1,00,00)
+    date_time_limit = DateTime.new(2015,4,1,23,59)
+
+    date_time.step(date_time_limit,hour_step).map { |time| time.strftime("%H:%M")}.to_a
+  end
+
+
+%>
+
 <%= form_with(model: habit) do |form| %>
   <% if habit.errors.any? %>
     <div id="error_explanation">
@@ -11,46 +24,87 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div class="field">
-    <%= form.label :goal_id %>
-    <%= form.select :goal_id, policy_scope(Goal).collect { |g| [ g.title, g.id]} %>
-  </div>
-
-  <div class="field">
-    <%= form.label :recurrence %>
-    <%= form.text_field :recurrence %>
-  </div>
-
-  <div class="field">
-    <%= form.label :duration %>
-    <%= form.number_field :duration %>
-  </div>
-
-  <div class="field">
-    <%= form.label :is_template %>
-    <%= form.check_box :is_template %>
-  </div>
-
-  <div class="field">
-    <%= form.label :is_skippable %>
-    <%= form.check_box :is_skippable %>
-  </div>
-
-  <% if policy(habit).set_user? %>
-    <div class="field">
-      <%= form.label :user_id %>
-      <%= form.select :user_id, User.all.collect { |u| [ u.username, u.id]} %>
+  <div class="pt-8">
+    <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+      <div class="sm:col-span-6">
+        <div class="field">
+          <%= form.label :title %>
+          <%= form.text_field :title %>
+        </div>
+      </div>
+      <div class="sm:col-span-3">
+        <div class="field">
+          <%= form.label :recurrence_on, "On" %>
+          <div class="grid grid-flow-col grid-cols-3 grid-rows-3 gap-2">
+            <% [ {label: "Mon", value: "monday"}, {label: "Tue", value: "tuesday"}, {label: "Wed", value: "wednesday"}, {label: "Thu", value: "thursday"}, {label: "Fri", value: "friday"}, {label: "Sat", value: "saturday"}, {label: "Sun", value: "sunday"}].each_with_index do |day,i| %>
+              <div class="relative flex items-start">
+                <div class="flex items-center h-5">
+                  <%= form.check_box :recurrence_on, { multiple: true, id: "day_#{i}" }, day[:value], false %>
+                </div>
+                <div class="ml-3 text-sm">
+                  <%= form.label day[:label], for: "day_#{i}" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="sm:col-span-3">
+        <div class="field">
+          <%= form.label :recurrence_at, "At" %>
+          <%= form.text_field :recurrence_at,  {class: 'js-choice', multiple: false} %>
+          <p class="mt-2 text-sm text-gray-500" id="email-description">Format: HH:MM. Separate multiple values with a comma.</p>
+        </div>
+      </div>
+      <div class="sm:col-span-3">
+        <div class="field">
+          <%= form.label :duration, "Duration" %>
+          <div class="relative">
+            <%= form.number_field :duration %>
+            <div class="absolute inset-y-0 right-4 pr-5 flex items-center pointer-events-none">
+              <span class="text-gray-500 sm:text-sm" id="price-currency">
+                min
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sm:col-span-6">
+        <div class="field">
+          <%= form.label :goal_id %>
+          <%= form.select :goal_id, policy_scope(Goal).collect { |g| [ g.title, g.id]} %>
+        </div>
+      </div>
+      <div class="sm:col-span-6">
+        <div class="field">
+          <%= form.label :is_skippable %>
+          <%= form.check_box :is_skippable %>
+        </div>
+      </div>
+      <% if policy(habit).set_template? %>
+        <div class="sm:col-span-6">
+          <div class="field">
+            <%= form.label :is_template %>
+            <%= form.check_box :is_template %>
+          </div>
+        </div>
+      <% else %>
+        <%= form.hidden_field :is_template %>
+      <% end %>
+      <% if policy(habit).set_user? %>
+        <div class="sm:col-span-6">
+          <div class="field">
+            <%= form.label :user_id %>
+            <%= form.select :user_id, User.all.collect { |u| [ u.username, u.id]} %>
+          </div>
+        </div>
+      <% else %>
+        <%= form.hidden_field :user_id %>
+      <% end %>
     </div>
-  <% else %>
-    <%= form.hidden_field :user_id %>
-  <% end %>
+  </div>
 
-  <div class="actions">
+  <div class="actions my-4">
     <%= form.submit class: 'btn btn-primary' %>
   </div>
 <% end %>

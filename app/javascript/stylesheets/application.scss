@@ -2,6 +2,8 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@import "@yaireo/tagify/src/tagify.scss";
+
 @import 'forms';
 @import 'buttons';
 @import 'typography';
@@ -10,5 +12,5 @@
   @apply max-w-7xl mx-auto;
 }
 .container-small {
-  @apply max-w-5xl mx-auto;
+  @apply max-w-5xl mx-auto w-small;
 }

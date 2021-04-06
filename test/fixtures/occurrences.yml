@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  habit: one
+  scheduled_at: 2021-04-06 23:30:39
+  started_at: 2021-04-06 23:30:39
+  ended_at: 2021-04-06 23:30:39
+  skipped_at: 2021-04-06 23:30:39
+
+two:
+  habit: two
+  scheduled_at: 2021-04-06 23:30:39
+  started_at: 2021-04-06 23:30:39
+  ended_at: 2021-04-06 23:30:39
+  skipped_at: 2021-04-06 23:30:39

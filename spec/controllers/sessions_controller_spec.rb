@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Api::V1::SessionsController, type: :request do
 
-  let (:user) { create(:user) }
+  let (:user) { create(:user, password: "testtest") }
   version = :v1
   api_path = "/api/#{version}"
 
@@ -48,7 +48,30 @@ describe Api::V1::SessionsController, type: :request do
       expect(response.status).to eq(401)
     end
   end
-
+  context 'When logging in' do
+    before do
+      post "#{api_path}/auth", params: {
+        user: {
+          login: user.username,
+          password: "testtest"
+        }
+      }
+    end
+    it 'returns 200' do
+      expect(response.status).to eq(200)
+    end
+    it 'returns the token in the header' do
+      expect(response.headers).to include('Authorization')
+    end
+    it 'returns the token in the body' do
+      expect(json['data']['token']).not_to be_nil
+    end
+    it 'returns the user data in the body' do
+      expect(json['data']['id']).to eq(user.id)
+      expect(json['data']['username']).to eq(user.username)
+      expect(json['data']['email']).to eq(user.email)
+    end
+  end
   context 'When logging out' do
     before do
       login_with_api(user)
