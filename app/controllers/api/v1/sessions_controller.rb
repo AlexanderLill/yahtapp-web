@@ -10,6 +10,7 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   def respond_with(resource, _opts = {})
     if resource.email && resource.username
+      @current_token = request.env['warden-jwt_auth.token']
       render resource
     else
       head :unauthorized
