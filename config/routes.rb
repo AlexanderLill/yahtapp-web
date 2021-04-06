@@ -22,7 +22,9 @@ Rails.application.routes.draw do
         post :auth, to: 'sessions#create'
         delete :auth, to: 'sessions#destroy'
       end
-      resources :users, only: %w[show]
+      resources :users, only: %w[show] do
+        resources :occurrences, only: [:index]
+      end
     end
     namespace :v2 do
       # Things yet to come

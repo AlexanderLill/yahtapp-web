@@ -11,6 +11,7 @@ class HabitsController < ApplicationController
 
   # GET /habits/1 or /habits/1.json
   def show
+    @occurrences = @habit.occurrences
   end
 
   # GET /habits/new

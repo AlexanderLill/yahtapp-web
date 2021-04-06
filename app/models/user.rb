@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :habits
   has_many :goals
+  has_many :occurrences, through: :habits
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

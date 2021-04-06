@@ -40,5 +40,35 @@
   <%= @habit.type %>
 </p>
 
-<%= link_to 'Edit', edit_habit_path(@habit) %> |
+
+<h3>Occurrences:</h3>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>scheduled_at</th>
+    <th>started_at</th>
+    <th>ended_at</th>
+    <th>skipped_at</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @occurrences.each do |occurrence| %>
+    <tr>
+      <td><%= occurrence.id %></td>
+      <td><%= occurrence.scheduled_at %></td>
+      <td><%= occurrence.started_at %></td>
+      <td><%= occurrence.ended_at %></td>
+      <td><%= occurrence.skipped_at %></td>
+      <td><%= link_to 'Show', @habit %></td>
+      <td><%= link_to 'Edit', edit_habit_path(@habit) %></td>
+      <td><%= link_to 'Destroy', @habit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Edit', edit_habit_path(@habit), class: 'btn btn-primary' %> |
 <%= link_to 'Back', habits_path %>
