@@ -21,15 +21,20 @@
     <%= form.text_area :description %>
   </div>
 
-  <div class="field">
-    <%= form.label :is_template %>
-    <%= form.check_box :is_template %>
-  </div>
+  <% if policy(goal).set_template? %>
+    <div class="field">
+      <%= form.label :is_template %>
+      <%= form.check_box :is_template %>
+    </div>
+    <div class="field">
+      <%= form.label :template_id %>
+      <%= form.text_field :template_id %>
+    </div>
+  <% else %>
+    <%= form.hidden_field :is_template %>
+    <%= form.hidden_field :template_id %>
+  <% end %>
 
-  <div class="field">
-    <%= form.label :template_id %>
-    <%= form.text_field :template_id %>
-  </div>
   <% if policy(goal).set_user? %>
     <div class="field">
       <%= form.label :user_id %>
