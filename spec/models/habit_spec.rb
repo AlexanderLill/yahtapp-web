@@ -8,6 +8,31 @@ require 'rails_helper'
 
 describe Habit, type: :model do
   let(:habit) { create(:habit) }
+  context "When scheduling occurrences" do
+    it "future occurrences are created according to the schedule" do
+      schedule = habit.get_schedule(ending: 7.days.from_now.at_end_of_day)
+      occurrences = Occurrence.where("scheduled_at >= ?", habit.updated_at).where(:habit => habit).to_a
+      expect(occurrences.count).to eq(schedule.count)
+      expect(schedule).to match_array(occurrences.map(&:scheduled_at))
+    end
+    it "future occurrences are deleted when the schedule is changed" do
+      # create habit with schedule
+      old_schedule = Montrose::Schedule.new
+      old_schedule << Montrose.every(:week).on([:tuesday, :friday]).at("12:00")
+      habit = create(:habit, schedule: old_schedule)
+
+      # change the schedule
+      habit.clear_schedule
+      habit.add_recurrence(on: [:tuesday, :friday], at: "12:00")
+      habit.save
+
+      # check that occurrences were updated
+      new_schedule = habit.get_schedule(ending: 7.days.from_now.at_end_of_day)
+      occurrences = Occurrence.where("scheduled_at >= ?", habit.updated_at).where(:habit => habit).to_a
+      expect(occurrences.count).to eq(new_schedule.count)
+      expect(new_schedule).to match_array(occurrences.map(&:scheduled_at))
+    end
+  end
   context "When scheduling a habit" do
     it "daily recurrences at a single specific time can be added" do
       at = Time.current.strftime("%H:%M")

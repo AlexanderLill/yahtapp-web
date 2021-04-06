@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_06_094518) do
+ActiveRecord::Schema.define(version: 2021_04_06_213039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,15 @@ ActiveRecord::Schema.define(version: 2021_04_06_094518) do
     t.index ["jti"], name: "index_jwt_denylist_on_jti"
   end
 
+  create_table "occurrences", force: :cascade do |t|
+    t.bigint "habit_id", null: false
+    t.datetime "scheduled_at", null: false
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.datetime "skipped_at"
+    t.index ["habit_id"], name: "index_occurrences_on_habit_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -67,4 +76,5 @@ ActiveRecord::Schema.define(version: 2021_04_06_094518) do
   add_foreign_key "goals", "users"
   add_foreign_key "habits", "goals"
   add_foreign_key "habits", "users"
+  add_foreign_key "occurrences", "habits"
 end

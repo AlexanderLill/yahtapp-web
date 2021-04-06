@@ -3,6 +3,8 @@ require 'time'
 class Habit < ApplicationRecord
   belongs_to :goal
   belongs_to :user
+  has_many :occurrences, dependent: :destroy
+
   serialize :schedule, Montrose::Schedule
 
   attribute :recurrence_at, :string
@@ -15,6 +17,7 @@ class Habit < ApplicationRecord
   validates :recurrence_on, presence:true
 
   before_save :add_recurrence_from_params
+  after_save :schedule_occurrences # later this action must be performed when a habit is *duplicated* and on a daily schedule
 
   # Schedule consists of multiple recurrences
   # add_recurrence
@@ -154,6 +157,18 @@ class Habit < ApplicationRecord
     at = transform_string_to_times(recurrence_at)
     clear_schedule
     add_recurrence(type: :week, on: on, at: at)
+  end
+
+  def schedule_occurrences
+    # 1. remove all occurrences newer than current updated_at
+    Occurrence.where("scheduled_at >= ?", self.updated_at).delete_all
+
+    # 2. create new occurrences newer than current updated_at
+    retention_period = 7.days
+    dates = self.get_schedule(starting: self.updated_at, ending: (self.updated_at + retention_period).at_end_of_day)
+    dates.each do |date|
+      Occurrence.create(habit_id: self.id, scheduled_at: date)
+    end
   end
 
 end
