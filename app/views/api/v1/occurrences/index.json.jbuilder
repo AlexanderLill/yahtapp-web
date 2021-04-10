@@ -1,5 +1,5 @@
 json.data do
-  json.occurrences @occurrences do |occurrence|
+  json.array! @occurrences do |occurrence|
     json.id occurrence.id
     json.scheduled_at occurrence.scheduled_at.nil? ? nil : occurrence.scheduled_at.iso8601(3)
     json.started_at occurrence.started_at.nil? ? nil : occurrence.started_at.iso8601(3)

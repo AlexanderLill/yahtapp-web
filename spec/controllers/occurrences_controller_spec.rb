@@ -21,7 +21,8 @@ describe Api::V1::OccurrencesController, type: :request do
 
     it 'returns the occurrences' do
       body = response.body
-      occs = json['data']['occurrences']
+      occs = json['data']
+      expect(occs).to be_a(Array)
       expect(occs).not_to be_empty
       expect(occs.count).to eq(user.occurrences.count)
     end
