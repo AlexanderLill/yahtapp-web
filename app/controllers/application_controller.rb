@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pundit
   before_action :configure_permitted_parameters, if: :devise_controller?
+  around_action :set_time_zone, if: :current_user
 
   rescue_from ActionController::InvalidAuthenticityToken,
               with: :invalid_auth_token
@@ -27,6 +28,10 @@ class ApplicationController < ActionController::Base
   # So we can use Pundit policies for api_users
   def set_current_user
     @current_user ||= warden.authenticate(scope: :api_user)
+  end
+
+  def set_time_zone(&block)
+    Time.use_zone(current_user.timezone, &block)
   end
 
   # configures the permitted parameters for devise (i.e. used on registration / sign up)

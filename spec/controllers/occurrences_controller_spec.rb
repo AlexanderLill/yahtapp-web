@@ -26,6 +26,16 @@ describe Api::V1::OccurrencesController, type: :request do
       expect(occs).not_to be_empty
       expect(occs.count).to eq(user.occurrences.count)
     end
+
+    it "returns the times of the occurrences in the user's timezone" do
+      body = response.body
+      occs = json['data']
+      strdate = occs[0]['scheduled_at']
+      parsed_date = Time.strptime(strdate,"%Y-%m-%dT%H:%M:%S.%L%:z")
+      local_date = Time.now.in_time_zone(user.timezone)
+      expect(parsed_date.strftime("%Z")).to eq(local_date.strftime("%Z"))
+    end
+
   end
 
 end
