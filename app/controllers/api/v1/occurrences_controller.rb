@@ -7,9 +7,7 @@ class Api::V1::OccurrencesController < ApiController
   end
 
   def update
-    if @occurrence.update(occurrence_params)
-        render
-    end
+    @occurrence.update!(occurrence_params)
   end
 
   def set_user

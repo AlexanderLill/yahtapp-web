@@ -18,6 +18,12 @@ FactoryBot.define do
         schedule << Montrose.every(:week).on([:monday,:tuesday,:wednesday,:thursday,:friday,:saturday,:sunday]).at(Time.current.strftime("%H:%M"))
       }
     end
+
+    factory :empty_habit do
+      schedule {
+        schedule = Montrose::Schedule.new
+      }
+    end
   end
 end
 

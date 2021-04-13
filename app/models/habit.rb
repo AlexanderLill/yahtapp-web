@@ -60,14 +60,17 @@ class Habit < ApplicationRecord
 
   def validate_recurrence_on
     unless recurrence_on.nil?
-      recurrence_on.each do |on|
-        unless %w[monday tuesday wednesday thursday friday saturday sunday].include? on
-          errors.add(:recurrence_on, "must be a valid weekday. '#{on}' is not allowed.")
+      if recurrence_on.is_a?(Array)
+        recurrence_on.each do |on|
+          unless %w[monday tuesday wednesday thursday friday saturday sunday].include? on
+            errors.add(:recurrence_on, "must be a valid weekday. '#{on}' is not allowed.")
+          end
         end
+      else
+        errors.add(:recurrence_on, "must be a specified as an array.")
       end
     end
   end
-
   # parses the underlying schedule and returns only the "on" (day specification) attribute
   def recurrence_on
     unless @recurrence_on.nil?
