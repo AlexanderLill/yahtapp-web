@@ -164,7 +164,7 @@ class Habit < ApplicationRecord
 
   def schedule_occurrences
     # 1. remove all occurrences newer than current updated_at
-    Occurrence.where("scheduled_at >= ?", self.updated_at).delete_all
+    occurrences.where("scheduled_at >= ?", self.updated_at).delete_all
 
     # 2. create new occurrences newer than current updated_at
     retention_period = 7.days
