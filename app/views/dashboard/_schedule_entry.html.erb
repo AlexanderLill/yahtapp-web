@@ -1,0 +1,20 @@
+<!-- Entry -->
+<%
+
+  past = schedule_entry.scheduled_at < DateTime.current
+
+%>
+<a href="<%= edit_habit_url(schedule_entry.habit) %>" class="flex flex-row <%= past ? 'opacity-50' : '' %>">
+  <!-- Colorful Timebar -->
+  <!-- <div class="flex-none w-1 mr-1 bg-red-500 rounded-full"></div> -->
+  <div class="flex-grow flex-col">
+    <div class="text-gray-500 text-xs font-medium">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <% end_time = schedule_entry.scheduled_at + schedule_entry.habit.duration.minutes %>
+      <%= schedule_entry.scheduled_at.strftime('%H:%M') %> - <%= end_time.strftime('%H:%M') %>
+    </div>
+    <div class="text-gray-900 text-sm font-medium"><%= schedule_entry.habit.title %></div>
+  </div>
+</a>

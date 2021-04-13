@@ -1,0 +1,64 @@
+<div class="grid grid-cols-2 grid-rows-3 grid-flow-col rounded-md border border-gray-100 bg-gray-50 relative">
+  <!-- Left Captions -->
+  <div class="absolute -left-8 grid grid-rows-3 grid-cols-1 grid-flow-col top-0 bottom-0 font-semibold text-sm text-gray-600">
+    <div class="flex items-center justify-items-center">Mo</div>
+    <div class="flex items-center justify-items-center">Di</div>
+    <div class="flex items-center justify-items-center">Mi</div>
+  </div>
+  <!-- Right Captions -->
+  <div class="absolute -right-8 grid grid-rows-3 grid-cols-1 grid-flow-col top-0 bottom-0 font-semibold text-sm text-gray-600">
+    <div class="flex items-center justify-items-center">Th</div>
+    <div class="flex items-center justify-items-center">Fr</div>
+    <div class="flex items-center justify-items-center flex-col">
+      <div class="flex items-center flex-1">Sa</div>
+      <div class="flex items-center flex-1">So</div>
+    </div>
+  </div>
+  <!-- Monday -->
+  <div class="grid grid-rows-3 grid-cols-2 grid-flow-col gap-3 border-r border-b border-gray-200 p-4">
+    <% if schedule[:monday] %>
+      <%= render partial: "schedule_entry", collection: schedule[:monday] %>
+    <% end %>
+  </div>
+  <!-- Tuesday -->
+  <div class="grid grid-rows-3 grid-cols-2 grid-flow-col border-r border-b gap-3 border-gray-200 p-4">
+    <% if schedule[:tuesday] %>
+      <%= render partial: "schedule_entry", collection: schedule[:tuesday] %>
+    <% end %>
+  </div>
+  <!-- Wednesday -->
+  <div class="grid grid-rows-3 grid-cols-2 grid-flow-col border-r gap-3 border-gray-200 p-4">
+    <% if schedule[:wednesday] %>
+      <%= render partial: "schedule_entry", collection: schedule[:wednesday] %>
+    <% end %>
+  </div>
+  <!-- Thursday -->
+  <div class="grid grid-rows-3 grid-cols-2 grid-flow-col border-b gap-3 border-gray-200 p-4">
+    <% if schedule[:thursday] %>
+      <%= render partial: "schedule_entry", collection: schedule[:thursday] %>
+    <% end %>
+  </div>
+  <!-- Friday -->
+  <div class="grid grid-rows-3 grid-cols-2 grid-flow-col border-b gap-3 border-gray-200 p-4">
+    <% if schedule[:friday] %>
+      <%= render partial: "schedule_entry", collection: schedule[:friday] %>
+    <% end %>
+  </div>
+  <!-- Sat / Sun -->
+  <div class="flex border-gray-200">
+    <div class="flex flex-col flex-1">
+      <!-- Saturday -->
+      <div class="grid grid-rows-2 grid-cols-2 grid-flow-col gap-3 border-b border-gray-200 p-4">
+        <% if schedule[:saturday] %>
+          <%= render partial: "schedule_entry", collection: schedule[:saturday] %>
+        <% end %>
+      </div>
+      <!-- Sunday -->
+      <div class="grid grid-rows-2 grid-cols-2 grid-flow-col gap-3 p-4">
+        <% if schedule[:sunday] %>
+          <%= render partial: "schedule_entry", collection: schedule[:sunday] %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

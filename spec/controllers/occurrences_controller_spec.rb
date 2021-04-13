@@ -398,4 +398,6 @@ describe Api::V1::OccurrencesController, type: :request do
     end
   end
 
+  # TODO: check format of date for started_at, ended_at, skipped_at
+
 end

@@ -1,5 +1,5 @@
 <div class="min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+  <div class="sm:mx-auto sm:w-full sm:max-w-2xl">
     <h1 class="font-bold text-2xl text-gray-900 mb-4">Hello <%= current_user.username %></h1>
     <div class="my-8">
       <h4 class="my-2">Your Goals</h4>
@@ -8,6 +8,9 @@
       </div>
     </div>
     <h4 class="my-2">Your Schedule</h4>
+    <div class="my-2">
+      <%= render 'schedule', schedule: @schedule %>
+    </div>
 
     <%= link_to "See your Goals", goals_path, class: 'btn btn-secondary mr-2' %>
     <%= link_to "See your habits", habits_path, class: 'btn btn-secondary mr-2' %>
