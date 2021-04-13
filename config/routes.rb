@@ -23,7 +23,7 @@ Rails.application.routes.draw do
         delete :auth, to: 'sessions#destroy'
       end
       resources :users, only: %w[show] do
-        resources :occurrences, only: [:index]
+        resources :occurrences, only: [:index, :update]
       end
     end
     namespace :v2 do

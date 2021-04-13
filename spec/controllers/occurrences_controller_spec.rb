@@ -38,4 +38,30 @@ describe Api::V1::OccurrencesController, type: :request do
 
   end
 
+  context 'When marking an occurrence as started' do
+    before do
+      login_with_api(user)
+      habit = create(:daily_habit, user: user) # daily habit which is scheduled at the current time
+      @occ = habit.occurrences.first!
+      # use travel_to to set the date after that habit's occurrence
+      put "#{api_path}/users/#{user.id}/occurrences/#{@occ.id}", headers: {
+        'Authorization': response.headers['Authorization']
+      }, params: {
+        occurrence: {
+          started_at: Date.current.iso8601
+        }
+      }
+    end
+    it 'returns 200' do
+      expect(response.status).to eq(200)
+    end
+    it 'marks occurrence as started' do
+      body = response.body
+      occ = json['data']
+      expect(Occurrence.find(@occ.id).started_at.present?).to eq true
+      expect(occ['started_at'].present?).to eq true
+    end
+  end
+
+
 end

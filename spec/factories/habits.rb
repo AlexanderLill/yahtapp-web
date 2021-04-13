@@ -11,6 +11,13 @@ FactoryBot.define do
     is_template { Faker::Boolean.boolean }
     is_skippable { Faker::Boolean.boolean }
     # TODO: generate template in 2/3 of all cases
+
+    factory :daily_habit do
+      schedule {
+        schedule = Montrose::Schedule.new
+        schedule << Montrose.every(:week).on([:monday,:tuesday,:wednesday,:thursday,:friday,:saturday,:sunday]).at(Time.current.strftime("%H:%M"))
+      }
+    end
   end
 end
 
