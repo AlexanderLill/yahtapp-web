@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
-
+  layout 'boxed' # sets the layout for all views with this controller
   def index
     @goals = current_user.goals
     occs = current_user.occurrences.includes(:habit)
