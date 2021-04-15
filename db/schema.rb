@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_12_212436) do
+ActiveRecord::Schema.define(version: 2021_04_14_142153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,17 +27,26 @@ ActiveRecord::Schema.define(version: 2021_04_12_212436) do
     t.index ["user_id"], name: "index_goals_on_user_id"
   end
 
-  create_table "habits", force: :cascade do |t|
+  create_table "habit_configs", force: :cascade do |t|
     t.string "title"
-    t.bigint "goal_id", null: false
-    t.bigint "user_id", null: false
+    t.bigint "habit_id", null: false
     t.string "schedule"
     t.integer "duration"
-    t.boolean "is_template"
     t.boolean "is_skippable"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["habit_id"], name: "index_habit_configs_on_habit_id"
+  end
+
+  create_table "habits", force: :cascade do |t|
+    t.bigint "goal_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "is_template"
     t.string "type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "current_config_id"
+    t.index ["current_config_id"], name: "index_habits_on_current_config_id"
     t.index ["goal_id"], name: "index_habits_on_goal_id"
     t.index ["user_id"], name: "index_habits_on_user_id"
   end
@@ -75,7 +84,9 @@ ActiveRecord::Schema.define(version: 2021_04_12_212436) do
 
   add_foreign_key "goals", "goals", column: "template_id"
   add_foreign_key "goals", "users"
+  add_foreign_key "habit_configs", "habits"
   add_foreign_key "habits", "goals"
+  add_foreign_key "habits", "habit_configs", column: "current_config_id"
   add_foreign_key "habits", "users"
   add_foreign_key "occurrences", "habits"
 end

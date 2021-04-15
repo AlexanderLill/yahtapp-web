@@ -12,11 +12,12 @@ class HabitsController < ApplicationController
   # GET /habits/1 or /habits/1.json
   def show
     @occurrences = @habit.occurrences
+    @configs = @habit.configs.order(created_at: :desc)
   end
 
   # GET /habits/new
   def new
-    @habit = current_user.habits.new
+    @habit = HabitForm.new(user: current_user)
   end
 
   # GET /habits/1/edit
@@ -25,7 +26,7 @@ class HabitsController < ApplicationController
 
   # POST /habits or /habits.json
   def create
-    @habit = Habit.new(habit_params)
+    @habit = HabitForm.new(habit_params)
     respond_to do |format|
       if @habit.save
         format.html { redirect_to @habit, notice: "Habit was successfully created." }
@@ -39,6 +40,7 @@ class HabitsController < ApplicationController
 
   # PATCH/PUT /habits/1 or /habits/1.json
   def update
+    @habit = HabitForm.new(habit_params.merge("id" => params[:id]))
     respond_to do |format|
       if @habit.update(habit_params)
         format.html { redirect_to @habit, notice: "Habit was successfully updated." }

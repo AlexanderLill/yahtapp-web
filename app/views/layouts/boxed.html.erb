@@ -1,6 +1,6 @@
 <% content_for :content do %>
   <div class="flex flex-col items-start w-full flex-1">
-    <div class="container-small px-4 my-4 md:my-8 flex-col md:flex-row relative md:mb-32 mb-16">
+    <div class="max-w-3xl w-full mx-auto px-4 my-4 md:my-8 flex-col md:flex-row relative md:mb-32 mb-16">
       <%= content_for?(:box_content) ? yield(:box_content) : yield %>
     </div>
   </div>

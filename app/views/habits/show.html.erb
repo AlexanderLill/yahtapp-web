@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Title:</strong>
   <%= @habit.title %>
@@ -40,6 +38,37 @@
   <%= @habit.type %>
 </p>
 
+<h3>History:</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Recurrence on</th>
+      <th>Recurrence at</th>
+      <th>duration</th>
+      <th>is_skippable</th>
+      <th>Created at</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @configs.each do |config| %>
+    <tr>
+      <td><%= config.title %></td>
+      <td><%= config.recurrence_on %></td>
+      <td><%= config.recurrence_at %></td>
+      <td><%= config.duration %></td>
+      <td><%= config.is_skippable %></td>
+      <td><%= config.created_at %></td>
+      <td>
+        <% unless config.id == @habit.current_config_id %>
+          <%= link_to 'Restore', @habit %>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <h3>Occurrences:</h3>
 <table>
@@ -50,7 +79,6 @@
     <th>started_at</th>
     <th>ended_at</th>
     <th>skipped_at</th>
-    <th colspan="3"></th>
   </tr>
   </thead>
 
@@ -62,9 +90,6 @@
       <td><%= occurrence.started_at %></td>
       <td><%= occurrence.ended_at %></td>
       <td><%= occurrence.skipped_at %></td>
-      <td><%= link_to 'Show', @habit %></td>
-      <td><%= link_to 'Edit', edit_habit_path(@habit) %></td>
-      <td><%= link_to 'Destroy', @habit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
   <% end %>
   </tbody>

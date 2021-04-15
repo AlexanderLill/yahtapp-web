@@ -44,7 +44,12 @@
     <%= form.hidden_field :user_id %>
   <% end %>
 
-  <div class="actions">
+  <div class="flex my-4">
     <%= form.submit class: "btn btn-primary"  %>
+    <% if goal.persisted? %>
+      <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' }, class: 'ml-auto btn btn-secondary'  do %>
+        <i class="icon far fa-trash-alt "></i>Delete Goal
+      <% end %>
+    <% end %>
   </div>
 <% end %>

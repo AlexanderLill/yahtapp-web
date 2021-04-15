@@ -104,7 +104,12 @@
     </div>
   </div>
 
-  <div class="actions my-4">
+  <div class="flex my-4">
     <%= form.submit class: 'btn btn-primary' %>
-  </div>
+    <% if habit.persisted? %>
+      <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-secondary ml-auto'  do %>
+        <i class="icon far fa-trash-alt "></i>Delete Habit
+      <% end %>
+    <% end %>
+    </div>
 <% end %>
