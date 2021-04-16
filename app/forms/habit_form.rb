@@ -24,9 +24,8 @@ class HabitForm
     return false unless valid?
 
     ActiveRecord::Base.transaction do
-      @config.habit = @habit
-      @config.save!
       @habit.current_config = @config
+      @config.habit = @habit
       @habit.save!
       raise ActiveRecord::Rollback unless errors.empty?
     end
