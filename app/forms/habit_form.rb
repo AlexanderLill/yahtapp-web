@@ -4,7 +4,10 @@ class HabitForm
   attr_accessor :goal_id, :is_template, :user_id, :user, :title, :duration, :schedule, :recurrence_on, :recurrence_at, :is_skippable, :created_at, :updated_at
 
   validates :title, presence: true
-
+  validates :duration, numericality: { only_integer: true }
+  validates :recurrence_on, presence: true, array_inclusion: { in: %w[monday tuesday wednesday thursday friday saturday sunday] }
+  validates :recurrence_at, presence: true
+  validates :user_id, presence: true
 
   def initialize(params= {})
     if params[:id].present?
@@ -62,6 +65,18 @@ class HabitForm
 
   def id
     @habit.nil? ? nil : @habit.id
+  end
+
+  def user_id
+    if @user_id.nil?
+      if @user.nil?
+        nil
+      else
+        @user.id
+      end
+    else
+      @user_id
+    end
   end
 
   def config_params(params)

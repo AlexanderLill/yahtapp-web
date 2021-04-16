@@ -26,7 +26,13 @@ class HabitsController < ApplicationController
 
   # POST /habits or /habits.json
   def create
-    @habit = HabitForm.new(habit_params)
+    params = habit_params
+    if params[:user_id].nil? and params[:user].nil? and !policy(@habit).set_user?
+      params[:user] = current_user
+    end
+
+    @habit = HabitForm.new(params)
+
     respond_to do |format|
       if @habit.save
         format.html { redirect_to @habit, notice: "Habit was successfully created." }
