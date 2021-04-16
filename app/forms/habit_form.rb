@@ -69,7 +69,7 @@ class HabitForm
   end
 
   def habit_params(params)
-    params.slice(:goal_id, :is_template, :user_id)
+    params.slice(:goal_id, :is_template, :user_id, :user)
   end
 
   private
