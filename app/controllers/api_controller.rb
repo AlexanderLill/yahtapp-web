@@ -1,6 +1,7 @@
 class ApiController < ApplicationController
   include ApiErrors
   before_action :set_default_format, :authenticate_user!
+  skip_before_action :verify_authenticity_token # CSRF token protection is not required on API endpoints
   private
 
   def set_default_format

@@ -6,6 +6,9 @@ class Occurrence < ApplicationRecord
 
   def started_at_validation
     if started_at_changed?
+      if started_at < scheduled_at
+        errors.add(:ended_at, "cannot be earlier than scheduled_at date: #{scheduled_at}")
+      end
       if started_at_was.present?
         errors.add(:started_at, "has already been set before")
       end
