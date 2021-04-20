@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_20_112702) do
+ActiveRecord::Schema.define(version: 2021_04_20_213730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,16 @@ ActiveRecord::Schema.define(version: 2021_04_20_112702) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["habit_id"], name: "index_habit_configs_on_habit_id"
+  end
+
+  create_table "habit_reflections", force: :cascade do |t|
+    t.bigint "reflection_id", null: false
+    t.bigint "habit_id", null: false
+    t.integer "rating"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["habit_id"], name: "index_habit_reflections_on_habit_id"
+    t.index ["reflection_id"], name: "index_habit_reflections_on_reflection_id"
   end
 
   create_table "habits", force: :cascade do |t|
@@ -67,6 +77,14 @@ ActiveRecord::Schema.define(version: 2021_04_20_112702) do
     t.index ["habit_id"], name: "index_occurrences_on_habit_id"
   end
 
+  create_table "reflections", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_reflections_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -78,6 +96,8 @@ ActiveRecord::Schema.define(version: 2021_04_20_112702) do
     t.string "username"
     t.integer "role", default: 0
     t.string "timezone", default: "Zurich", null: false
+    t.string "reflection_on"
+    t.string "reflection_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
@@ -86,8 +106,11 @@ ActiveRecord::Schema.define(version: 2021_04_20_112702) do
   add_foreign_key "goals", "goals", column: "template_id"
   add_foreign_key "goals", "users"
   add_foreign_key "habit_configs", "habits"
+  add_foreign_key "habit_reflections", "habits"
+  add_foreign_key "habit_reflections", "reflections"
   add_foreign_key "habits", "goals"
   add_foreign_key "habits", "habit_configs", column: "current_config_id"
   add_foreign_key "habits", "users"
   add_foreign_key "occurrences", "habits"
+  add_foreign_key "reflections", "users"
 end

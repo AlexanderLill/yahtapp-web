@@ -16,6 +16,16 @@ class User < ApplicationRecord
 
   enum role: [:subscriber,:researcher,:admin]
 
+  serialize :reflection_on, Array
+  serialize :reflection_at, Array
+
+  after_initialize :default_values
+
+  def default_values
+    self.reflection_on = [:friday]
+    self.reflection_at = ["17:00"]
+  end
+
   # used by devise to allow login via username or email
   def login
     @login || self.username || self.email
