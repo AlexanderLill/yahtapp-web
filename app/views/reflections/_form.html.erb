@@ -1,0 +1,65 @@
+<h3>It’s time for your weekly reflection.</h3>
+<p>Reflecting will help you to identify which of your habits are
+  helping you towards achieving your goals.</p>
+<%= form_with(model: reflection) do |form| %>
+  <% if reflection.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(reflection.errors.count, "error") %> prohibited this reflection from being saved:</h2>
+
+      <ul>
+        <% reflection.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if policy(reflection).set_user? %>
+    <div class="field">
+      <%= form.label :user_id %>
+      <%= form.select :user_id, User.all.collect { |u| [ u.username, u.id]} %>
+    </div>
+  <% else %>
+    <%= form.hidden_field :user_id %>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <h3 class="mt-8">Goal Reflection</h3>
+
+  <% @goals.each do |key,habits| %>
+    <div class="mb-4">
+      <p>Do you think that the following habits have worked towards
+        achieving your goal to <strong><%= habits.first.habit.goal.title %></strong>?</p>
+      <%= form.fields_for :habit_reflections, habits do |subform| %>
+        <%= subform.hidden_field :habit_id %>
+        <% ratings = {
+          -2 => "Not at all",
+          -1 => "Not much",
+          0 => "I don't know",
+          1 => "A bit",
+          2 => "Definitely"
+        } %>
+        <div class="flex flex-col my-2">
+          <div class="flex flex-1 font-semibold text-gray-800"><%= subform.object.habit.title %></div>
+          <div class="grid grid-cols-5 grid-rows-1 my-2">
+            <% ratings.each do |rating,label| %>
+              <div class="field flex flex-row items-center">
+                <%= subform.radio_button :rating, rating, class: "mr-2 my-1", checked: rating == 0 %>
+                <%= subform.label "rating_#{rating}", label, class: "mt-1" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit class: 'btn btn-primary' %>
+  </div>
+<% end %>

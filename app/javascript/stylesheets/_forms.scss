@@ -8,6 +8,9 @@
   input[type=checkbox] {
     @apply h-4 w-4 text-black focus:ring-gray-500 border-gray-300 rounded p-0;
   }
+  input[type=radio] {
+    @apply h-4 w-4 text-black focus:ring-gray-500 border-gray-300 rounded-full p-0;
+  }
 }
 .choices {
   .choices__input {

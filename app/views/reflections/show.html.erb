@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @reflection.user_id %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @reflection.description %>
+</p>
+
+<%= link_to 'Edit', edit_reflection_path(@reflection) %> |
+<%= link_to 'Back', reflections_path %>
