@@ -1,19 +1,23 @@
-<div class="min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+<div class="bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-2xl">
-    <h1 class="font-bold text-2xl text-gray-900 mb-4">Hello <%= current_user.username %></h1>
-    <div class="my-8">
+    <div class="flex flex-row">
+      <h1 class="font-bold text-2xl text-gray-900 mb-0">Hello <%= current_user.username %></h1>
+      <div class="ml-auto">
+        <%= link_to "Logout", destroy_user_session_path, :method => :delete, :data => { :no_turbolink => true }, class: "text-gray-500" %>
+      </div>
+    </div>
+    <div class="my-4">
       <h4 class="my-2">Your Goals</h4>
       <div class="flex-col space-y-2">
         <%= render partial: "goal", collection: @goals %>
       </div>
     </div>
-    <h4 class="my-2">Your Schedule</h4>
-    <div class="my-2">
-      <%= render 'schedule', schedule: @schedule %>
+    <div class="my-8">
+      <h4 class="my-2">Your Schedule</h4>
+      <div class="my-2">
+        <%= render 'schedule', schedule: @schedule %>
+      </div>
     </div>
 
-    <%= link_to "See your Goals", goals_path, class: 'btn btn-secondary mr-2' %>
-    <%= link_to "See your habits", habits_path, class: 'btn btn-secondary mr-2' %>
-    <%= link_to "Logout", destroy_user_session_path, :method => :delete, :data => { :no_turbolink => true } %>
   </div>
 </div>

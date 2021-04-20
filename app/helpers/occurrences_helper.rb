@@ -1,5 +1,6 @@
 module OccurrencesHelper
   def calculate_streak(occurrences)
+    return 0 if occurrences.nil?
     occurrences = occurrences.sort_by { |occ| DateTime.current.to_i - occ.scheduled_at.to_i }
     streak = 0
     occurrences.each_with_index do |occ,index|

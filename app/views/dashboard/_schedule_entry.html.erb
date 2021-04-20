@@ -6,7 +6,7 @@
 %>
 <a href="<%= edit_habit_url(schedule_entry.habit) %>" class="flex flex-row <%= past ? 'opacity-50' : '' %>">
   <!-- Colorful Timebar -->
-  <!-- <div class="flex-none w-1 mr-1 bg-red-500 rounded-full"></div> -->
+  <div class="flex-none w-1 mr-1 <%= color_bg_class(schedule_entry.habit.goal.color) %> rounded-full"></div>
   <div class="flex-grow flex-col">
     <div class="text-gray-500 text-xs font-medium">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">

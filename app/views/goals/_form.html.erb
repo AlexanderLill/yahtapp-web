@@ -21,6 +21,11 @@
     <%= form.text_area :description %>
   </div>
 
+  <div class="field">
+    <%= form.label :color %>
+    <%= form.select :color, options_for_select(Goal.colors.map {|key, value| [key.titleize, Goal.colors.key(value)]}, @goal.color) %>
+  </div>
+
   <% if policy(goal).set_template? %>
     <div class="field">
       <%= form.label :is_template %>

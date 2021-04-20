@@ -1,4 +1,4 @@
-<div class="rounded border border-gray-100 bg-gray-50 p-5">
+<div class="rounded border border-gray-100 bg-gray-50 p-4">
   <div class="flex flex-row mb-2">
     <div class="flex font-semibold">
       <%= goal.title %>
@@ -9,9 +9,13 @@
     </div>
   </div>
   <div class="flex flex-row -mx-1">
-    <% @streaks[goal.id].each do |occ| %>
-      <div class="inline-flex h-4 w-4 rounded-full <%= occ.done? ? 'bg-green-400' : 'bg-gray-200' %> mx-1">
-      </div>
+    <% if @streaks[goal.id] %>
+      <% @streaks[goal.id].each do |occ| %>
+        <div class="inline-flex h-4 w-4 rounded-full <%= occ.done? ? color_bg_class(goal.color) : 'bg-gray-200' %> mx-1">
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-sm text-gray-400">Streaks will appear here as soon as you've completed a habit assigned to this goal.</p>
     <% end %>
   </div>
 </div>

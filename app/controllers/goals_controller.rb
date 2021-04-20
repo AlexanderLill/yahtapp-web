@@ -59,7 +59,7 @@ class GoalsController < ApplicationController
 
   # defines the param keys that are allowed to be set on the model
   def allowed_params
-    [:title, :description, :is_template, :template_id, :user_id,]
+    [:title, :description, :is_template, :template_id, :user_id, :color]
   end
 
   def goal_params
