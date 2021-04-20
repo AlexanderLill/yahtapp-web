@@ -9,5 +9,11 @@ class DashboardController < ApplicationController
 
     # group by weekday
     @schedule = occs.group_by{ |occ| occ.scheduled_at.strftime('%A').downcase.to_sym }
+
+
+    # calculate streaks
+    occs = current_user.occurrences.includes(:habit).where('scheduled_at <= ?', DateTime.now).order(:scheduled_at).limit(100)
+
+    @streaks = occs.group_by{ |occ| occ.habit.goal_id }
   end
 end

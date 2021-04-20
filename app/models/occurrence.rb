@@ -59,4 +59,8 @@ class Occurrence < ApplicationRecord
     end
   end
 
+  def done?
+    started_at.present? and ended_at.present?
+  end
+
 end
