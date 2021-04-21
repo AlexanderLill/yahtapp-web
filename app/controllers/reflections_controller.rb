@@ -49,7 +49,7 @@ class ReflectionsController < ApplicationController
         format.html { redirect_to @reflection, notice: "Reflection was successfully updated." }
         format.json { render :show, status: :ok, location: @reflection }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render @reflection, status: :unprocessable_entity }
         format.json { render json: @reflection.errors, status: :unprocessable_entity }
       end
     end

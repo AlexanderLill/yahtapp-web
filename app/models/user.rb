@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+
   has_many :habits
   has_many :goals
   has_many :occurrences, through: :habits
@@ -16,14 +17,14 @@ class User < ApplicationRecord
 
   enum role: [:subscriber,:researcher,:admin]
 
+  #attribute :reflection_on, :string, array: true, default: ["friday"]
+  #attribute :reflection_at, :string, array: true, default: ["17:00"]
+
   serialize :reflection_on, Array
   serialize :reflection_at, Array
 
-  after_initialize :default_values
-
-  def default_values
-    self.reflection_on = [:friday]
-    self.reflection_at = ["17:00"]
+  def reflection_on
+    read_attribute(:reflection_on) || ["friday"]
   end
 
   # used by devise to allow login via username or email
@@ -39,6 +40,28 @@ class User < ApplicationRecord
     elsif conditions.has_key?(:username) || conditions.has_key?(:email)
       where(conditions.to_h).first
     end
+  end
+
+  def reflection_at_string=(value)
+    if value.is_a?(String)
+      self.reflection_at=transform_string_to_times(value)
+    else
+      self.reflection_at=value
+    end
+  end
+
+  def reflection_at_string
+    if self.reflection_at.present?
+      self.reflection_at.join(", ")
+    else
+      "17:00"
+    end
+  end
+
+  # transforms a string of times to an array
+  # e.g. "12:00, 09:00" will be turned into ["12:00","09:00"]
+  def transform_string_to_times(string)
+    string.scan(/([0-9]+:[0-9]+|[0-9]+\.[0-9]+|[0-9]{4})/i).flatten
   end
 
 end

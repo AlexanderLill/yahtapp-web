@@ -52,7 +52,7 @@ class HabitsController < ApplicationController
         format.html { redirect_to @habit, notice: "Habit was successfully updated." }
         format.json { render :show, status: :ok, location: @habit }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render @habit, status: :unprocessable_entity }
         format.json { render json: @habit.errors, status: :unprocessable_entity }
       end
     end

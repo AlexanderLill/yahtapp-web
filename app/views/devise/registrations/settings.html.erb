@@ -1,0 +1,91 @@
+<h1>Settings</h1>
+<h3>General Settings</h3>
+<%= form_for(@user, url: settings_path(@user), html: { method: :put, class: "space-y-6" }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: @user %>
+  <div class="flex flex-row -mx-2">
+    <div class="field flex-1 mx-2">
+      <%= f.label :reflection_on %>
+      <div class="grid grid-flow-col grid-cols-3 grid-rows-3 gap-2">
+        <% [ {label: "Mon", value: "monday"}, {label: "Tue", value: "tuesday"}, {label: "Wed", value: "wednesday"}, {label: "Thu", value: "thursday"}, {label: "Fri", value: "friday"}, {label: "Sat", value: "saturday"}, {label: "Sun", value: "sunday"}].each_with_index do |day,i| %>
+          <div class="relative flex items-start">
+            <div class="flex items-center h-5">
+              <%= f.check_box :reflection_on, { multiple: true, id: "day_#{i}" }, day[:value], false %>
+            </div>
+            <div class="ml-3 text-sm">
+              <%= f.label day[:label], for: "day_#{i}" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="field flex-1 mx-2">
+      <%= f.label :reflection_at_string %>
+      <%= f.text_field :reflection_at_string %>
+      <p class="mt-2 text-sm text-gray-500" id="email-description">Format: HH:MM. Separate multiple values with a comma.</p>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= f.label :timezone %>
+    <%= f.time_zone_select :timezone %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Update settings", class: 'btn btn-primary'%>
+  </div>
+<% end %>
+
+<div class="border-t border-gray-200 py-4 my-4">
+  <h3>Personal Information</h3>
+  <div class="">
+    <%= form_for(@user, url: registration_path(@user), html: { method: :put, class: "space-y-6" }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: @user %>
+
+      <div class="field">
+        <%= f.label :email %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      </div>
+
+      <% if devise_mapping.confirmable? && @user.pending_reconfirmation? %>
+        <div>Currently waiting confirmation for: <%= @user.unconfirmed_email %></div>
+      <% end %>
+
+      <div class="flex flex-row -mx-2">
+        <div class="field flex-1 mx-2">
+          <%= f.label :password %>
+          <%= f.password_field :password, autocomplete: "new-password" %>
+          <% if @minimum_password_length %>
+            <p class="mt-2 text-sm text-gray-500">
+              <%= @minimum_password_length %> characters minimum
+            </p>
+          <% end %>
+        </div>
+        <div class="field flex-1 mx-2">
+          <%= f.label :password_confirmation %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+        </div>
+      </div>
+      <div class="field">
+        <%= f.label :current_password %>
+        <%= f.password_field :current_password, autocomplete: "current-password" %>
+        <p class="mt-2 text-sm text-gray-500">
+          we need your current password to confirm your changes
+        </p>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Update profile", class: 'btn btn-primary'%>
+      </div>
+    <% end %>
+
+
+  </div>
+</div>
+
+<div class="border-t border-gray-200 py-4 my-4">
+  <h3>Danger Zone</h3>
+  <p class="text-gray-500 mb-2">Please beware that these actions cannot be reverted.</p>
+  <div class="flex flex-row">
+    <%= button_to "Delete my account", registration_path(@user), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-secondary'%>
+  </div>
+</div>

@@ -2,9 +2,6 @@
   <div class="sm:mx-auto sm:w-full sm:max-w-2xl">
     <div class="flex flex-row">
       <h1 class="font-bold text-2xl text-gray-900 mb-0">Hello <%= current_user.username %></h1>
-      <div class="ml-auto">
-        <%= link_to "Logout", destroy_user_session_path, :method => :delete, :data => { :no_turbolink => true }, class: "text-gray-500" %>
-      </div>
     </div>
     <div class="my-4">
       <h4 class="my-2">Your Goals</h4>

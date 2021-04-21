@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'welcome#index'
   get 'dashboard' => "dashboard#index"
@@ -12,9 +11,17 @@ Rails.application.routes.draw do
     registration: 'register'
   }
 
+  devise_scope :user do
+    get :settings, to: 'registrations#settings'
+    put :settings, to: 'registrations#update_settings'
+  end
+
+  # resources will automatically create all CRUD paths
+  # the only attribute can be used to limit it to certain actions
   resources :goals
   resources :habits
   resources :reflections
+
 
   # API part
   namespace :api, defaults: { format: :json } do
