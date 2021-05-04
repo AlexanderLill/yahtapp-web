@@ -10,6 +10,12 @@ class GoalsController < ApplicationController
     @goals = policy_scope(Goal)
   end
 
+
+  # view for selecting a new goal (based on a template)
+  def select
+    @goals = Goal.where(is_template: true)
+  end
+
   def show
   end
 

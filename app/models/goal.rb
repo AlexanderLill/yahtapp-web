@@ -3,5 +3,8 @@ class Goal < ApplicationRecord
   has_many :derivatives, class_name: 'Goal', foreign_key: 'template_id'
   belongs_to :template, class_name: 'Goal', optional: true
   validates :title, presence: true
+  validates :is_template, inclusion: [false], if: :template_id? # cannot be template if associated with template
+  validates :template_id, absence: true, if: :is_template? # must not have association to template if is_template
+
   enum color: { gray: 0, red: 1, yellow: 2, green: 3, blue: 4, indigo: 5, purple: 6, pink: 7 }
 end

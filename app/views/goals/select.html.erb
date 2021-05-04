@@ -1,0 +1,29 @@
+<h1>Select Goals</h1>
+<h2>What do you want to work on?</h2>
+<div class="grid ">
+  <% if @goals.present? %>
+    <% @goals.each_with_index do |goal,index| %>
+      <label class="relative block rounded-lg border border-gray-300 bg-white shadow-sm px-6 py-4 cursor-pointer hover:border-gray-400 sm:flex sm:justify-between focus-within:ring-1 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+        <input type="radio" name="server_size" value="Hobby" class="sr-only" aria-labelledby="server-size-0-label" aria-describedby="server-size-0-description-0 server-size-0-description-1">
+        <div class="flex items-center">
+          <div class="text-sm">
+            <p id="server-size-0-label" class="font-medium text-gray-900">
+              <%= goal.title %>
+            </p>
+            <div id="server-size-0-description-0" class="text-gray-500">
+              <%= goal.description %>
+            </div>
+          </div>
+        </div>
+        <div id="server-size-0-description-1" class="mt-2 flex text-sm sm:mt-0 sm:block sm:ml-4 sm:text-right">
+          <div class="font-medium text-gray-900">$40</div>
+          <div class="ml-1 text-gray-500 sm:ml-0">/mo</div>
+        </div>
+        <!-- Checked: "border-indigo-500", Not Checked: "border-transparent" -->
+        <div class="border-transparent absolute -inset-px rounded-lg border-2 pointer-events-none" aria-hidden="true"></div>
+      </label>
+    <% end %>
+  <% else %>
+    <p class="text-gray-500">There are currently no goals available as a template.</p>
+  <% end %>
+</div>
