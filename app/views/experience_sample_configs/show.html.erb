@@ -1,0 +1,65 @@
+<p>
+  <strong>Title:</strong>
+  <%= @experience_sample_config.title %>
+</p>
+
+<p>
+  <strong>Prompt:</strong>
+  <%= @experience_sample_config.prompt %>
+</p>
+
+<p>
+  <strong>Scale steps:</strong>
+  <%= @experience_sample_config.scale_steps %>
+</p>
+
+<p>
+  <strong>Scale label start:</strong>
+  <%= @experience_sample_config.scale_label_start %>
+</p>
+
+<p>
+  <strong>Scale label center:</strong>
+  <%= @experience_sample_config.scale_label_center %>
+</p>
+
+<p>
+  <strong>Scale label end:</strong>
+  <%= @experience_sample_config.scale_label_end %>
+</p>
+
+<p>
+  <strong>Schedule:</strong>
+  <%= @experience_sample_config.schedule %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @experience_sample_config.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_experience_sample_config_path(@experience_sample_config), class: "btn btn-primary" %> |
+<%= link_to 'Back', experience_sample_configs_path %>
+
+<h3>Samplings:</h3>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>scheduled_at</th>
+    <th>sampled_at</th>
+    <th>value</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @samplings.each do |sampling| %>
+    <tr>
+      <td><%= sampling.id %></td>
+      <td><%= sampling.scheduled_at %></td>
+      <td><%= sampling.sampled_at %></td>
+      <td><%= sampling.value %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

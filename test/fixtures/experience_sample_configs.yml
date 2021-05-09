@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  prompt: MyString
+  scale_steps: 1
+  scale_start: 1
+  scale_end: 1
+  scale_label_start: MyString
+  scale_label_center: MyString
+  scale_label_end: 
+  schedule: MyString
+  user: one
+
+two:
+  title: MyString
+  prompt: MyString
+  scale_steps: 1
+  scale_start: 1
+  scale_end: 1
+  scale_label_start: MyString
+  scale_label_center: MyString
+  scale_label_end: 
+  schedule: MyString
+  user: two

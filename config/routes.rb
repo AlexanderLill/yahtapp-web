@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'welcome#index'
   get 'dashboard' => "dashboard#index"
@@ -23,9 +24,10 @@ Rails.application.routes.draw do
       get 'select'
     end
   end
+
   resources :habits
   resources :reflections
-
+  resources :experience_sample_configs
 
   # API part
   namespace :api, defaults: { format: :json } do
@@ -37,6 +39,7 @@ Rails.application.routes.draw do
       end
       resources :users, only: %w[show] do
         resources :occurrences, only: [:index, :update]
+        resources :samplings, only: [:index, :update]
       end
     end
     namespace :v2 do

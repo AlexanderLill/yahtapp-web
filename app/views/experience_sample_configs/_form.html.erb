@@ -1,23 +1,58 @@
-<%= form_with(model: habit) do |form| %>
-  <% if habit.errors.any? %>
+<%= form_with(model: experience_sample_config) do |form| %>
+  <% if experience_sample_config.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(habit.errors.count, "error") %> prohibited this habit from being saved:</h2>
+      <h2><%= pluralize(experience_sample_config.errors.count, "error") %> prohibited this experience_sample_config from being saved:</h2>
 
       <ul>
-        <% habit.errors.each do |error| %>
+        <% experience_sample_config.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="pt-8">
     <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
       <div class="sm:col-span-6">
         <div class="field">
           <%= form.label :title %>
           <%= form.text_field :title %>
         </div>
+      </div>
+      <div class="sm:col-span-6">
+        <div class="field">
+          <%= form.label :prompt %>
+          <%= form.text_field :prompt %>
+          <p class="mt-2 text-sm text-gray-500">The question that will be displayed in the prompt.</p>
+        </div>
+      </div>
+      <div class="sm:col-span-6">
+        <div class="field">
+          <%= form.label :scale_steps %>
+          <%= form.number_field :scale_steps, min: 3, max: 10 %>
+          <p class="mt-2 text-sm text-gray-500">The number of steps in your scale.</p>
+        </div>
+      </div>
+      <div class="sm:col-span-2">
+        <div class="field">
+          <%= form.label :scale_label_start %>
+          <%= form.text_field :scale_label_start, maxlength: 25 %>
+        </div>
+      </div>
+      <div class="sm:col-span-2">
+        <div class="field">
+          <%= form.label :scale_label_center %>
+          <%= form.text_field :scale_label_center, maxlength: 25 %>
+        </div>
+      </div>
+      <div class="sm:col-span-2">
+        <div class="field">
+          <%= form.label :scale_label_end %>
+          <%= form.text_field :scale_label_end, maxlength: 25 %>
+        </div>
+      </div>
+      <div class="sm:col-span-6 border-gray-100 border-b pb-4 -mb-2 mt-4">
+        <h3 class="text-lg mb-2">Schedule:</h3>
+        <p class="text-gray-500">Define the schedule for the notifications that ask you for the sample.</p>
       </div>
       <div class="sm:col-span-3">
         <div class="field">
@@ -36,6 +71,7 @@
           </div>
         </div>
       </div>
+
       <div class="sm:col-span-3">
         <div class="field">
           <%= form.label :recurrence_at, "At" %>
@@ -43,42 +79,7 @@
           <p class="mt-2 text-sm text-gray-500" id="email-description">Format: HH:MM. Separate multiple values with a comma.</p>
         </div>
       </div>
-      <div class="sm:col-span-3">
-        <div class="field">
-          <%= form.label :duration, "Duration" %>
-          <div class="relative">
-            <%= form.number_field :duration %>
-            <div class="absolute inset-y-0 right-4 pr-5 flex items-center pointer-events-none">
-              <span class="text-gray-500 sm:text-sm" id="price-currency">
-                min
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="sm:col-span-6">
-        <div class="field">
-          <%= form.label :goal_id %>
-          <%= form.select :goal_id, policy_scope(Goal).collect { |g| [ g.title, g.id]} %>
-        </div>
-      </div>
-      <div class="sm:col-span-6">
-        <div class="field">
-          <%= form.label :is_skippable %>
-          <%= form.check_box :is_skippable %>
-        </div>
-      </div>
-      <% if policy(habit).set_template? %>
-        <div class="sm:col-span-6">
-          <div class="field">
-            <%= form.label :is_template %>
-            <%= form.check_box :is_template %>
-          </div>
-        </div>
-      <% else %>
-        <%= form.hidden_field :is_template %>
-      <% end %>
-      <% if policy(habit).set_user? %>
+      <% if policy(experience_sample_config).set_user? %>
         <div class="sm:col-span-6">
           <div class="field">
             <%= form.label :user_id %>
@@ -89,13 +90,11 @@
         <%= form.hidden_field :user_id %>
       <% end %>
     </div>
-  </div>
-
   <div class="flex my-4">
     <%= form.submit class: 'btn btn-primary' %>
-    <% if habit.persisted? %>
-      <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-secondary ml-auto'  do %>
-        <i class="icon far fa-trash-alt "></i>Delete Habit
+    <% if experience_sample_config.persisted? %>
+      <%= link_to experience_sample_config, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-secondary ml-auto'  do %>
+        <i class="icon far fa-trash-alt "></i>Delete Config
       <% end %>
     <% end %>
   </div>

@@ -2,6 +2,8 @@ class Api::V1::OccurrencesController < ApiController
   before_action :set_user, only: %i[ index update ]
   before_action :set_occurrence, only: %i[ update ]
 
+  # TODO: make sure that user can only own occurrences
+
   def index
     @occurrences = @user.occurrences.includes(:habit)
   end

@@ -109,6 +109,11 @@ The `&` safe navigation operator can be used to prevent any nil errors.
 ```bash
 $ rails generate model Article title:string body:text
 ```
+Another option is to use the `scaffold` command which will also generate controllers and views for that model (with CRUD).
+```bash
+$ rails generate scaffold Post name:string title:string content:text
+```
+
 - `:string` is for small data types such as a title
 - `:text` is for longer pieces of textual data, i.e. paragraphs
 - `:integer` for whole numbers

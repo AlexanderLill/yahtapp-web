@@ -4,6 +4,8 @@ class User < ApplicationRecord
   has_many :goals
   has_many :occurrences, through: :habits
   has_many :reflections, dependent: :destroy
+  has_many :experience_sample_configs, dependent: :destroy
+  has_many :samplings, through: :experience_sample_configs
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -16,9 +18,6 @@ class User < ApplicationRecord
   attr_writer :login
 
   enum role: [:subscriber,:researcher,:admin]
-
-  #attribute :reflection_on, :string, array: true, default: ["friday"]
-  #attribute :reflection_at, :string, array: true, default: ["17:00"]
 
   serialize :reflection_on, Array
   serialize :reflection_at, Array

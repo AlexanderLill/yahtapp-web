@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_20_213730) do
+ActiveRecord::Schema.define(version: 2021_05_07_110540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "experience_sample_configs", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "prompt", null: false
+    t.integer "scale_steps"
+    t.string "scale_label_start"
+    t.string "scale_label_center"
+    t.string "scale_label_end"
+    t.string "schedule", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_experience_sample_configs_on_user_id"
+  end
 
   create_table "goals", force: :cascade do |t|
     t.string "title"
@@ -85,6 +99,14 @@ ActiveRecord::Schema.define(version: 2021_04_20_213730) do
     t.index ["user_id"], name: "index_reflections_on_user_id"
   end
 
+  create_table "samplings", force: :cascade do |t|
+    t.bigint "experience_sample_config_id", null: false
+    t.integer "value"
+    t.datetime "scheduled_at", null: false
+    t.datetime "sampled_at"
+    t.index ["experience_sample_config_id"], name: "index_samplings_on_experience_sample_config_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -103,6 +125,7 @@ ActiveRecord::Schema.define(version: 2021_04_20_213730) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "experience_sample_configs", "users"
   add_foreign_key "goals", "goals", column: "template_id"
   add_foreign_key "goals", "users"
   add_foreign_key "habit_configs", "habits"
@@ -113,4 +136,5 @@ ActiveRecord::Schema.define(version: 2021_04_20_213730) do
   add_foreign_key "habits", "users"
   add_foreign_key "occurrences", "habits"
   add_foreign_key "reflections", "users"
+  add_foreign_key "samplings", "experience_sample_configs"
 end
