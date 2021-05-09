@@ -1,6 +1,6 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Sampling Configurations</h1>
+<%= render 'shared/page_heading', title: "Samplings", description: "Samplings help you to continuously monitor and self-report important metrics to track your progress over time." do %>
+  <%= link_to 'New Sampling', new_habit_path, class: "btn btn-primary flex whitespace-nowrap" %>
+<% end %>
 
 <table>
   <thead>
@@ -35,7 +35,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Experience Sample Config', new_experience_sample_config_path, class: "btn btn-primary" %>

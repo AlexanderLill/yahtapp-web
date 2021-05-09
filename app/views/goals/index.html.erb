@@ -1,4 +1,6 @@
-<h1>Goals</h1>
+<%= render 'shared/page_heading', title: "Goals", description: "Goals help you to focus on what you want to achieve and give more context to the habits you're trying to incorporate. We recommend to focus on only 1-2 goals at first." do %>
+  <%= link_to 'New Goal', new_goal_path, class: "btn btn-primary flex whitespace-nowrap" %>
+<% end %>
 
 <div class="bg-white shadow overflow-hidden sm:rounded-md">
   <ul class="divide-y divide-gray-200">
@@ -50,6 +52,3 @@
 
 
 <br>
-
-<%= link_to 'New Goal', new_goal_path, class: 'btn btn-primary' %>
-<%= link_to 'Dashboard', dashboard_path %>

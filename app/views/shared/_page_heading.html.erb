@@ -1,0 +1,11 @@
+<div class="flex flex-row border-b border-gray-200 pb-4 mb-4">
+  <div class="flex-grow">
+    <h1 class="mb-2"><%= title %></h1>
+    <% if description %>
+      <p class="text-gray-500 text-sm"><%= description %></p>
+    <% end %>
+  </div>
+  <div class="flex ml-4 items-center justify-center">
+    <%= yield %>
+  </div>
+</div>

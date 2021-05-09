@@ -1,12 +1,12 @@
-<div class="max-w-3xl w-full mx-auto px-10 grid grid-rows-1 grid-cols-3 items-center">
+<div class="max-w-3xl w-full mx-auto sm:px-6 lg:px-8 grid grid-rows-1 grid-cols-3 items-center">
   <a href="#" class="justify-self-start">
     <%= image_tag "yaht-logomark.svg", class: "mx-auto w-auto h-6", alt: "yaht - yet another habit tracker" %>
   </a>
   <div class="flex flex-col relative justify-self-center self-center" x-data="{ open: false }" @click.away="open=false">
-    <!-- Main Menue ButtonButton -->
-    <div class="flex flex-row mx-auto my-3 items-center" @click="open=!open">
-      <div class="font-medium mr-2">Menu</div>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <!-- Main Menue Button -->
+    <div class="flex flex-row mx-auto my-3 items-center cursor-pointer text-gray-700 hover:text-gray-900 transition-all" @click="open=!open">
+      <div class="font-medium mr-1">Menu</div>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
       </svg>
     </div>
@@ -38,6 +38,12 @@
             <i class="far fa-stars text-2xl mx-auto"></i>
           </div>
           <div class="text-center font-medium mt-2">Habits</div>
+        </a>
+        <a href="<%= reflections_url %>" class="flex flex-col transition rounded-lg bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-700 cursor-pointer p-5">
+          <div class="flex">
+            <i class="far fa-pen-nib text-2xl mx-auto"></i>
+          </div>
+          <div class="text-center font-medium mt-2">Reflections</div>
         </a>
         <a href="<%= experience_sample_configs_url %>" class="flex flex-col transition rounded-lg bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-700 cursor-pointer p-5">
           <div class="flex">
