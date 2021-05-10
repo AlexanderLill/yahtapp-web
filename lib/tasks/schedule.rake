@@ -17,13 +17,13 @@ namespace :schedule do
 
   def schedule_all_occurrences
     Habit.all.each do |habit|
-      habit.current_config.schedule_occurrences
+      habit.current_config.schedule_occurrences(DateTime.now)
     end
   end
 
   def schedule_all_samplings
     ExperienceSampleConfig.all.each do |config|
-      config.schedule_samplings
+      config.schedule_samplings(DateTime.now)
     end
   end
 
