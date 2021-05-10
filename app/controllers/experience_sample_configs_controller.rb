@@ -3,13 +3,20 @@ class ExperienceSampleConfigsController < ApplicationController
 
   layout 'boxed' # sets the layout for all views with this controller
 
-  # GET /experience_sample_configs or /experience_sample_configs.json
+  # GET /experience_sample_configs
   def index
-    @experience_sample_configs = @goals = policy_scope(ExperienceSampleConfig)
+    @experience_sample_configs = policy_scope(ExperienceSampleConfig)
   end
 
-  # GET /experience_sample_configs/1 or /experience_sample_configs/1.json
+  # GET /experience_sample_configs/1
   def show
+    @current_samplings = @experience_sample_config.samplings.where('scheduled_at <= ?', DateTime.now).order(scheduled_at: :asc)
+    @chart = {
+      data: @current_samplings.map { |sampling| { x: sampling.scheduled_at.iso8601(3), y: sampling.value} },
+      min: 1,
+      max: 1 + @experience_sample_config.scale_steps-1,
+      label: @experience_sample_config.title
+    }
     @samplings = @experience_sample_config.samplings.order(scheduled_at: :asc)
   end
 
@@ -22,7 +29,7 @@ class ExperienceSampleConfigsController < ApplicationController
   def edit
   end
 
-  # POST /experience_sample_configs or /experience_sample_configs.json
+  # POST /experience_sample_configs
   def create
     @experience_sample_config = ExperienceSampleConfig.new(experience_sample_config_params)
 
@@ -35,7 +42,7 @@ class ExperienceSampleConfigsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /experience_sample_configs/1 or /experience_sample_configs/1.json
+  # PATCH/PUT /experience_sample_configs/1
   def update
     respond_to do |format|
       if @experience_sample_config.update(experience_sample_config_params)
@@ -46,7 +53,7 @@ class ExperienceSampleConfigsController < ApplicationController
     end
   end
 
-  # DELETE /experience_sample_configs/1 or /experience_sample_configs/1.json
+  # DELETE /experience_sample_configs/1
   def destroy
     @experience_sample_config.destroy
     respond_to do |format|

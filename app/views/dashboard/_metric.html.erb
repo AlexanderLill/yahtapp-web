@@ -1,0 +1,41 @@
+<a class="flex rounded border border-gray-100 bg-gray-50 p-4" href="<%= url_for(metric[:config]) %>">
+  <div class="flex flex-col justify-between">
+    <div class="flex flex-row flex-grow justify-items-end">
+      <% if !metric[:current_week].nil? %>
+        <div class="text-2xl font-bold text-gray-700 flex-grow">
+          <%= metric[:current_week] %>
+        </div>
+      <%  else  %>
+        <% if !metric[:last_week].nil? %>
+          <div class="text-2xl font-bold text-gray-700 flex-grow">
+            <%= metric[:current_week] %>
+          </div>
+        <%   else   %>
+          <div class="text-sm text-gray-400 mt-auto">
+            No data yet
+          </div>
+        <% end %>
+      <% end %>
+
+      <%
+        if metric[:difference] < 0
+           color = "text-red-500"
+           icon = "fa fa-arrow-down"
+         elsif metric[:difference] > 0
+           color = "text-green-500"
+           icon = "fa fa-arrow-up"
+         else
+           color = "text-gray-500"
+           icon = ""
+         end
+      %>
+      <div class="flex mt-auto ml-2 text-sm font-semibold <%= color %> items-center">
+        <i class="<%= icon %> mr-1 fa-sm"></i> <%= metric[:difference] %>%
+      </div>
+    </div>
+
+    <div class="mt-auto text-gray-400 text-sm">
+      &#8709; <%= metric[:config].title %>
+    </div>
+  </div>
+</a>

@@ -1,7 +1,6 @@
-<p>
-  <strong>Title:</strong>
-  <%= @habit.title %>
-</p>
+<%= render 'shared/page_heading', title: "Habit: #{@habit.title}", description: "" do %>
+  <%= link_to 'Edit', edit_habit_path(@habit), class: 'btn btn-primary flex whitespace-nowrap' %>
+<% end %>
 
 <p>
   <strong>Goal:</strong>
@@ -11,11 +10,6 @@
 <p>
   <strong>User:</strong>
   <%= @habit.user_id %>
-</p>
-
-<p>
-  <strong>Recurrence:</strong>
-  <%= @habit.schedule %>
 </p>
 
 <p>
@@ -38,62 +32,73 @@
   <%= @habit.type %>
 </p>
 
-<h3>History:</h3>
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Recurrence on</th>
-      <th>Recurrence at</th>
-      <th>duration</th>
-      <th>is_skippable</th>
-      <th>Created at</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @configs.each do |config| %>
-    <tr>
-      <td><%= config.title %></td>
-      <td><%= config.recurrence_on %></td>
-      <td><%= config.recurrence_at %></td>
-      <td><%= config.duration %></td>
-      <td><%= config.is_skippable %></td>
-      <td><%= config.created_at %></td>
-      <td>
-        <% unless config.id == @habit.current_config_id %>
-          <%= link_to 'Restore', @habit %>
-        <% end %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+<h3 class="mt-8">History:</h3>
 
-<h3>Occurrences:</h3>
-<table>
-  <thead>
+<%= render 'shared/table/wrapper' do %>
+  <thead class="bg-gray-50">
   <tr>
-    <th>ID</th>
-    <th>scheduled_at</th>
-    <th>started_at</th>
-    <th>ended_at</th>
-    <th>skipped_at</th>
+    <%= render 'shared/table/heading', title: "Title" %>
+    <%= render 'shared/table/heading', title: "Schedule" %>
+    <%= render 'shared/table/heading', title: "Duration" %>
+    <%= render 'shared/table/heading', title: "Skippable" %>
+    <%= render 'shared/table/heading', title: "Created" %>
   </tr>
   </thead>
-
   <tbody>
-  <% @occurrences.each do |occurrence| %>
-    <tr>
-      <td><%= occurrence.id %></td>
-      <td><%= occurrence.scheduled_at %></td>
-      <td><%= occurrence.started_at %></td>
-      <td><%= occurrence.ended_at %></td>
-      <td><%= occurrence.skipped_at %></td>
-    </tr>
+  <% @configs.each_with_index do |config,index| %>
+    <%= render 'shared/table/row', odd: index.even? do %>
+      <%= render 'shared/table/cell' do %>
+        <%= config.title %>
+      <% end %>
+      <%= render 'shared/table/cell' do %>
+        <%= config.recurrence_on.map{|day| day.slice(0,2)}.join(', ') %> at <%= config.recurrence_at %>
+      <% end %>
+      <%= render 'shared/table/cell' do %>
+        <%= config.duration %>
+      <% end %>
+      <%= render 'shared/table/cell' do %>
+        <%= config.is_skippable %>
+      <% end %>
+      <%= render 'shared/table/cell' do %>
+        <%= time_ago_in_words(config.created_at) %> ago
+      <% end %>
+    <% end %>
   <% end %>
   </tbody>
-</table>
+<% end %>
 
-<%= link_to 'Edit', edit_habit_path(@habit), class: 'btn btn-primary' %> |
-<%= link_to 'Back', habits_path %>
+
+<h3 class="mt-8">Occurrences:</h3>
+<%= render 'shared/table/wrapper' do %>
+  <thead class="bg-gray-50">
+  <tr>
+    <%= render 'shared/table/heading', title: "ID" %>
+    <%= render 'shared/table/heading', title: "Scheduled" %>
+    <%= render 'shared/table/heading', title: "Started" %>
+    <%= render 'shared/table/heading', title: "Ended" %>
+    <%= render 'shared/table/heading', title: "Skipped" %>
+  </tr>
+  </thead>
+  <tbody>
+  <% @occurrences.each_with_index do |occurrence,index| %>
+    <%= render 'shared/table/row', odd: index.even? do %>
+      <%= render 'shared/table/cell' do %>
+        <%= occurrence.id %>
+      <% end %>
+      <%= render 'shared/table/cell' do %>
+        <%= occurrence.scheduled_at.strftime("%F %H:%M") %>
+      <% end %>
+      <%= render 'shared/table/cell' do %>
+        <%= occurrence.started_at&.strftime("%F %H:%M") %>
+      <% end %>
+      <%= render 'shared/table/cell' do %>
+        <%= occurrence.ended_at&.strftime("%F %H:%M") %>
+      <% end %>
+      <%= render 'shared/table/cell' do %>
+        <%= occurrence.skipped_at&.strftime("%F %H:%M") %>
+      <% end %>
+    <% end %>
+  <% end %>
+  </tbody>
+<% end %>
+

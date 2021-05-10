@@ -1,7 +1,6 @@
-<p>
-  <strong>Title:</strong>
-  <%= @experience_sample_config.title %>
-</p>
+<%= render 'shared/page_heading', title: "Sampling: #{@experience_sample_config.title}", description: "" do %>
+  <%= link_to 'Edit', edit_experience_sample_config_path(@experience_sample_config), class: "btn btn-primary flex whitespace-nowrap" %>
+<% end %>
 
 <p>
   <strong>Prompt:</strong>
@@ -38,28 +37,43 @@
   <%= @experience_sample_config.user_id %>
 </p>
 
-<%= link_to 'Edit', edit_experience_sample_config_path(@experience_sample_config), class: "btn btn-primary" %> |
-<%= link_to 'Back', experience_sample_configs_path %>
+
+<h2>Chart:</h2>
+<% data = { foo: :bar} %>
+<%= content_tag :canvas, id: "myChart", class: "sampling-chart", data: { chart: @chart.to_json } do %><% end %>
+
+
 
 <h3>Samplings:</h3>
-<table>
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>scheduled_at</th>
-    <th>sampled_at</th>
-    <th>value</th>
-  </tr>
-  </thead>
 
-  <tbody>
-  <% @samplings.each do |sampling| %>
+<%= render 'shared/table/wrapper' do %>
+  <thead class="bg-gray-50">
     <tr>
-      <td><%= sampling.id %></td>
-      <td><%= sampling.scheduled_at %></td>
-      <td><%= sampling.sampled_at %></td>
-      <td><%= sampling.value %></td>
+      <%= render 'shared/table/heading', title: "ID" %>
+      <%= render 'shared/table/heading', title: "Scheduled at" %>
+      <%= render 'shared/table/heading', title: "Sampled at" %>
+      <%= render 'shared/table/heading', title: "Value" %>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @samplings.each_with_index do |sampling,index| %>
+      <!-- Odd row -->
+      <%= render 'shared/table/row', odd: index.even? do %>
+        <%= render 'shared/table/cell' do %>
+          <%= sampling.id %>
+        <% end %>
+        <%= render 'shared/table/cell' do %>
+          <%= sampling.scheduled_at.strftime("%F %H:%M") %>
+        <% end %>
+        <%= render 'shared/table/cell' do %>
+          <%= sampling.sampled_at&.strftime("%F %H:%M") %>
+        <% end %>
+        <%= render 'shared/table/cell', css_class: 'font-medium' do %>
+          <%= sampling.value %>
+        <% end %>
+      <% end %>
+    <% end %>
   </tbody>
-</table>
+<% end %>
+
+

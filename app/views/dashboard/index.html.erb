@@ -3,10 +3,16 @@
     <div class="flex flex-row">
       <h1 class="font-bold text-2xl text-gray-900 mb-0">Hello <%= current_user.username %></h1>
     </div>
-    <div class="my-4">
+    <div class="my-8">
       <h4 class="my-2">Your Goals</h4>
       <div class="flex-col space-y-2">
         <%= render partial: "goal", collection: @goals %>
+      </div>
+    </div>
+    <div class="my-4">
+      <h4 class="my-2">Your Weekly Metrics</h4>
+      <div class="grid grid-cols-4 gap-4">
+        <%= render partial: "metric", collection: @metrics %>
       </div>
     </div>
     <div class="my-8">

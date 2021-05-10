@@ -8,6 +8,11 @@
 import 'alpine-turbo-drive-adapter'
 import "alpinejs"
 
+// Chart JS and Luxon Adapter
+import Chart from 'chart.js/auto';
+// TODO: tree-shake chart js
+import 'chartjs-adapter-luxon';
+
 // Fontawesome
 import "@fortawesome/fontawesome-pro/js/all"
 // prevents the flickering of icons when using Fontawesome with turbolinks
@@ -22,6 +27,7 @@ import "channels"
 // custom components
 import "./Notification"
 
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
@@ -31,6 +37,7 @@ document.addEventListener("turbolinks:load", initiate)
 document.addEventListener("turbo:before-stream-render", initiate)
 function initiate() {
     initiateChoices()
+    initiateChart()
 }
 const choiceConfig = {
     addItems: true,
@@ -43,6 +50,62 @@ function initiateChoices() {
     if (document.querySelectorAll("input.js-choice").length !== 0) {
         // TODO: replace with Tagify.js https://github.com/yairEO/tagify
         //const choices = new Choices('input.js-choice', choiceConfig);
+    }
+}
+
+function initiateChart() {
+    if(document.querySelectorAll(".sampling-chart").length) {
+
+        var chart = document.querySelector(".sampling-chart");
+        var data = JSON.parse(chart.dataset.chart);
+
+        const config = {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: data.label,
+                    data: data.data,
+                    backgroundColor: "#1f2937",
+                    borderColor: "#1f2937"
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            // Luxon format string
+                            tooltipFormat: 'DD T',
+                            isoWeekday: true,
+                            unit: 'day'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        },
+                        ticks: {
+                            source: 'auto'
+                        }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        min: data.min,
+                        max: data.max,
+                        title: {
+                            display: true,
+                            text: data.label
+                        }
+                    }
+                }
+            }
+        };
+
+
+        var myChart = new Chart(
+            chart,
+            config
+        );
     }
 }
 
