@@ -5,7 +5,7 @@ class ExperienceSampleConfigsController < ApplicationController
 
   # GET /experience_sample_configs or /experience_sample_configs.json
   def index
-    @experience_sample_configs = ExperienceSampleConfig.all
+    @experience_sample_configs = @goals = policy_scope(ExperienceSampleConfig)
   end
 
   # GET /experience_sample_configs/1 or /experience_sample_configs/1.json
