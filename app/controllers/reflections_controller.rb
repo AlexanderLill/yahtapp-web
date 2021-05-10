@@ -25,6 +25,12 @@ class ReflectionsController < ApplicationController
 
   # GET /reflections/1/edit
   def edit
+    # TODO: find all occurrences between this and last reflection
+    occs = current_user.occurrences.includes(habit: :goal)
+                       .where('scheduled_at <= ?', DateTime.now).order(:scheduled_at)
+
+    # group by goal
+    @goals = occs.map{ |occ| occ.habit }.uniq.map{ |habit| HabitReflection.new(habit: habit) }.group_by{ |ref| ref.habit.goal_id }
   end
 
   # POST /reflections or /reflections.json
