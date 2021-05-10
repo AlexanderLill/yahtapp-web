@@ -10,7 +10,7 @@ class ExperienceSampleConfigsController < ApplicationController
 
   # GET /experience_sample_configs/1 or /experience_sample_configs/1.json
   def show
-    @samplings = @experience_sample_config.samplings
+    @samplings = @experience_sample_config.samplings.order(scheduled_at: :asc)
   end
 
   # GET /experience_sample_configs/new
