@@ -39,7 +39,7 @@ class ReflectionsController < ApplicationController
 
     respond_to do |format|
       if @reflection.save
-        format.html { redirect_to @reflection, notice: "Reflection was successfully created." }
+        format.html { redirect_to experimentation_url, notice: "Reflection was successfully created." }
         format.json { render :show, status: :created, location: @reflection }
       else
         format.html { render :new, status: :unprocessable_entity }
