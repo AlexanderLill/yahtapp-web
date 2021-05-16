@@ -1,1 +1,70 @@
-<h1 class="font-bold text-2xl text-gray-900 mb-0">Hello <%= current_user.username %></h1>
+<%= render 'shared/page_heading', title: "Self-Experimentation", description: "Is it time for a change? Based on your past reflections and the data collected about your habits, you can experiment with different configurations here." do %>
+<% end %>
+
+<div class="flow-root">
+  <% @goals.each do |key, habits| %>
+    <div class="flex flex-row border-b border-gray-200 pb-4 mb-4">
+      <div class="flex-grow">
+        <h2>Goal: <%= habits.first.goal.title %></h2>
+
+        <% habits.each do |habit| %>
+          <h3 class="mt-5">Habit: <%= habit.title %></h3>
+          <h4 class="text-gray-500 text-sm">AVG. <%= @habit_avg_ratings[habit.id] %></h4>
+
+          <div class="grid grid-cols-10 grid-rows-1 my-2 text-center text-gray-400 py-4">
+            <div class="col-span-1"></div>
+            <div class="col-span-8">
+              <div class="relative flex flex-row ">
+                <div class="absolute text-gray-600 text-center" style="transform: translateX(-50%); left: <%= (@habit_avg_ratings[habit.id] + 2)/4 * 100 %>%">
+                  <div><%= number_with_precision(@habit_avg_ratings[habit.id], :precision => 2, :delimiter => ',') %></div>
+                  <div class="inline-flex h-3 w-3 rounded-full bg-gray-600 mx-1"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-1"></div>
+          </div>
+          <div class="grid grid-cols-10 grid-rows-1 my-2 text-center text-gray-400 h-7">
+            <div class="col-span-1"></div>
+            <div class="col-span-2 border-gray border"></div>
+            <div class="col-span-2 border-gray border"></div>
+            <div class="col-span-2 border-gray border"></div>
+            <div class="col-span-2 border-gray border"></div>
+            <div class="col-span-1 border-gray"></div>
+          </div>
+          <div class="grid grid-cols-5 grid-rows-1 my-2 text-center text-gray-400">
+            <div>
+              -2
+            </div>
+            <div>
+              -1
+            </div>
+            <div>
+               0
+            </div>
+            <div>
+              1
+            </div>
+            <div>
+             2
+            </div>
+          </div>
+          <div class="grid grid-cols-5 grid-rows-1 my-2 text-gray-400 text-center">
+            <div>
+              Not at all
+            </div>
+            <div>
+            </div>
+            <div>
+               I don't know
+            </div>
+            <div>
+            </div>
+            <div>
+             Definitely
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
