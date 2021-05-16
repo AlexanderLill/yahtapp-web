@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :goals
   has_many :occurrences, through: :habits
   has_many :reflections, dependent: :destroy
+  has_many :habit_reflections, through: :reflections
   has_many :experience_sample_configs, dependent: :destroy
   has_many :samplings, through: :experience_sample_configs
 
