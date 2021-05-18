@@ -46,7 +46,7 @@ class ExperimentationController < ApplicationController
     pre_habit_reflections.each do |key, habit_refs|
       sum = 0
       habit_refs.each do |habit_ref|
-        sum = sum + 1
+        sum += 1
       end
       @pre_habit_reflections_count[key] = sum
     end
@@ -55,7 +55,7 @@ class ExperimentationController < ApplicationController
     post_habit_reflections.each do |key, habit_refs|
       sum = 0
       habit_refs.each do |habit_ref|
-        sum = sum + 1
+        sum += 1
       end
       @post_habit_reflections_count[key] = sum
     end
