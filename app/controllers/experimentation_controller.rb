@@ -5,6 +5,9 @@ class ExperimentationController < ApplicationController
   def index
     param_start = params[:start].to_s
     @start_datetime = DateTime.parse(param_start)
+    @first_reflection_at = current_user.occurrences.order('scheduled_at').first.scheduled_at
+
+    @has_data_before_start_date = @start_datetime > @first_reflection_at
 
     pre_reflections = current_user.habit_reflections.includes(habit: :goal)
                                   .where('habit_reflections.created_at < ?', @start_datetime).order('habit_reflections.created_at')

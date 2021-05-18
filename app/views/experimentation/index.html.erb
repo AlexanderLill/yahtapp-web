@@ -3,7 +3,9 @@
 
 <div class="flex flex-row pb-4 mb-4">
   <div class="flex-grow">
-    <p class="text-gray-500 text-sm">The following data is from the <b>past <%= time_ago_in_words(@start_datetime) %></b>, compared to the aggregated data from the past WHAT DATE TO USE HERE</p>
+    <p class="text-gray-500 text-sm">The following data is from the <b>past <%= time_ago_in_words(@start_datetime) %></b><% if @has_data_before_start_date %>, compared to the aggregated data from the previous <%= time_ago_in_words(@first_reflection_at) %>.
+      <% end %>
+    </p>
   </div>
 </div>
 
