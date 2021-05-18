@@ -12,6 +12,12 @@ class ExperimentationController < ApplicationController
     post_reflections = current_user.habit_reflections.includes(habit: :goal)
                                   .where('habit_reflections.created_at >= ?', @start_datetime).order('habit_reflections.created_at')
 
+    pre_occurrences = current_user.occurrences.where('scheduled_at < ?', @start_datetime)
+    post_occurrences = current_user.occurrences.where('scheduled_at >= ?', @start_datetime)
+
+    pre_habit_occurrences = pre_occurrences.group_by { |occ| occ.habit.id }
+    post_habit_occurrences = post_occurrences.group_by { |occ| occ.habit.id }
+
     @goals = post_reflections.map(&:habit).uniq.group_by(&:goal_id)
 
     pre_habit_reflections = pre_reflections.group_by { |habit_ref| habit_ref.habit.id }
@@ -54,6 +60,34 @@ class ExperimentationController < ApplicationController
       @post_habit_reflections_count[key] = sum
     end
 
+    @pre_habit_occurrences_completed = {}
+    @pre_habit_occurrences_not_completed = {}
+    pre_habit_occurrences.each do |key, habit_occs|
+      @pre_habit_occurrences_completed[key] = 0
+      @pre_habit_occurrences_not_completed[key] = 0
 
+      habit_occs.each do |habit_occ|
+        if habit_occ.started_at.present? && habit_occ.ended_at.present?
+          @pre_habit_occurrences_completed[key] += 1
+        else
+          @pre_habit_occurrences_not_completed[key] += 1
+        end
+      end
+    end
+
+    @post_habit_occurrences_completed = {}
+    @post_habit_occurrences_not_completed = {}
+    post_habit_occurrences.each do |key, habit_occs|
+      @post_habit_occurrences_completed[key] = 0
+      @post_habit_occurrences_not_completed[key] = 0
+
+      habit_occs.each do |habit_occ|
+        if habit_occ.started_at.present? && habit_occ.ended_at.present?
+          @post_habit_occurrences_completed[key] += 1
+        else
+          @post_habit_occurrences_not_completed[key] += 1
+        end
+      end
+    end
   end
 end

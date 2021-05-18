@@ -18,6 +18,8 @@
           <h5 class="text-gray-500 text-sm">Last edited <%= time_ago_in_words(habit.updated_at) %> ago</h5>
           <h5 class="text-gray-500 text-sm">Average: <b><%= number_with_precision(@post_habit_avg_ratings[habit.id], :precision => 2, :delimiter => ',') %></b> (<%= number_with_precision(@pre_habit_avg_ratings[habit.id], :precision => 2, :delimiter => ',') %>)</h5>
           <h5 class="text-gray-500 text-sm">Reflections: <b><%= @post_habit_reflections_count[habit.id] %></b> (<%= @pre_habit_reflections_count[habit.id] %>)</h5>
+          <h5 class="text-gray-500 text-sm">Occurrences completed: <b><%= @post_habit_occurrences_completed[habit.id] %></b> (<%= @pre_habit_occurrences_completed[habit.id] %>)</h5>
+          <h5 class="text-gray-500 text-sm">Occurrences skipped or incomplete: <b><%= @post_habit_occurrences_not_completed[habit.id] %></b> (<%= @pre_habit_occurrences_not_completed[habit.id] %>)</h5>
 
           <div class="grid grid-cols-10 grid-rows-1 my-2 text-center text-gray-400 py-4">
             <div class="col-span-1"></div>
