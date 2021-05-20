@@ -43,7 +43,7 @@ class HabitsController < ApplicationController
       end
       redirect_to dashboard_path, notice: "Successfully created #{@habits.count} habits."
     else
-      redirect_to select_habits_path, notice: "Please select at least one habit."
+      redirect_to select_habits_path, alert: "Please select at least one habit."
     end
   end
 
