@@ -19,13 +19,15 @@ Rails.application.routes.draw do
 
   # resources will automatically create all CRUD paths
   # the only attribute can be used to limit it to certain actions
-  resources :goals do
+  resources :goals
+
+  resources :habits do
     collection do
       get 'select'
+      post 'clone'
     end
   end
 
-  resources :habits
   resources :reflections
   resources :experience_sample_configs
 

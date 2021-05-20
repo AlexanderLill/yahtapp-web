@@ -4,7 +4,7 @@ class Sampling < ApplicationRecord
   # ensures that both value and sampled_at need to be provided at the same time
   validates_presence_of :value, if: :sampled_at?
   validates_presence_of :sampled_at, if: :value?
-
+  validates_absence_of :value, if: :skipped_at?
   validates_numericality_of :value, greater_than_or_equal_to: 1, less_than_or_equal_to: ->(sampling) { 1 + sampling.experience_sample_config.scale_steps-1 }, only_integer: true, allow_nil: true
 
 end

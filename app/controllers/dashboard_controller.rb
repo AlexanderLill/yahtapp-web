@@ -1,6 +1,7 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
   layout 'boxed' # sets the layout for all views with this controller
+
   def index
     @goals = current_user.goals
     occs = current_user.occurrences.includes(habit: :goal)
@@ -8,7 +9,7 @@ class DashboardController < ApplicationController
                        .where('scheduled_at <= ?', DateTime.now.end_of_week).order(:scheduled_at)
 
     # group by weekday
-    @schedule = occs.group_by{ |occ| occ.scheduled_at.strftime('%A').downcase.to_sym }
+    @schedule = occs.group_by { |occ| occ.scheduled_at.strftime('%A').downcase.to_sym }
 
     # calculate streaks
     occs = current_user.occurrences.includes(:habit).where('scheduled_at <= ?', DateTime.now).order(:scheduled_at).limit(100)
@@ -31,14 +32,14 @@ class DashboardController < ApplicationController
 
     @metrics = configs.map { |config| {
       config: config,
-      current_week: current_week_metrics[config.id],
-      last_week: last_week_metrics[config.id],
+      current_week: current_week_metrics[config.id]&.round(2),
+      last_week: last_week_metrics[config.id]&.round(2),
       difference: percentage_difference(current_week_metrics[config.id], last_week_metrics[config.id])
     }}
   end
 
   def percentage_difference(this_week, last_week)
-    unless last_week
+    unless this_week
       return 0
     end
     unless this_week

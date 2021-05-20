@@ -9,8 +9,8 @@ require 'rails_helper'
 describe Habit, type: :model do
 
   context "When scheduling occurrences" do
-    let(:habit) { create(:habit) }
     it "future occurrences are created according to the schedule" do
+      habit = create(:habit)
       schedule = habit.get_schedule(ending: 7.days.from_now.at_end_of_day)
       occurrences = Occurrence.where("scheduled_at >= ?", habit.updated_at).where(:habit => habit).to_a
       expect(occurrences.count).to eq(schedule.count)
@@ -34,7 +34,41 @@ describe Habit, type: :model do
       expect(new_schedule).to match_array(occurrences.map(&:scheduled_at))
     end
   end
+  context "When cloning a habit" do
+    let(:user) { create(:user) }
+    before do
+      @goal = create(:goal, is_template: true)
+      @habit = create(:habit, goal: @goal, is_template: true)
+      @new_habit = @habit.clone(user)
+    end
+    it "fails if habit is not a template" do
+      goal = create(:goal, is_template: true)
+      habit = create(:habit, goal: goal, is_template: false)
+      expect { habit.clone(user) }.to raise_error
+    end
+    it "creates a copy of the habit and the habit config with all relevant attributes" do
+      expect(@new_habit.title).to eq(@habit.title)
+      expect(@new_habit.duration).to eq(@habit.duration)
+      expect(@new_habit.goal_id).to eq(@habit.goal_id)
+      expect(@new_habit.is_skippable).to eq(@habit.is_skippable)
+      expect(@new_habit.recurrence_on).to eq(@habit.recurrence_on)
+      expect(@new_habit.recurrence_at).to eq(@habit.recurrence_at)
+      expect(@new_habit.current_config_id).not_to eq(@habit.current_config_id)
+    end
+    it "sets the template_id to the cloned habit" do
+      expect(@new_habit.template_id).to eq(@habit.id)
+    end
+    it "sets is_template of the cloned habit to false" do
+      expect(@new_habit.is_template).to be_falsey
+    end
+    it "sets the correct user on the cloned habit" do
+      expect(@new_habit.user).to eq(user)
+    end
+
+  end
+
   context "When scheduling a habit" do
+    let(:habit_form) { HabitForm.new }
     it "daily recurrences at a single specific time can be added" do
       at = Time.current.strftime("%H:%M")
       habit = create(:habit, recurrence_at: at, recurrence_on: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])

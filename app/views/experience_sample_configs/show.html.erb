@@ -52,6 +52,7 @@
       <%= render 'shared/table/heading', title: "ID" %>
       <%= render 'shared/table/heading', title: "Scheduled at" %>
       <%= render 'shared/table/heading', title: "Sampled at" %>
+      <%= render 'shared/table/heading', title: "Skipped at" %>
       <%= render 'shared/table/heading', title: "Value" %>
     </tr>
   </thead>
@@ -67,6 +68,9 @@
         <% end %>
         <%= render 'shared/table/cell' do %>
           <%= sampling.sampled_at&.strftime("%F %H:%M") %>
+        <% end %>
+        <%= render 'shared/table/cell' do %>
+          <%= sampling.skipped_at&.strftime("%F %H:%M") %>
         <% end %>
         <%= render 'shared/table/cell', css_class: 'font-medium' do %>
           <%= sampling.value %>

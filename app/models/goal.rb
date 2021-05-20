@@ -7,4 +7,19 @@ class Goal < ApplicationRecord
   validates :template_id, absence: true, if: :is_template? # must not have association to template if is_template
 
   enum color: { gray: 0, red: 1, yellow: 2, green: 3, blue: 4, indigo: 5, purple: 6, pink: 7 }
+
+  def clone(user)
+    unless self.is_template?
+      raise "Only templates can be duplicated."
+    end
+
+    new_goal = self.dup
+    new_goal.is_template = false
+    new_goal.template_id = self.id
+    new_goal.user = user
+    new_goal.save!
+
+    new_goal
+  end
+
 end

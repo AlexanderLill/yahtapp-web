@@ -9,6 +9,45 @@ class HabitsController < ApplicationController
     @habits = policy_scope(Habit)
   end
 
+  # view for selecting a new habit (based on a template)
+  def select
+    @goals = Habit.where(is_template: true).where(goal: { is_template: true}).includes([:goal, :current_config]).group_by{ |habit| habit.goal_id }
+  end
+
+  # action for cloning the templates
+  def clone
+    @habit_ids = params[:habit_ids]
+
+    # TODO: what to do with duplicate habits? e.g. the user already has a clone of that habit?
+
+    # 1. get list of selected habits
+    @habits = Habit.where(id:@habit_ids)
+
+    if @habits.present?
+      Habit.transaction do
+        # 2. duplicate habits and habit config
+        # the habits are now cloned but still have the old goals assigned to them
+        new_habits = @habits.map{ |habit| habit.clone(current_user)}
+        # 3. loop over all the new habits
+        new_habits.each do |habit|
+          # check if user already has a goal that was derived from that template
+          existing_goal = current_user.goals.where(template_id: habit.goal_id).first
+          if existing_goal.present?
+            # change goal to existing user's goal with same template_id
+            habit.update(goal: existing_goal)
+          else
+            new_goal = habit.goal.clone(current_user)
+            habit.update(goal: new_goal)
+          end
+        end
+      end
+      redirect_to dashboard_path, notice: "Successfully created #{@habits.count} habits."
+    else
+      redirect_to select_habits_path, notice: "Please select at least one habit."
+    end
+  end
+
+
   # GET /habits/1 or /habits/1.json
   def show
     @occurrences = @habit.occurrences.order(scheduled_at: :asc)

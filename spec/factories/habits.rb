@@ -1,16 +1,13 @@
 FactoryBot.define do
   factory :habit do
-    title { Faker::Lorem.sentence(word_count: 2, random_words_to_add: 2) }
     goal
     user
-    duration { Faker::Number.within(range: 3..120) }
-    schedule {
-      schedule = Montrose::Schedule.new
-      schedule << Montrose.every(:week).on([:tuesday, :friday]).at("12:00")
-    }
     is_template { Faker::Boolean.boolean }
-    is_skippable { Faker::Boolean.boolean }
-    # TODO: generate template in 2/3 of all cases
+
+    after(:create) do |habit|
+      habit.current_config = create(:habit_config, habit: habit)
+      habit.save
+    end
 
     factory :daily_habit do
       schedule {

@@ -3,9 +3,12 @@ class Habit < ApplicationRecord
   belongs_to :goal
   belongs_to :user
   has_many :occurrences, dependent: :destroy
-
+  belongs_to :template, class_name: 'Habit', optional: true
   has_many :habit_reflections
   has_many :reflections, through: :habit_reflections
+
+  validates :is_template, inclusion: [false], if: :template_id? # cannot be template if associated with template
+  validates :template_id, absence: true, if: :is_template? # must not have association to template if is_template
 
   # all the historical configs for this habit
   has_many :configs, :class_name => 'Habit::Config', inverse_of: 'habit'
@@ -27,5 +30,23 @@ class Habit < ApplicationRecord
       config.destroy
       Config.where(habit_id: id).delete_all
     end
+  end
+
+  # Creates a clone of the habit (including its habit config)
+  def clone(user)
+    unless self.is_template?
+      raise "Only templates can be duplicated."
+    end
+
+    new_habit = self.dup
+    new_habit.is_template = false
+    new_habit.user = user
+    new_habit.template_id = self.id
+    new_config = self.current_config.dup
+    new_habit.current_config = new_config
+    new_config.habit = new_habit
+    new_habit.save!
+
+    new_habit
   end
 end

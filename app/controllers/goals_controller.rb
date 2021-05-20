@@ -5,15 +5,9 @@ class GoalsController < ApplicationController
 
   layout 'boxed' # sets the layout for all views with this controller
 
-  # GET /habits or /habits.json
+  # GET /goals
   def index
     @goals = policy_scope(Goal)
-  end
-
-
-  # view for selecting a new goal (based on a template)
-  def select
-    @goals = Goal.where(is_template: true)
   end
 
   def show
@@ -32,13 +26,13 @@ class GoalsController < ApplicationController
   def create
     @goal = Goal.new(goal_params)
     authorize @goal
+
     if @goal.save
       redirect_to goal_path(@goal), notice: 'Goal was created successfully.'
     else
       render 'new'
     end
   end
-
 
   # action to update a goal
   def update
@@ -57,7 +51,6 @@ class GoalsController < ApplicationController
   end
 
   private
-
   # Use callbacks to share common setup or constraints between actions.
   def set_goal
     @goal = Goal.find(params[:id])

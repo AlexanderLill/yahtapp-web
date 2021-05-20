@@ -14,6 +14,7 @@ class User < ApplicationRecord
          jwt_revocation_strategy: JwtDenylist
 
   validates :username, uniqueness: { case_sensitive: false }, presence: true, allow_blank: false, format: { with: /\A[a-zA-Z0-9\ } }._]+\z/ }
+  # todo: validate email address
 
   attr_writer :login
 

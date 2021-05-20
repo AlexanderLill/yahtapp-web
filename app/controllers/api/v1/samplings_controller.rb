@@ -24,6 +24,6 @@ class Api::V1::SamplingsController < ApiController
   private
   # Only allow a list of trusted parameters through.
   def sampling_params
-    params.require(:sampling).permit(:sampled_at, :value)
+    params.require(:sampling).permit(:sampled_at, :value, :skipped_at)
   end
 end
