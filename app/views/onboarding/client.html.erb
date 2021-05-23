@@ -1,0 +1,18 @@
+<%= render 'steps', steps: 5, current_step:5 %>
+<div class="my-8">
+  <h1>One more thing...</h1>
+  <div class="text-gray-600 space-y-2">
+    <p>Samplings help you to self-report metrics such as your perceived productivity or your well-being. This allows you to track these metrics over time and measure the impact of the habits on them.</p>
+    <p>You can define yourself how often and at what time you want to be asked about. For optimal results we recommend having <strong>at least one sampling</strong> at the end of your work day.</p>
+  </div>
+</div>
+<h2>Download yaht Client</h2>
+
+<div class="mx-auto my-8 flex">
+  <%= link_to onboarding_samplings_path, class: 'btn btn-secondary mr-auto' do %>
+    <i class="fa-chevron-left far mr-1"></i>Back
+  <% end %>
+  <%= link_to dashboard_path, class: 'btn btn-primary' do %>
+    I'm done<i class="fa-chevron-right far ml-1"></i>
+  <% end %>
+</div>

@@ -1,0 +1,23 @@
+<%= render 'steps', steps: 5, current_step: 2 %>
+<div class="my-8">
+  <h1>Select Habits</h1>
+  <div class="text-gray-600 space-y-2">
+    <p>We'll begin by suggesting a number of habits that you could try to establish. Each habit is tied to a goal.</p>
+    <p>Each habit has a schedule that determines how often you'll be reminded to do it. You can adjust the schedule to your needs after you've selected it.</p>
+  </div>
+  </div>
+<h2>Goal</h2>
+<h3>Habit 1</h3>
+<h3>Habit 2</h3>
+<div class="text-gray-600 my-8">
+  <p>You can also add your own goals and habits later on but we recommend that you pick <strong>at least one habit</strong> from the list so you can see how everything works.</p>
+</div>
+
+<div class="mx-auto my-8 flex">
+  <%= link_to onboarding_path, class: 'btn btn-secondary mr-auto' do %>
+    <i class="fa-chevron-left far mr-1"></i>Back
+  <% end %>
+  <%= link_to onboarding_reflections_path, class: 'btn btn-primary' do %>
+    Select Habits<i class="fa-chevron-right far ml-1"></i>
+  <% end %>
+</div>

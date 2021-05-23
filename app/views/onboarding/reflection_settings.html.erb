@@ -1,0 +1,18 @@
+<%= render 'steps', steps: 5, current_step: 3 %>
+<div class="my-8">
+  <h1>Set Reflection Schedule</h1>
+  <div class="text-gray-600 space-y-2">
+    <p>Reflections are short questionnaires (2-3 minutes max) that ask you about your workday and help you to identify which habits are having a positive impact on it.</p>
+    <p>You can define yourself how often and at what time you want to fill out the reflections. For optimal results we recommend having <strong>at least one reflection</strong> at the end of your work week.</p>
+  </div>
+</div>
+<h2>Reflection Settings</h2>
+
+<div class="mx-auto my-8 flex">
+  <%= link_to onboarding_habits_path, class: 'btn btn-secondary mr-auto' do %>
+    <i class="fa-chevron-left far mr-1"></i>Back
+  <% end %>
+  <%= link_to onboarding_samplings_path, class: 'btn btn-primary' do %>
+    Set Schedule<i class="fa-chevron-right far ml-1"></i>
+  <% end %>
+</div>
