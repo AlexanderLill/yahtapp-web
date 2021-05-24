@@ -11,17 +11,21 @@
 
 <div class="flow-root">
   <% @goals.each do |key, habits| %>
-    <div class="flex flex-row border-b border-gray-200 pb-4 mb-4">
+    <div class="flex flex-row border-b border-gray-200 mb-8">
       <div class="flex-grow">
-        <h2>Goal: <%= habits.first.goal.title %></h2>
-
+        <h2 class="mb-0">Goal: <%= habits.first.goal.title %></h2>
         <% habits.each do |habit| %>
-          <h3 class="mt-5">Habit: <%= habit.title %></h3>
+        <div class="mb-8">
+          <div class="flex flex-row">
+            <div class="flex-grow">
+               <h3 class="mt-2">Habit: <%= habit.title %></h3>
+            </div>
+            <div class="flex ml-4 items-center justify-center">
+              <a href="<%= edit_habit_url(habit) %>" class="btn btn-primary flex whitespace-nowrap">Edit Habit</a>
+            </div>
+          </div>
+
           <h5 class="text-gray-500 text-sm">Last edited <%= time_ago_in_words(habit.updated_at) %> ago</h5>
-          <h5 class="text-gray-500 text-sm">
-            Average: <b><%= @post_habit_avg_ratings[habit.id] ? number_with_precision(@post_habit_avg_ratings[habit.id], :precision => 2, :delimiter => ',') : 0 %></b>
-            (<%= @pre_habit_avg_ratings[habit.id] ? number_with_precision(@pre_habit_avg_ratings[habit.id], :precision => 2, :delimiter => ',') : 0 %>)
-          </h5>
           <h5 class="text-gray-500 text-sm">
             Reflections: <b><%= @post_habit_reflections_count[habit.id] ? @post_habit_reflections_count[habit.id] : 0 %></b> (<%= @pre_habit_reflections_count[habit.id] ? @pre_habit_reflections_count[habit.id] : 0%>)
           </h5>
@@ -35,11 +39,11 @@
             <div class="col-span-1"></div>
             <div class="col-span-8">
               <div class="relative flex flex-row">
-                <div class="absolute text-gray-600 text-center top-8" style="transform: translateX(-50%); left: <%= (@pre_habit_avg_ratings[habit.id] + 2)/4 * 100 %>%">
+                <div class="absolute text-gray-600 text-center top-8" style="transform: translateX(-50%); left: <%= (@pre_habit_avg_ratings[habit.id] ? @pre_habit_avg_ratings[habit.id] + 2 : 2)/4 * 100 %>%">
                   <div class="inline-flex h-4 w-4 rounded-full bg-gray-400 mx-1 border border-white"></div>
                   <div><%= number_with_precision(@pre_habit_avg_ratings[habit.id], :precision => 2, :delimiter => ',') %></div>
                 </div>
-                <div class="absolute text-gray-600 text-center top-0" style="transform: translateX(-50%); left: <%= (@post_habit_avg_ratings[habit.id] + 2)/4 * 100 %>%">
+                <div class="absolute text-gray-600 text-center top-0" style="transform: translateX(-50%); left: <%= (@post_habit_avg_ratings[habit.id] ? @post_habit_avg_ratings[habit.id] + 2 : 2)/4 * 100 %>%">
                   <div class="mt-2"><%= number_with_precision(@post_habit_avg_ratings[habit.id], :precision => 2, :delimiter => ',') %></div>
                   <div class="inline-flex h-4 w-4 rounded-full bg-gray-600 mx-1 border border-white"></div>
                 </div>
@@ -90,6 +94,7 @@
 
           <p class="text-gray-500 text-sm leading-7">Avg. from <b>past <%= time_ago_in_words(@start_datetime) %></b>:<span class="inline-block align-middle h-4 w-4 rounded-full bg-gray-600 mx-1 border border-white"></span></p>
           <p class="text-gray-500 text-sm leading-7">Avg. from <b>previous <%= time_ago_in_words(@first_reflection_at) %></b>:<span class="inline-block align-middle h-4 w-4 rounded-full bg-gray-400 mx-1 border border-white"></span></p>
+      </div>
       <% end %>
       </div>
     </div>

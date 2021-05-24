@@ -49,7 +49,10 @@ class HabitsController < ApplicationController
     @habit = HabitForm.new(habit_params.merge("id" => params[:id]))
     respond_to do |format|
       if @habit.update(habit_params)
-        format.html { redirect_to @habit, notice: "Habit was successfully updated." }
+        return_to = session[:return_to] || @habit
+        session.delete(:return_to)
+
+        format.html { redirect_to return_to, notice: "Habit was successfully updated." }
         format.json { render :show, status: :ok, location: @habit }
       else
         format.html { render @habit, status: :unprocessable_entity }
