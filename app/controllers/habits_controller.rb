@@ -60,6 +60,7 @@ class HabitsController < ApplicationController
 
   # GET /habits/1/edit
   def edit
+    session[:redirect_to] = params[:redirect_to]
   end
 
   # POST /habits or /habits.json
@@ -84,15 +85,14 @@ class HabitsController < ApplicationController
 
   # PATCH/PUT /habits/1 or /habits/1.json
   def update
-    @habit = HabitForm.new(habit_params.merge("id" => params[:id]))
-    respond_to do |format|
-      if @habit.update(habit_params)
-        format.html { redirect_to @habit, notice: "Habit was successfully updated." }
-        format.json { render :show, status: :ok, location: @habit }
-      else
-        format.html { render @habit, status: :unprocessable_entity }
-        format.json { render json: @habit.errors, status: :unprocessable_entity }
-      end
+    @habit_form = HabitForm.new(habit_params.merge("id" => params[:id]))
+    @habit_path = habit_path(@habit_form.id)
+    return_to = session[:redirect_to] || @habit_path
+    session[:redirect_to] = nil
+    if @habit_form.update(habit_params)
+      redirect_to return_to, notice: "Habit was successfully updated."
+    else
+      render @habit_path, status: :unprocessable_entity
     end
   end
 

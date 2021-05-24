@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   root 'welcome#index'
   get 'dashboard' => "dashboard#index"
 
+  get 'experimentation' => "experimentation#index"
+
   # onboarding
   scope :onboarding, as: :onboarding do
     get '' => 'onboarding#index'

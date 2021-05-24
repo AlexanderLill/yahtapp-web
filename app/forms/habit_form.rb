@@ -1,7 +1,7 @@
 class HabitForm
   include ActiveModel::Model
 
-  attr_accessor :goal_id, :is_template, :user_id, :user, :title, :duration, :schedule, :recurrence_on, :recurrence_at, :is_skippable, :created_at, :updated_at
+  attr_accessor :id, :goal_id, :is_template, :user_id, :user, :title, :duration, :schedule, :recurrence_on, :recurrence_at, :is_skippable, :created_at, :updated_at
 
   validates :title, presence: true
   validates :duration, numericality: { only_integer: true }
@@ -84,7 +84,7 @@ class HabitForm
   end
 
   def habit_params(params)
-    params.slice(:goal_id, :is_template, :user_id, :user)
+    params.slice(:goal_id, :is_template, :user_id, :user, :id)
   end
 
   private
