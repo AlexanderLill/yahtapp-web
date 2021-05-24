@@ -3,8 +3,8 @@
   current_step ||= 1
 %>
 
-<nav class="flex items-center justify-center my-8" aria-label="Progress">
-  <p class="text-sm font-medium">Step <%= current_step %> of <%= steps %></p>
+<nav class="flex items-center justify-center mb-8" aria-label="Progress">
+  <p class="text-sm font-medium text-gray-600">Step <%= current_step %> of <%= steps %></p>
   <ol class="ml-8 flex items-center space-x-5">
     <% steps.times do |step| %>
       <li>

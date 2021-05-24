@@ -47,7 +47,6 @@ class HabitsController < ApplicationController
     end
   end
 
-
   # GET /habits/1 or /habits/1.json
   def show
     @occurrences = @habit.occurrences.order(scheduled_at: :asc)

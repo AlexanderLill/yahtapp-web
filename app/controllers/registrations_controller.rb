@@ -25,7 +25,7 @@ class RegistrationsController < Devise::RegistrationsController
     dashboard_path
   end
   def after_sign_up_path_for(resource)
-    dashboard_path
+    onboarding_url
   end
   def after_inactive_sign_up_path_for(resource)
     dashboard_path

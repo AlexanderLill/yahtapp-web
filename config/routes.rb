@@ -9,8 +9,11 @@ Rails.application.routes.draw do
   scope :onboarding, as: :onboarding do
     get '' => 'onboarding#index'
     get 'habits' => 'onboarding#habits'
+    post 'habits' => 'onboarding#set_habits'
     get 'reflections' => 'onboarding#reflection_settings'
+    post 'reflections' => 'onboarding#set_reflection_settings'
     get 'samplings' => 'onboarding#sampling_settings'
+    post 'samplings' => 'onboarding#set_sampling_settings'
     get 'client' => 'onboarding#client'
   end
 

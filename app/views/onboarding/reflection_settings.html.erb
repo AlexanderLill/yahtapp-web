@@ -8,11 +8,37 @@
 </div>
 <h2>Reflection Settings</h2>
 
-<div class="mx-auto my-8 flex">
-  <%= link_to onboarding_habits_path, class: 'btn btn-secondary mr-auto' do %>
-    <i class="fa-chevron-left far mr-1"></i>Back
-  <% end %>
-  <%= link_to onboarding_samplings_path, class: 'btn btn-primary' do %>
-    Set Schedule<i class="fa-chevron-right far ml-1"></i>
-  <% end %>
-</div>
+<%= form_for(@user, url: onboarding_reflections_url, html: { method: :post, class: "space-y-6" }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: @user %>
+  <div class="flex flex-row -mx-2">
+    <div class="field flex-1 mx-2">
+      <%= f.label :reflection_on %>
+      <div class="grid grid-flow-col grid-cols-3 grid-rows-3 gap-2">
+        <% [ {label: "Mon", value: "monday"}, {label: "Tue", value: "tuesday"}, {label: "Wed", value: "wednesday"}, {label: "Thu", value: "thursday"}, {label: "Fri", value: "friday"}, {label: "Sat", value: "saturday"}, {label: "Sun", value: "sunday"}].each_with_index do |day,i| %>
+          <div class="relative flex items-start">
+            <div class="flex items-center h-5">
+              <%= f.check_box :reflection_on, { multiple: true, id: "day_#{i}" }, day[:value], false %>
+            </div>
+            <div class="ml-3 text-sm">
+              <%= f.label day[:label], for: "day_#{i}" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="field flex-1 mx-2">
+      <%= f.label :reflection_at %>
+      <%= f.text_field :reflection_at_string %>
+      <p class="mt-2 text-sm text-gray-500" id="email-description">Format: HH:MM. Separate multiple values with a comma.</p>
+    </div>
+  </div>
+
+  <div class="mx-auto my-8 flex">
+    <%= button_tag class: 'ml-auto btn btn-primary', name: "commit" do %>
+      Set Schedule<i class="fa-chevron-right far ml-1"></i>
+    <% end %>
+  </div>
+
+<% end %>
+
+

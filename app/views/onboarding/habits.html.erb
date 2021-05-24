@@ -6,18 +6,58 @@
     <p>Each habit has a schedule that determines how often you'll be reminded to do it. You can adjust the schedule to your needs after you've selected it.</p>
   </div>
   </div>
-<h2>Goal</h2>
-<h3>Habit 1</h3>
-<h3>Habit 2</h3>
-<div class="text-gray-600 my-8">
-  <p>You can also add your own goals and habits later on but we recommend that you pick <strong>at least one habit</strong> from the list so you can see how everything works.</p>
+
+  <%= form_with(url: onboarding_habits_path, method: "post") do |form| %>
+    <div class="grid ">
+      <% @goals.each do |goal_id, habits| %>
+        <div class="mb-8">
+          <div class="mb-4">
+            <h3 class="mb-1"><%= habits.first.goal.title %></h3>
+            <p class="text-sm text-gray-500"><%= habits.first.goal.description %></p>
+          </div>
+          <% habits.each_with_index do |habit,index| %>
+            <label class="my-2 relative block rounded-lg border border-gray-300 bg-white shadow-sm px-6 py-4 cursor-pointer hover:border-gray-400 sm:flex sm:justify-between focus-within:ring-1 focus-within:ring-offset-2 focus-within:ring-gray-400" x-data="{ selected: false }">
+              <input type="checkbox" name="habit_ids[]" x-model="selected" value="<%= habit.id %>" class="sr-only" aria-labelledby="server-size-0-label" aria-describedby="server-size-0-description-0 server-size-0-description-1">
+              <div class="flex items-center">
+                <div class="text-sm">
+                  <p id="server-size-0-label" class="font-medium text-gray-900">
+                    <%= habit.title %>
+                  </p>
+                  <div id="server-size-0-description-0" class="text-gray-500 flex">
+                    A short description of that habit.
+                  </div>
+                </div>
+              </div>
+              <div id="server-size-0-description-1" class="mt-2 flex text-sm sm:mt-0 sm:block sm:ml-4 sm:text-right">
+                <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                  <i class="far fa-calendar-alt mr-2"></i>
+                  <p>
+                    <%= habit.recurrence_on.map{|day| day.capitalize.slice(0,2)}.join(', ') %> at <%= habit.recurrence_at %>
+                  </p>
+                </div>
+                <div class="mt-2 flex items-center justify-end text-sm text-gray-500 sm:mt-0 ml-6">
+                  <i class="far fa-clock mr-2"></i>
+                  <p>
+                    <%= habit.duration %> mins
+                  </p>
+                </div>
+              </div>
+              <div :class="{ 'border-transparent': !selected, 'border-gray-900': selected }" class="absolute -inset-px rounded-lg border-2 pointer-events-none" aria-hidden="true"></div>
+            </label>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="text-gray-600 my-8">
+      <p>You can also add your own goals and habits later on but we recommend that you pick <strong>at least one habit</strong> from the list so you can see how everything works.</p>
+    </div>
+
+    <div class="mx-auto my-8 flex">
+      <%= button_tag class: 'ml-auto btn btn-primary', name: "commit" do %>
+        Select Habits<i class="fa-chevron-right far ml-1"></i>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 
-<div class="mx-auto my-8 flex">
-  <%= link_to onboarding_path, class: 'btn btn-secondary mr-auto' do %>
-    <i class="fa-chevron-left far mr-1"></i>Back
-  <% end %>
-  <%= link_to onboarding_reflections_path, class: 'btn btn-primary' do %>
-    Select Habits<i class="fa-chevron-right far ml-1"></i>
-  <% end %>
-</div>

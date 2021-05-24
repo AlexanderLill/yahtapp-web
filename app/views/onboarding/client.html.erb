@@ -1,18 +1,58 @@
 <%= render 'steps', steps: 5, current_step:5 %>
 <div class="my-8">
-  <h1>One more thing...</h1>
+  <h1>One last thing...</h1>
   <div class="text-gray-600 space-y-2">
-    <p>Samplings help you to self-report metrics such as your perceived productivity or your well-being. This allows you to track these metrics over time and measure the impact of the habits on them.</p>
-    <p>You can define yourself how often and at what time you want to be asked about. For optimal results we recommend having <strong>at least one sampling</strong> at the end of your work day.</p>
+    <p>To send you reminders about your habits and reflections and to report your productivity we developed a small desktop application for MacOS.</p>
+    <p>Before you can use yaht you need to download and install the application.</p>
+  </div>
+  <div class="flex my-8">
+    <a href="" class="btn btn-primary">
+      <i class="far fa-download mr-2"></i>Download yaht for MacOS
+    </a>
+  </div>
+  <div class="flex flex-row -mx-2">
+    <div class="flex-1 mx-2">
+      <h3>What the application does:</h3>
+      <dt class="my-1 text-gray-600">
+        <i class="far fa-check text-green-500 absolute h-6 w-6"></i>
+        <p class="ml-7 leading-6">Display notifications about upcoming habits and reflections</p>
+      </dt>
+      <dt class="my-1 text-gray-600">
+        <i class="far fa-check text-green-500 absolute h-6 w-6"></i>
+        <p class="ml-7 leading-6">Ask about your productivity and store the result on our server</p>
+      </dt>
+      <dt class="my-1 text-gray-600">
+        <i class="far fa-check text-green-500 absolute h-6 w-6"></i>
+        <p class="ml-7 leading-6">Track which habits you start / skip / end and store the result on our server</p>
+      </dt>
+    </div>
+    <div class="flex-1 mx-2">
+      <h3>What the application does not:</h3>
+      <dt class="my-1 text-gray-600">
+        <i class="far fa-times text-red-500 absolute h-6 w-6"></i>
+        <p class="ml-7 leading-6">Track any other data or send anything else to our servers</p>
+      </dt>
+      <dt class="my-1 text-gray-600">
+        <i class="far fa-times text-red-500 absolute h-6 w-6"></i>
+        <p class="ml-7 leading-6">Track your mouse movements or keystrokes</p>
+      </dt>
+      <dt class="my-1 text-gray-600">
+        <i class="far fa-times text-red-500 absolute h-6 w-6"></i>
+        <p class="ml-7 leading-6">Track which websites you visit</p>
+      </dt>
+    </div>
+  </div>
+  <div class="my-4 text-gray-600">
+    <strong>TLDR:</strong> We only track interactions with our application based on your settings and nothing else.
+  </div>
+  <div class="text-gray-600 my-4 space-y-2">
+    <p>When you run the application for the first time you need to enter your credentials.</p>
+    <p>If you shut down your computer, make sure to restart the application again and keep it running in the background.</p>
   </div>
 </div>
-<h2>Download yaht Client</h2>
 
 <div class="mx-auto my-8 flex">
-  <%= link_to onboarding_samplings_path, class: 'btn btn-secondary mr-auto' do %>
-    <i class="fa-chevron-left far mr-1"></i>Back
-  <% end %>
-  <%= link_to dashboard_path, class: 'btn btn-primary' do %>
+  <%= link_to dashboard_path, class: 'ml-auto btn btn-primary' do %>
     I'm done<i class="fa-chevron-right far ml-1"></i>
   <% end %>
 </div>

@@ -2,7 +2,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import "@yaireo/tagify/src/tagify.scss";
+// @import "@yaireo/tagify/src/tagify.scss";
 
 @import 'forms';
 @import 'buttons';
@@ -13,4 +13,8 @@
 }
 .container-small {
   @apply max-w-5xl mx-auto w-small;
+}
+
+.turbolinks-progress-bar {
+  background-color: rgba(17, 24, 39,1);
 }
