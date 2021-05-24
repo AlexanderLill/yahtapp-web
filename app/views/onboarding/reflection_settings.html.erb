@@ -1,0 +1,44 @@
+<%= render 'steps', steps: 5, current_step: 3 %>
+<div class="my-8">
+  <h1>Set Reflection Schedule</h1>
+  <div class="text-gray-600 space-y-2">
+    <p>Reflections are short questionnaires (2-3 minutes max) that ask you about your workday and help you to identify which habits are having a positive impact on it.</p>
+    <p>You can define yourself how often and at what time you want to fill out the reflections. For optimal results we recommend having <strong>at least one reflection</strong> at the end of your work week.</p>
+  </div>
+</div>
+<h2>Reflection Settings</h2>
+
+<%= form_for(@user, url: onboarding_reflections_url, html: { method: :post, class: "space-y-6" }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: @user %>
+  <div class="flex flex-row -mx-2">
+    <div class="field flex-1 mx-2">
+      <%= f.label :reflection_on %>
+      <div class="grid grid-flow-col grid-cols-3 grid-rows-3 gap-2">
+        <% [ {label: "Mon", value: "monday"}, {label: "Tue", value: "tuesday"}, {label: "Wed", value: "wednesday"}, {label: "Thu", value: "thursday"}, {label: "Fri", value: "friday"}, {label: "Sat", value: "saturday"}, {label: "Sun", value: "sunday"}].each_with_index do |day,i| %>
+          <div class="relative flex items-start">
+            <div class="flex items-center h-5">
+              <%= f.check_box :reflection_on, { multiple: true, id: "day_#{i}" }, day[:value], false %>
+            </div>
+            <div class="ml-3 text-sm">
+              <%= f.label day[:label], for: "day_#{i}" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="field flex-1 mx-2">
+      <%= f.label :reflection_at %>
+      <%= f.text_field :reflection_at_string %>
+      <p class="mt-2 text-sm text-gray-500" id="email-description">Format: HH:MM. Separate multiple values with a comma.</p>
+    </div>
+  </div>
+
+  <div class="mx-auto my-8 flex">
+    <%= button_tag class: 'ml-auto btn btn-primary', name: "commit" do %>
+      Set Schedule<i class="fa-chevron-right far ml-1"></i>
+    <% end %>
+  </div>
+
+<% end %>
+
+

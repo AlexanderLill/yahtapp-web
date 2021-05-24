@@ -5,6 +5,18 @@ Rails.application.routes.draw do
   root 'welcome#index'
   get 'dashboard' => "dashboard#index"
 
+  # onboarding
+  scope :onboarding, as: :onboarding do
+    get '' => 'onboarding#index'
+    get 'habits' => 'onboarding#habits'
+    post 'habits' => 'onboarding#set_habits'
+    get 'reflections' => 'onboarding#reflection_settings'
+    post 'reflections' => 'onboarding#set_reflection_settings'
+    get 'samplings' => 'onboarding#sampling_settings'
+    post 'samplings' => 'onboarding#set_sampling_settings'
+    get 'client' => 'onboarding#client'
+  end
+
   # Devise (login/logout) for HTML requests
   devise_for :users, controllers: { registrations: 'registrations' }, defaults: { format: :html }, path: '', sign_out_via: %i[get post delete], path_names: {
     sign_in: 'login',

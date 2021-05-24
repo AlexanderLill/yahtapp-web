@@ -76,7 +76,7 @@
         <div class="field">
           <%= form.label :recurrence_at, "At" %>
           <%= form.text_field :recurrence_at,  {class: 'js-choice', multiple: false} %>
-          <p class="mt-2 text-sm text-gray-500" id="email-description">Format: HH:MM. Separate multiple values with a comma.</p>
+          <p class="mt-2 text-sm text-gray-500">Format: HH:MM. Separate multiple values with a comma.</p>
         </div>
       </div>
       <% if policy(experience_sample_config).set_user? %>
