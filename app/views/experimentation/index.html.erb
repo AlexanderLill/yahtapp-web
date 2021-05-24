@@ -21,7 +21,7 @@
                <h3 class="mt-2">Habit: <%= habit.title %></h3>
             </div>
             <div class="flex ml-4 items-center justify-center">
-              <a href="<%= edit_habit_url(habit) %>" class="btn btn-primary flex whitespace-nowrap">Edit Habit</a>
+              <a href="<%= edit_habit_url(habit, redirect_to: request.env['ORIGINAL_FULLPATH']) %>" class="btn btn-primary flex whitespace-nowrap">Edit Habit</a>
             </div>
           </div>
 

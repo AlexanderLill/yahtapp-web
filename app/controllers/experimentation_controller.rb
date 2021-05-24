@@ -7,8 +7,6 @@ class ExperimentationController < ApplicationController
     @start_datetime = DateTime.parse(param_start)
     @first_reflection_at = current_user.occurrences.order('scheduled_at').first.scheduled_at
 
-    session[:return_to] = request.env['ORIGINAL_FULLPATH']
-
     @has_data_before_start_date = @start_datetime > @first_reflection_at
 
     pre_reflections = current_user.habit_reflections.includes(habit: :goal)
@@ -17,8 +15,8 @@ class ExperimentationController < ApplicationController
     post_reflections = current_user.habit_reflections.includes(habit: :goal)
                                   .where('habit_reflections.created_at >= ?', @start_datetime).order('habit_reflections.created_at')
 
-    pre_occurrences = current_user.occurrences.where('scheduled_at < ?', @start_datetime)
-    post_occurrences = current_user.occurrences.where('scheduled_at >= ?', @start_datetime)
+    pre_occurrences = current_user.occurrences.where('scheduled_at < ?', @start_datetime).includes(:habit)
+    post_occurrences = current_user.occurrences.where('scheduled_at >= ?', @start_datetime).includes(:habit)
 
     pre_habit_occurrences = pre_occurrences.group_by { |occ| occ.habit.id }
     post_habit_occurrences = post_occurrences.group_by { |occ| occ.habit.id }
