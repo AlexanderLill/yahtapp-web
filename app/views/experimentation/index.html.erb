@@ -18,7 +18,8 @@
         <div class="mb-8">
           <div class="flex flex-row">
             <div class="flex-grow">
-               <h3 class="mt-2">Habit: <%= habit.title %></h3>
+              <h3 class="mt-2 mb-0">Habit: <%= habit.title %></h3>
+              <p class="text-gray-500 text-sm mb-2">Last edited <%= time_ago_in_words(habit.updated_at) %> ago</p>
             </div>
             <div class="flex ml-4 items-center justify-center">
               <a href="<%= edit_habit_url(habit, redirect_to: request.env['ORIGINAL_FULLPATH']) %>" class="btn btn-primary flex whitespace-nowrap">Edit Habit</a>
