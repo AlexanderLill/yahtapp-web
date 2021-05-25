@@ -25,17 +25,15 @@
               <a href="<%= edit_habit_url(habit, redirect_to: request.env['ORIGINAL_FULLPATH']) %>" class="btn btn-primary flex whitespace-nowrap">Edit Habit</a>
             </div>
           </div>
-
-          <h5 class="text-gray-500 text-sm">Last edited <%= time_ago_in_words(habit.updated_at) %> ago</h5>
-          <h5 class="text-gray-500 text-sm">
+          <p class="text-gray-500 text-sm">
             Reflections: <b><%= @post_habit_reflections_count[habit.id] ? @post_habit_reflections_count[habit.id] : 0 %></b> (<%= @pre_habit_reflections_count[habit.id] ? @pre_habit_reflections_count[habit.id] : 0%>)
-          </h5>
-          <h5 class="text-gray-500 text-sm">
+          </p>
+          <p class="text-gray-500 text-sm">
             Occurrences completed: <b><%= @post_habit_occurrences_completed[habit.id] ? @post_habit_occurrences_completed[habit.id] : 0 %></b> (<%= @pre_habit_occurrences_completed[habit.id] ? @pre_habit_occurrences_completed[habit.id] : 0 %>)
-          </h5>
-          <h5 class="text-gray-500 text-sm">
+          </p>
+          <p class="text-gray-500 text-sm">
             Occurrences skipped or incomplete: <b><%= @post_habit_occurrences_not_completed[habit.id] ? @post_habit_occurrences_not_completed[habit.id] : 0 %></b> (<%= @pre_habit_occurrences_not_completed[habit.id] ? @pre_habit_occurrences_not_completed[habit.id] : 0 %>)
-          </h5>
+          </p>
           <div class="grid grid-cols-10 grid-rows-1 my-2 text-center text-gray-400 py-4">
             <div class="col-span-1"></div>
             <div class="col-span-8">
