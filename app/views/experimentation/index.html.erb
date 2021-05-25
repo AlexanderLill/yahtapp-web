@@ -3,7 +3,12 @@
 
 <div class="flex flex-row pb-4 mb-4">
   <div class="flex-grow">
-    <p class="text-gray-500 text-sm">The following data is from the <b>past <%= time_ago_in_words(@start_datetime) %></b><% if @has_data_before_start_date %>, compared to the aggregated data from the previous <%= time_ago_in_words(@first_reflection_at) %>.
+    <p class="text-gray-500 text-sm">The following data is from the
+      <span class="text-gray-600">
+        <b>past <%= time_ago_in_words(@start_datetime) %></b>
+        (<%= @start_datetime.to_date.strftime("%d.%m.%y") %> <%= " - " + DateTime.current.strftime("%d.%m.%y") %>)
+      </span>
+      <% if @has_data_before_start_date %>, compared to the aggregated data from the <span class="text-gray-400"><b>previous <%= time_ago_in_words(@first_reflection_at) %></b> (<%= @start_datetime.to_date.strftime("%d.%m.%y") %> <%= " - " + DateTime.current.strftime("%d.%m.%y") %>)</span>.
       <% end %>
     </p>
   </div>
@@ -18,23 +23,20 @@
         <div class="mb-8">
           <div class="flex flex-row">
             <div class="flex-grow">
-               <h3 class="mt-2">Habit: <%= habit.title %></h3>
+              <h3 class="mt-2 mb-0">Habit: <%= habit.title %></h3>
+              <p class="text-gray-500 text-sm mb-4">Last edited <%= time_ago_in_words(habit.updated_at) %> ago</p>
             </div>
             <div class="flex ml-4 items-center justify-center">
               <a href="<%= edit_habit_url(habit, redirect_to: request.env['ORIGINAL_FULLPATH']) %>" class="btn btn-primary flex whitespace-nowrap">Edit Habit</a>
             </div>
           </div>
-
-          <h5 class="text-gray-500 text-sm">Last edited <%= time_ago_in_words(habit.updated_at) %> ago</h5>
-          <h5 class="text-gray-500 text-sm">
-            Reflections: <b><%= @post_habit_reflections_count[habit.id] ? @post_habit_reflections_count[habit.id] : 0 %></b> (<%= @pre_habit_reflections_count[habit.id] ? @pre_habit_reflections_count[habit.id] : 0%>)
-          </h5>
-          <h5 class="text-gray-500 text-sm">
-            Occurrences completed: <b><%= @post_habit_occurrences_completed[habit.id] ? @post_habit_occurrences_completed[habit.id] : 0 %></b> (<%= @pre_habit_occurrences_completed[habit.id] ? @pre_habit_occurrences_completed[habit.id] : 0 %>)
-          </h5>
-          <h5 class="text-gray-500 text-sm">
-            Occurrences skipped or incomplete: <b><%= @post_habit_occurrences_not_completed[habit.id] ? @post_habit_occurrences_not_completed[habit.id] : 0 %></b> (<%= @pre_habit_occurrences_not_completed[habit.id] ? @pre_habit_occurrences_not_completed[habit.id] : 0 %>)
-          </h5>
+          <p class="text-gray-500 text-sm">
+            Reflections: <b class="text-gray-600"><%= @post_habit_reflections_count[habit.id].to_i %></b> <span class="text-gray-400">(<%= @pre_habit_reflections_count[habit.id].to_i %>)</span>
+          </p>
+          <p class="text-gray-500 text-sm">
+            Occurrences: <b class="text-gray-600"><%= @post_habit_occurrences_completed[habit.id].to_i %>/<%= @post_habit_occurrences_completed[habit.id].to_i + @post_habit_occurrences_not_completed[habit.id].to_i %></b>
+            <span class="text-gray-400">(<%= @pre_habit_occurrences_completed[habit.id].to_i %>/<%= @pre_habit_occurrences_completed[habit.id].to_i + @pre_habit_occurrences_not_completed[habit.id].to_i %>)</span>
+          </p>
           <div class="grid grid-cols-10 grid-rows-1 my-2 text-center text-gray-400 py-4">
             <div class="col-span-1"></div>
             <div class="col-span-8">
@@ -91,10 +93,15 @@
              Definitely
             </div>
           </div>
-
-          <p class="text-gray-500 text-sm leading-7">Avg. from <b>past <%= time_ago_in_words(@start_datetime) %></b>:<span class="inline-block align-middle h-4 w-4 rounded-full bg-gray-600 mx-1 border border-white"></span></p>
-          <p class="text-gray-500 text-sm leading-7">Avg. from <b>previous <%= time_ago_in_words(@first_reflection_at) %></b>:<span class="inline-block align-middle h-4 w-4 rounded-full bg-gray-400 mx-1 border border-white"></span></p>
-      </div>
+          <div class="flex flex-row">
+            <div class="flex-grow">
+              <p class="text-gray-500 text-sm leading-7"><span class="inline-block align-middle h-4 w-4 rounded-full bg-gray-600 mx-1 border border-white"></span> Avg. <b>past <%= time_ago_in_words(@start_datetime) %></b></p>
+            </div>
+            <div class="flex-grow">
+              <p class="text-gray-500 text-sm leading-7"><span class="inline-block align-middle h-4 w-4 rounded-full bg-gray-400 mx-1 border border-white"></span> Avg. <b>previous <%= time_ago_in_words(@first_reflection_at) %></b></p>
+            </div>
+          </div>
+        </div>
       <% end %>
       </div>
     </div>
