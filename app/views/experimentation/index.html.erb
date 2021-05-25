@@ -31,11 +31,11 @@
             </div>
           </div>
           <p class="text-gray-500 text-sm">
-            Reflections: <b class="text-gray-600"><%= @post_habit_reflections_count[habit.id] ? @post_habit_reflections_count[habit.id] : 0 %></b> <span class="text-gray-400">(<%= @pre_habit_reflections_count[habit.id] ? @pre_habit_reflections_count[habit.id] : 0%>)</span>
+            Reflections: <b class="text-gray-600"><%= @post_habit_reflections_count[habit.id].to_i %></b> <span class="text-gray-400">(<%= @pre_habit_reflections_count[habit.id].to_i %>)</span>
           </p>
           <p class="text-gray-500 text-sm">
-            Occurrences: <b class="text-gray-600"><%= @post_habit_occurrences_completed[habit.id] ? @post_habit_occurrences_completed[habit.id] : 0 %>/<%= @post_habit_occurrences_completed[habit.id] + @post_habit_occurrences_not_completed[habit.id] %></b>
-            <span class="text-gray-400">(<%= @pre_habit_occurrences_completed[habit.id] ? @pre_habit_occurrences_completed[habit.id] : 0 %>/<%= @pre_habit_occurrences_completed[habit.id] + @pre_habit_occurrences_not_completed[habit.id] %>)</span>
+            Occurrences: <b class="text-gray-600"><%= @post_habit_occurrences_completed[habit.id].to_i %>/<%= @post_habit_occurrences_completed[habit.id].to_i + @post_habit_occurrences_not_completed[habit.id].to_i %></b>
+            <span class="text-gray-400">(<%= @pre_habit_occurrences_completed[habit.id].to_i %>/<%= @pre_habit_occurrences_completed[habit.id].to_i + @pre_habit_occurrences_not_completed[habit.id].to_i %>)</span>
           </p>
           <div class="grid grid-cols-10 grid-rows-1 my-2 text-center text-gray-400 py-4">
             <div class="col-span-1"></div>
