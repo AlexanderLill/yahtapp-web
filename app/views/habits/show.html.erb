@@ -1,4 +1,4 @@
-<%= render 'shared/page_heading', title: "Habit: #{@habit.title}", description: "" do %>
+<%= render 'shared/page_heading', title: "Habit: #{@habit.title}", description: @habit.description do %>
   <%= link_to 'Edit', edit_habit_path(@habit), class: 'btn btn-primary flex whitespace-nowrap' %>
 <% end %>
 
@@ -37,7 +37,6 @@
 <%= render 'shared/table/wrapper' do %>
   <thead class="bg-gray-50">
   <tr>
-    <%= render 'shared/table/heading', title: "Title" %>
     <%= render 'shared/table/heading', title: "Schedule" %>
     <%= render 'shared/table/heading', title: "Duration" %>
     <%= render 'shared/table/heading', title: "Skippable" %>
@@ -47,9 +46,6 @@
   <tbody>
   <% @configs.each_with_index do |config,index| %>
     <%= render 'shared/table/row', odd: index.even? do %>
-      <%= render 'shared/table/cell' do %>
-        <%= config.title %>
-      <% end %>
       <%= render 'shared/table/cell' do %>
         <%= config.recurrence_on.map{|day| day.slice(0,2)}.join(', ') %> at <%= config.recurrence_at %>
       <% end %>

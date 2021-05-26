@@ -7,6 +7,7 @@ class Habit < ApplicationRecord
   has_many :habit_reflections
   has_many :reflections, through: :habit_reflections
 
+  validates :title, presence: true
   validates :is_template, inclusion: [false], if: :template_id? # cannot be template if associated with template
   validates :template_id, absence: true, if: :is_template? # must not have association to template if is_template
 
@@ -17,7 +18,7 @@ class Habit < ApplicationRecord
   belongs_to :current_config, class_name: 'Habit::Config', foreign_key: 'current_config_id', optional: true
 
   # Delegations
-  delegate :title, :duration, :schedule, :is_skippable, :recurrence_on, :recurrence_at, to: :current_config, allow_nil: true
+  delegate :duration, :schedule, :is_skippable, :recurrence_on, :recurrence_at, to: :current_config, allow_nil: true
 
   before_destroy :destroy_configs
 

@@ -19,6 +19,12 @@
           <%= form.text_field :title %>
         </div>
       </div>
+      <div class="sm:col-span-6">
+        <div class="field">
+          <%= form.label :description %>
+          <%= form.text_area :description, rows: 2 %>
+        </div>
+      </div>
       <div class="sm:col-span-3">
         <div class="field">
           <%= form.label :recurrence_on, "On" %>

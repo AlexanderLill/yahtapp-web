@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_18_194932) do
+ActiveRecord::Schema.define(version: 2021_05_26_150009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 2021_05_18_194932) do
   end
 
   create_table "habit_configs", force: :cascade do |t|
-    t.string "title"
     t.bigint "habit_id", null: false
     t.string "schedule"
     t.integer "duration"
@@ -72,6 +71,8 @@ ActiveRecord::Schema.define(version: 2021_05_18_194932) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "current_config_id"
     t.integer "template_id"
+    t.text "description"
+    t.string "title"
     t.index ["current_config_id"], name: "index_habits_on_current_config_id"
     t.index ["goal_id"], name: "index_habits_on_goal_id"
     t.index ["user_id"], name: "index_habits_on_user_id"

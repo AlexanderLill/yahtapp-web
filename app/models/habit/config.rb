@@ -11,7 +11,6 @@ class Habit::Config < ApplicationRecord
   belongs_to :habit
   has_many :occurrences, through: :habit
 
-  validates :title, presence: true
   validates :duration, numericality: { only_integer: true}
   after_save :schedule_occurrences # TODO: later this action must be performed when a habit is *duplicated* and on a daily schedule
 

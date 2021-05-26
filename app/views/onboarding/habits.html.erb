@@ -20,12 +20,14 @@
               <input type="checkbox" name="habit_ids[]" x-model="selected" value="<%= habit.id %>" class="sr-only" aria-labelledby="server-size-0-label" aria-describedby="server-size-0-description-0 server-size-0-description-1">
               <div class="flex items-center">
                 <div class="text-sm">
-                  <p id="server-size-0-label" class="font-medium text-gray-900">
+                  <p class="font-medium text-gray-900">
                     <%= habit.title %>
                   </p>
-                  <div id="server-size-0-description-0" class="text-gray-500 flex">
-                    A short description of that habit.
-                  </div>
+                  <% if habit.description.present? %>
+                    <div class="text-gray-500 flex">
+                      <%= habit.description %>
+                    </div>
+                  <% end %>
                 </div>
               </div>
               <div id="server-size-0-description-1" class="mt-2 flex text-sm sm:mt-0 sm:block sm:ml-4 sm:text-right">
