@@ -42,7 +42,7 @@ class DashboardController < ApplicationController
     unless this_week
       return 0
     end
-    unless this_week
+    unless last_week
       return 0
     end
     (((this_week - last_week) / last_week) * 100).round(2)
