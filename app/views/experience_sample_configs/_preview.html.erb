@@ -1,50 +1,37 @@
-<div class="experience-sampling-notification">
-    <div class="notification-top-bar">
-      <div>
-        <img
-          src="~@/renderer/ui/assets/images/yaht-icon.svg"
-          class="yaht-icon"
-          />
-        Sampling: {{ experienceSampling.config.title }}
+<div class="bg-gray-200 px-4 py-8 rounded-lg">
+  <div class="mx-auto max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex flex-col ring-1 ring-black ring-opacity-5">
+    <div class="flex justify-between items-center w-full pointer-events-auto px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-t-lg">
+      <div class="inline-flex items-center">
+        <%= image_tag "yaht-icon.png", class: "inline w-5 h-5 mr-1", alt: "yaht - yet another habit tracker" %>
+        Sampling: <%= sampling.title %>
       </div>
-      <div>{{ notificationTime }}</div>
+      <div><%= Time.now.strftime("%H:%M") %></div>
     </div>
-    <div class="w-full pointer-events-auto flex">
+    <div class="w-full pointer-events-auto flex flex-row">
       <div class="w-0 flex-1 p-4 pt-1">
         <div class="flex items-start">
           <div class="w-0 flex-1">
-            <p class="prompt">
-              {{ experienceSampling.config.prompt }}
+            <p class="font-medium text-gray-900">
+              <%= sampling.prompt %>
             </p>
             <div class="flex flex-row justify-between mt-2 -mx-2">
-              <div
-                class="sample-answer"
-                v-for="value in experienceSampling.config.scale.steps"
-                :key="value"
-                @click="onValueClicked(value)"
-              >
-                <span
-                  v-if="sampleLoadingValue !== value"
-                  class="flex mx-auto font-medium"
-                >
-                  {{ value }}
-                </span>
-                <img
-                  src="~@/renderer/ui/assets/images/spinner.svg"
-                  v-if="sampleLoadingValue === value"
-                  class="spinner animate-spin"
-                  />
-              </div>
+              <% sampling.scale_steps.times do |index| %>
+                <div class="mx-1 flex w-8 h-8 bg-gray-100 text-center items-center text-gray-500 align-middle rounded-md border border-gray-200 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 cursor-pointer transition-all">
+                  <span class="flex mx-auto font-medium">
+                    <%= index %>
+                  </span>
+                </div>
+              <% end %>
             </div>
             <div class="flex flex-row text-gray-400 text-sm mt-1">
               <div class="">
-                {{ experienceSampling.config.scale.label_start }}
+                <%= sampling.scale_label_start %>
               </div>
               <div class="mx-auto">
-                {{ experienceSampling.config.scale.label_center }}
+                <%= sampling.scale_label_center %>
               </div>
               <div class="">
-                {{ experienceSampling.config.scale.label_end }}
+                <%= sampling.scale_label_end %>
               </div>
             </div>
           </div>
@@ -52,7 +39,6 @@
       </div>
       <div
         class="flex border-l border-gray-200 cursor-pointer"
-        @click="onSkipClicked"
       >
         <div
           class="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-gray-600 hover:text-gray-900 focus:outline-none"
@@ -61,4 +47,5 @@
         </div>
       </div>
     </div>
+  </div>
 </div>

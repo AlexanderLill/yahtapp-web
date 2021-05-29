@@ -2,43 +2,25 @@
   <%= link_to 'Edit', edit_experience_sample_config_path(@experience_sample_config), class: "btn btn-primary flex whitespace-nowrap" %>
 <% end %>
 
-<p>
-  <strong>Prompt:</strong>
-  <%= @experience_sample_config.prompt %>
-</p>
+<div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+  <i class="far fa-calendar-alt mr-2"></i>
+  <p>
+    <%= @experience_sample_config.recurrence_on.map{|day| day.slice(0,2)}.join(', ') %> at <%= @experience_sample_config.recurrence_at %>
+  </p>
+</div>
 
-<p>
-  <strong>Scale steps:</strong>
-  <%= @experience_sample_config.scale_steps %>
-</p>
+<div class="sm:flex">
+  <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+    <i class="far fa-user mr-2"></i>
+    <%= @experience_sample_config.user.username %>
+  </p>
+</div>
 
-<p>
-  <strong>Scale label start:</strong>
-  <%= @experience_sample_config.scale_label_start %>
-</p>
-
-<p>
-  <strong>Scale label center:</strong>
-  <%= @experience_sample_config.scale_label_center %>
-</p>
-
-<p>
-  <strong>Scale label end:</strong>
-  <%= @experience_sample_config.scale_label_end %>
-</p>
-
-<p>
-  <strong>Schedule:</strong>
-  <%= @experience_sample_config.schedule %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @experience_sample_config.user_id %>
-</p>
-
-
-<h2>Chart:</h2>
+<div class="my-4">
+  <h3>Preview:</h3>
+  <%= render 'preview', sampling: @experience_sample_config %>
+</div>
+<h3>Chart:</h3>
 <% data = { foo: :bar} %>
 <%= content_tag :canvas, id: "myChart", class: "sampling-chart", data: { chart: @chart.to_json } do %><% end %>
 
