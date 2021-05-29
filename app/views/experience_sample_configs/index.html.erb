@@ -2,36 +2,42 @@
   <%= link_to 'New Sampling', new_experience_sample_config_path, class: "btn btn-primary flex whitespace-nowrap" %>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Prompt</th>
-      <th>Scale steps</th>
-      <th>Scale label start</th>
-      <th>Scale label center</th>
-      <th>Scale label end</th>
-      <th>Schedule</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @experience_sample_configs.each do |experience_sample_config| %>
-      <tr>
-        <td><%= experience_sample_config.title %></td>
-        <td><%= experience_sample_config.prompt %></td>
-        <td><%= experience_sample_config.scale_steps %></td>
-        <td><%= experience_sample_config.scale_label_start %></td>
-        <td><%= experience_sample_config.scale_label_center %></td>
-        <td><%= experience_sample_config.scale_label_end %></td>
-        <td><%= experience_sample_config.schedule %></td>
-        <td><%= experience_sample_config.user_id %></td>
-        <td><%= link_to 'Show', experience_sample_config %></td>
-        <td><%= link_to 'Edit', edit_experience_sample_config_path(experience_sample_config) %></td>
-        <td><%= link_to 'Destroy', experience_sample_config, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<div class="bg-white shadow overflow-hidden sm:rounded-md">
+  <ul class="divide-y divide-gray-200">
+    <% @experience_sample_configs.each do |sampling| %>
+      <li>
+        <a href="<%= experience_sample_config_url(sampling) %>" class="block hover:bg-gray-50">
+          <div class="px-4 py-4 sm:px-6">
+            <div class="flex items-center justify-between">
+              <div class="flex flex-col">
+                <p class="text-sm font-medium text-gray-900 truncate">
+                  <%= sampling.title %>
+                </p>
+                <p class="text-sm text-gray-500 truncate">
+                  <%= sampling.prompt %>
+                </p>
+              </div>
+            </div>
+            <div class="mt-2 sm:flex sm:justify-between">
+              <div class="sm:flex">
+                <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                  <i class="far fa-user mr-2"></i>
+                  <%= sampling.user.username %>
+                </p>
+              </div>
+              <div class="sm:flex">
+                <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                  <i class="far fa-calendar-alt mr-2"></i>
+                  <p>
+                    <%= sampling.recurrence_on.map{|day| day.slice(0,2)}.join(', ') %> at <%= sampling.recurrence_at %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </li>
     <% end %>
-  </tbody>
-</table>
+  </ul>
+</div>
