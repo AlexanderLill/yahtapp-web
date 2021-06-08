@@ -17,13 +17,19 @@ namespace :schedule do
 
   def schedule_all_occurrences
     Habit.all.each do |habit|
-      habit.current_config.schedule_occurrences(DateTime.now)
+      # ensures that schedule is based on user's timezone
+      Time.use_zone(habit.user.timezone) do
+        habit.current_config.schedule_occurrences(DateTime.now)
+      end
     end
   end
 
   def schedule_all_samplings
     ExperienceSampleConfig.all.each do |config|
-      config.schedule_samplings(DateTime.now)
+      # ensures that schedule is based on user's timezone
+      Time.use_zone(config.user.timezone) do
+        config.schedule_samplings(DateTime.now)
+      end
     end
   end
 

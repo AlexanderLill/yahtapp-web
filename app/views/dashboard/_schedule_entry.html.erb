@@ -13,7 +13,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       <% end_time = schedule_entry.scheduled_at + schedule_entry.habit.duration.minutes %>
-      <%= schedule_entry.scheduled_at.in_time_zone(current_user.timezone).strftime('%H:%M') %> - <%= end_time.in_time_zone(current_user.timezone).strftime('%H:%M') %>
+      <%= schedule_entry.scheduled_at.strftime('%H:%M') %> - <%= end_time.strftime('%H:%M') %>
     </div>
     <div class="text-gray-900 text-sm font-medium"><%= schedule_entry.habit.title %></div>
   </div>
