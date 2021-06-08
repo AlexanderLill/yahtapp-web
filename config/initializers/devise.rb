@@ -294,7 +294,7 @@ Devise.setup do |config|
       ['DELETE', %r{^/api/v[0-9]+/auth$}]
     ]
     jwt.request_formats = { user: [:json] }
-    jwt.expiration_time = 7.day.to_i
+    jwt.expiration_time = 90.day.to_i
   end
 
 
