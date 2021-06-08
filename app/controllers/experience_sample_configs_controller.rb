@@ -35,7 +35,7 @@ class ExperienceSampleConfigsController < ApplicationController
 
     respond_to do |format|
       if @experience_sample_config.save
-        format.html { redirect_to @experience_sample_config, notice: "Experience sample config was successfully created." }
+        format.html { redirect_to @experience_sample_config, notice: "Self-Report config was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -46,7 +46,7 @@ class ExperienceSampleConfigsController < ApplicationController
   def update
     respond_to do |format|
       if @experience_sample_config.update(experience_sample_config_params)
-        format.html { redirect_to @experience_sample_config, notice: "Experience sample config was successfully updated." }
+        format.html { redirect_to @experience_sample_config, notice: "Self-Report config was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -57,7 +57,7 @@ class ExperienceSampleConfigsController < ApplicationController
   def destroy
     @experience_sample_config.destroy
     respond_to do |format|
-      format.html { redirect_to experience_sample_configs_url, notice: "Experience sample config was successfully destroyed." }
+      format.html { redirect_to experience_sample_configs_url, notice: "Self-Report config was successfully destroyed." }
       format.json { head :no_content }
     end
   end

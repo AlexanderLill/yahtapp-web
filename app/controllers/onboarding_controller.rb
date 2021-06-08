@@ -74,9 +74,9 @@ class OnboardingController < ApplicationController
     )
     @sampling.assign_attributes(sampling_params)
     if @sampling.save
-      redirect_to onboarding_client_path, notice: 'Sampling config was successfully created.'
+      redirect_to onboarding_client_path, notice: 'Self-Report config was successfully created.'
     else
-      redirect_to onboarding_samplings_path, alert: 'Sampling config could not be saved.'
+      redirect_to onboarding_samplings_path, alert: 'Self-Report config could not be saved.'
     end
   end
 

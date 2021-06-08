@@ -2,7 +2,7 @@ class Api::V1::SamplingsController < ApiController
   before_action :set_user, only: %i[ index update ]
   before_action :set_sampling, only: %i[ update ]
 
-  # TODO: make sure that user can only own samplings
+  # TODO: make sure that user can only own self-reports
 
   def index
     @samplings = @user.samplings.includes(:experience_sample_config)
