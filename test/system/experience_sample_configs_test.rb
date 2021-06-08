@@ -7,12 +7,12 @@ class ExperienceSampleConfigsTest < ApplicationSystemTestCase
 
   test "visiting the index" do
     visit experience_sample_configs_url
-    assert_selector "h1", text: "Experience Sample Configs"
+    assert_selector "h1", text: "Self-Report Configs"
   end
 
-  test "creating a Experience sample config" do
+  test "creating a Self-Report config" do
     visit experience_sample_configs_url
-    click_on "New Experience Sample Config"
+    click_on "New Self-Report Config"
 
     fill_in "Prompt", with: @experience_sample_config.prompt
     fill_in "Scale end", with: @experience_sample_config.scale_end
@@ -24,13 +24,13 @@ class ExperienceSampleConfigsTest < ApplicationSystemTestCase
     fill_in "Schedule", with: @experience_sample_config.schedule
     fill_in "Title", with: @experience_sample_config.title
     fill_in "User", with: @experience_sample_config.user_id
-    click_on "Create Experience sample config"
+    click_on "Create Self-Report config"
 
-    assert_text "Experience sample config was successfully created"
+    assert_text "Self-Report config was successfully created"
     click_on "Back"
   end
 
-  test "updating a Experience sample config" do
+  test "updating a Self-Report config" do
     visit experience_sample_configs_url
     click_on "Edit", match: :first
 
@@ -44,18 +44,18 @@ class ExperienceSampleConfigsTest < ApplicationSystemTestCase
     fill_in "Schedule", with: @experience_sample_config.schedule
     fill_in "Title", with: @experience_sample_config.title
     fill_in "User", with: @experience_sample_config.user_id
-    click_on "Update Experience sample config"
+    click_on "Update Self-Report config"
 
-    assert_text "Experience sample config was successfully updated"
+    assert_text "Self-Report config was successfully updated"
     click_on "Back"
   end
 
-  test "destroying a Experience sample config" do
+  test "destroying a Self-Report config" do
     visit experience_sample_configs_url
     page.accept_confirm do
       click_on "Destroy", match: :first
     end
 
-    assert_text "Experience sample config was successfully destroyed"
+    assert_text "Self-Report config was successfully destroyed"
   end
 end
