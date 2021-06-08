@@ -3,7 +3,7 @@
     <div class="flex font-semibold text-gray-800">
       <%= goal.title %>
     </div>
-    <div class="ml-auto flex items-center">
+    <div class="ml-auto flex items-center hidden">
       <h4>Streak:</h4>
       <div class="font-semibold ml-1 text-gray-800"><%= calculate_streak(@streaks[goal.id]) %></div>
     </div>
