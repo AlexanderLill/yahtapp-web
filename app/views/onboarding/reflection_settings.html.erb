@@ -17,7 +17,7 @@
         <% [ {label: "Mon", value: "monday"}, {label: "Tue", value: "tuesday"}, {label: "Wed", value: "wednesday"}, {label: "Thu", value: "thursday"}, {label: "Fri", value: "friday"}, {label: "Sat", value: "saturday"}, {label: "Sun", value: "sunday"}].each_with_index do |day,i| %>
           <div class="relative flex items-start">
             <div class="flex items-center h-5">
-              <%= f.check_box :reflection_on, { multiple: true, id: "day_#{i}" }, day[:value], false %>
+              <%= f.check_box :reflection_on, { checked: (day[:value] != "saturday" && day[:value] != "sunday") ? true : false , multiple: true, id: "day_#{i}" }, day[:value], false %>
             </div>
             <div class="ml-3 text-sm">
               <%= f.label day[:label], for: "day_#{i}" %>
@@ -28,6 +28,7 @@
     </div>
     <div class="field flex-1 mx-2">
       <%= f.label :reflection_at %>
+      <% #TODO: maybe also set time? %>
       <%= f.text_field :reflection_at_string %>
       <p class="mt-2 text-sm text-gray-500" id="email-description">Format: HH:MM. Separate multiple values with a comma.</p>
     </div>
