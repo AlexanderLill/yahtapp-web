@@ -14,8 +14,8 @@ Rails.application.routes.draw do
     post 'habits' => 'onboarding#set_habits'
     get 'reflections' => 'onboarding#reflection_settings'
     post 'reflections' => 'onboarding#set_reflection_settings'
-    get 'self-reports' => 'onboarding#self-report_settings'
-    post 'self-reports' => 'onboarding#set_self-report_settings'
+    get 'samplings' => 'onboarding#sampling_settings'
+    post 'samplings' => 'onboarding#set_sampling_settings'
     get 'client' => 'onboarding#client'
   end
 
