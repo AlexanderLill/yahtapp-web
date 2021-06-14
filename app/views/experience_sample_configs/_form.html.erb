@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-    <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+  <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
       <div class="sm:col-span-6">
         <div class="field">
           <%= form.label :title %>
@@ -24,6 +24,23 @@
           <%= form.text_field :prompt %>
           <p class="mt-2 text-sm text-gray-500">The question that will be displayed in the prompt.</p>
         </div>
+      </div>
+    </div>
+
+  <div class="" x-data="{ showAdvancedOptions: false }">
+    <div class="text-right text-sm text-gray-500 hover:text-gray-700">
+      <span class="cursor-pointer underline" @click="showAdvancedOptions=!showAdvancedOptions">
+        <span x-show="showAdvancedOptions">Hide</span><span x-show="!showAdvancedOptions">Show</span> advanced options
+      </span>
+    </div>
+    <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6 overflow-hidden transition-all max-h-0 duration-200"
+      style=""
+      x-ref="advancedOptionsContainer"
+      x-bind:style="showAdvancedOptions == true ? 'max-height: ' + $refs.advancedOptionsContainer.scrollHeight + 'px' : ''"
+    >
+      <div class="sm:col-span-6 border-gray-100 border-b pb-4 -mb-2 mt-4">
+        <h3 class="text-lg mb-2">Scale Configuration:</h3>
+        <p class="text-gray-500">Define the scale's steps and its labels that will be shown in the self-report.</p>
       </div>
       <div class="sm:col-span-6">
         <div class="field">
@@ -50,46 +67,50 @@
           <%= form.text_field :scale_label_end, maxlength: 25 %>
         </div>
       </div>
-      <div class="sm:col-span-6 border-gray-100 border-b pb-4 -mb-2 mt-4">
-        <h3 class="text-lg mb-2">Schedule:</h3>
-        <p class="text-gray-500">Define the schedule for the notifications that ask you for the sample.</p>
-      </div>
-      <div class="sm:col-span-3">
-        <div class="field">
-          <%= form.label :recurrence_on, "On" %>
-          <div class="grid grid-flow-col grid-cols-3 grid-rows-3 gap-2">
-            <% [ {label: "Mon", value: "monday"}, {label: "Tue", value: "tuesday"}, {label: "Wed", value: "wednesday"}, {label: "Thu", value: "thursday"}, {label: "Fri", value: "friday"}, {label: "Sat", value: "saturday"}, {label: "Sun", value: "sunday"}].each_with_index do |day,i| %>
-              <div class="relative flex items-start">
-                <div class="flex items-center h-5">
-                  <%= form.check_box :recurrence_on, { multiple: true, id: "day_#{i}" }, day[:value], false %>
-                </div>
-                <div class="ml-3 text-sm">
-                  <%= form.label day[:label], for: "day_#{i}" %>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      </div>
-
-      <div class="sm:col-span-3">
-        <div class="field">
-          <%= form.label :recurrence_at, "At" %>
-          <%= form.text_field :recurrence_at,  {class: 'js-choice', multiple: false} %>
-          <p class="mt-2 text-sm text-gray-500">Format: HH:MM. Separate multiple values with a comma.</p>
-        </div>
-      </div>
-      <% if policy(experience_sample_config).set_user? %>
-        <div class="sm:col-span-6">
-          <div class="field">
-            <%= form.label :user_id %>
-            <%= form.select :user_id, User.all.collect { |u| [ u.username, u.id]} %>
-          </div>
-        </div>
-      <% else %>
-        <%= form.hidden_field :user_id %>
-      <% end %>
     </div>
+  </div>
+
+  <div class="mt-5 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+    <div class="sm:col-span-6 border-gray-100 border-b pb-4 -mb-2 mt-4">
+      <h3 class="text-lg mb-2">Schedule:</h3>
+      <p class="text-gray-500">Define the schedule for the notifications that ask you for the self-report.</p>
+    </div>
+    <div class="sm:col-span-3">
+      <div class="field">
+        <%= form.label :recurrence_on, "On" %>
+        <div class="grid grid-flow-col grid-cols-3 grid-rows-3 gap-2">
+          <% [ {label: "Mon", value: "monday"}, {label: "Tue", value: "tuesday"}, {label: "Wed", value: "wednesday"}, {label: "Thu", value: "thursday"}, {label: "Fri", value: "friday"}, {label: "Sat", value: "saturday"}, {label: "Sun", value: "sunday"}].each_with_index do |day,i| %>
+            <div class="relative flex items-start">
+              <div class="flex items-center h-5">
+                <%= form.check_box :recurrence_on, { multiple: true, id: "day_#{i}" }, day[:value], false %>
+              </div>
+              <div class="ml-3 text-sm">
+                <%= form.label day[:label], for: "day_#{i}" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="sm:col-span-3">
+      <div class="field">
+        <%= form.label :recurrence_at, "At" %>
+        <%= form.text_field :recurrence_at,  {class: 'js-choice', multiple: false} %>
+        <p class="mt-2 text-sm text-gray-500">Format: HH:MM. Separate multiple values with a comma.</p>
+      </div>
+    </div>
+    <% if policy(experience_sample_config).set_user? %>
+      <div class="sm:col-span-6">
+        <div class="field">
+          <%= form.label :user_id %>
+          <%= form.select :user_id, User.all.collect { |u| [ u.username, u.id]} %>
+        </div>
+      </div>
+    <% else %>
+      <%= form.hidden_field :user_id %>
+    <% end %>
+  </div>
   <div class="flex my-4">
     <%= form.submit class: 'btn btn-primary' %>
     <% if experience_sample_config.persisted? %>
