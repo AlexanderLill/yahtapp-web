@@ -60,17 +60,17 @@ class OnboardingController < ApplicationController
       title: 'Productivity',
       prompt: 'How productive did you feel in the last hour?',
       recurrence_on: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
-      recurrence_at: ['09:00, 10:00, 11:00, 12:00, 14:00, 15:00, 16:00, 17:00']
+      recurrence_at: ['09:00, 10:00, 11:00, 12:00, 14:00, 15:00, 16:00, 17:00'],
+      scale_steps: 7,
+      scale_label_start: 'Not at all',
+      scale_label_center: 'Moderately',
+      scale_label_end: 'Very'
     )
   end
 
   def set_sampling_settings
     @sampling = ExperienceSampleConfig.new(
-      user: current_user,
-      scale_steps: 7,
-      scale_label_start: 'Not at all',
-      scale_label_center: 'Moderately',
-      scale_label_end: 'Very'
+      user: current_user
     )
     @sampling.assign_attributes(sampling_params)
     if @sampling.save
@@ -83,11 +83,11 @@ class OnboardingController < ApplicationController
   def client; end
 
   def reflection_setting_params
-    params.require(:user).permit( :reflection_at_string, reflection_on: [])
+    params.require(:user).permit(:reflection_at_string, reflection_on: [])
   end
 
   def sampling_params
-    params.require(:experience_sample_config).permit(:title, :prompt, :user_id, :recurrence_at, recurrence_on: [])
+    params.require(:experience_sample_config).permit(:title, :prompt, :user_id, :recurrence_at, :scale_steps, :scale_label_start, :scale_label_center, :scale_label_end, recurrence_on: [])
   end
 
 end
