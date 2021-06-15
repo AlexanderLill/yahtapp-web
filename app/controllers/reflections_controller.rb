@@ -4,7 +4,7 @@ class ReflectionsController < ApplicationController
 
   # GET /reflections or /reflections.json
   def index
-    @reflections = policy_scope(Reflection).order(created_at: :desc)
+    @reflections = current_user.reflections.order(created_at: :desc)
   end
 
   # GET /reflections/1 or /reflections/1.json
