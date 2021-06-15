@@ -1,14 +1,13 @@
 <%= render 'steps', steps: 5, current_step: 2 %>
 <div class="my-8">
   <h1>Select Habits</h1>
-  <div class="text-gray-600 space-y-2">
-    <p>We'll begin by suggesting a number of habits that you could try to establish. Each habit is tied to a goal.</p>
-    <p>Each habit has a schedule that determines how often you'll be reminded to do it. You can adjust the schedule to your needs after you've selected it.</p>
-  </div>
+  <div class="text-gray-600 space-y-2 mb-8">
+    <p>We'll begin by suggesting a number of habits that you could try to establish. Each habit is tied to a goal and has a schedule that determines how often you'll be reminded to do it. You can adjust the schedule to your needs after you've selected it.</p>
+    <p>You can also add your own goals and habits later on.</p>
   </div>
 
   <%= form_with(url: onboarding_habits_path, method: "post") do |form| %>
-    <div class="grid ">
+    <div class="grid">
       <% @goals.each do |goal_id, habits| %>
         <div class="mb-8">
           <div class="mb-4">
@@ -16,8 +15,17 @@
             <p class="text-sm text-gray-500"><%= habits.first.goal.description %></p>
           </div>
           <% habits.each_with_index do |habit,index| %>
-            <label class="my-2 relative block rounded-lg border border-gray-300 bg-white shadow-sm px-6 py-4 cursor-pointer hover:border-gray-400 sm:flex sm:justify-between focus-within:ring-1 focus-within:ring-offset-2 focus-within:ring-gray-400" x-data="{ selected: false }">
-              <input type="checkbox" name="habit_ids[]" x-model="selected" value="<%= habit.id %>" class="sr-only" aria-labelledby="server-size-0-label" aria-describedby="server-size-0-description-0 server-size-0-description-1">
+            <label class="my-2 relative block rounded-lg border border-gray-300 bg-white shadow-sm px-6 py-4 cursor-pointer hover:border-gray-400 sm:flex sm:justify-between focus-within:ring-1 focus-within:ring-offset-2 focus-within:ring-gray-400"
+              x-data="{ selected: false }"
+            >
+              <input type="checkbox" name="habit_ids[]"
+                x-model="selected"
+                @change="$dispatch('select-clicked', { selected })"
+                value="<%= habit.id %>"
+                class="sr-only"
+                aria-labelledby="server-size-0-label"
+                aria-describedby="server-size-0-description-0 server-size-0-description-1"
+              >
               <div class="flex items-center">
                 <div class="text-sm">
                   <p class="font-medium text-gray-900">
@@ -51,8 +59,13 @@
       <% end %>
     </div>
 
-    <div class="text-gray-600 my-8">
-      <p>You can also add your own goals and habits later on but we recommend that you pick <strong>at least one habit</strong> from the list so you can see how everything works.</p>
+    <div x-data="{ selectedCount: 0 }"
+      @select-clicked.window="selectedCount = $event.detail.selected ? selectedCount + 1 : selectedCount - 1"
+      :class="{ 'hidden': selectedCount <= 1 }">
+      <div class="rounded border border-gray-100 bg-gray-50 p-4" role="alert">
+        <p>We recommend to start with <strong>one goal</strong> and <strong>one habit</strong>. You can always add more later on.</p>
+      </div>
+
     </div>
 
     <div class="mx-auto my-8 flex">
