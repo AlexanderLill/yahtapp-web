@@ -8,7 +8,7 @@
         <b>past <%= time_ago_in_words(@start_datetime) %></b>
         (<%= @start_datetime.to_date.strftime("%d.%m.%y") %> <%= " - " + DateTime.current.strftime("%d.%m.%y") %>)
       </span>
-      <% if @has_data_before_start_date %>, compared to the aggregated data from the <span class="text-gray-400"><b>previous <%= time_ago_in_words(@first_reflection_at) %></b> (<%= @start_datetime.to_date.strftime("%d.%m.%y") %> <%= " - " + DateTime.current.strftime("%d.%m.%y") %>)</span>.
+      <% if @has_data_before_start_date %>, compared to the aggregated data from the <span class="text-gray-400"><b>previous period</b> (<%= @first_reflection_at.to_date.strftime("%d.%m.%y") %> <%= " - " + @start_datetime.to_date.strftime("%d.%m.%y") %>)</span>.
       <% end %>
     </p>
   </div>
