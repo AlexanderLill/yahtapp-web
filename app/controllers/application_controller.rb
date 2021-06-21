@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   # configures the permitted parameters for devise (i.e. used on registration / sign up)
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:settings, keys: [:timezone, :reflection_at_string, reflection_on: []])
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username,:firstname,:lastname, :email])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username,:firstname,:lastname, :email, :study_agreement])
     devise_parameter_sanitizer.permit(:account_update, keys: [:firstname,:lastname, :email, :password, :password_confirmation,:timezone, :reflection_at, reflection_on: []])
   end
 end
