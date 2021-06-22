@@ -1,0 +1,56 @@
+<li>
+  <a href="<%= habit_url(habit) %>" class="block hover:bg-gray-50">
+    <div class="px-4 py-4 sm:px-6">
+      <div class="flex items-center justify-between">
+        <div class="flex flex-col">
+          <p class="text-sm font-medium text-gray-900 truncate">
+            <%= habit.title %>
+          </p>
+          <% if habit.description.present? %>
+            <p class="text-sm text-gray-500 truncate">
+              <%= habit.description %>
+            </p>
+          <% end %>
+        </div>
+        <div class="ml-2 flex-shrink-0 flex">
+          <% if habit.is_skippable %>
+            <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+              Skippable
+            </p>
+          <% end %>
+          <% if habit.is_template %>
+            <p class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+              Template
+            </p>
+          <% end %>
+        </div>
+      </div>
+      <div class="mt-2 sm:flex sm:justify-between">
+        <div class="sm:flex">
+          <p class="flex items-center text-sm text-gray-500">
+            <i class="far fa-bullseye-arrow mr-2"></i>
+            <%= habit.goal.title %>
+          </p>
+          <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+            <i class="far fa-user mr-2"></i>
+            <%= habit.user.username %>
+          </p>
+        </div>
+        <div class="sm:flex">
+          <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+            <i class="far fa-calendar-alt mr-2"></i>
+            <p>
+              <%= habit.recurrence_on.map{|day| day.slice(0,2)}.join(', ') %> at <%= habit.recurrence_at %>
+            </p>
+          </div>
+          <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 ml-6">
+            <i class="far fa-clock mr-2"></i>
+            <p>
+              <%= habit.duration %> mins
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</li>

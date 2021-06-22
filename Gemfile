@@ -44,6 +44,9 @@ gem 'honeybadger', '~> 4.0'
 # allows setting / reading from environment variables in config/application.yml
 gem 'figaro'
 
+# enables soft deletion with
+gem 'acts_as_paranoid', '~> 0.7.0'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

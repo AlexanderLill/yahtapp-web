@@ -7,6 +7,7 @@ class HabitsController < ApplicationController
   # GET /habits or /habits.json
   def index
     @habits = policy_scope(Habit)
+    @trash = policy_scope(Habit).only_deleted
   end
 
   # view for selecting a new habit (based on a template)
@@ -98,11 +99,9 @@ class HabitsController < ApplicationController
 
   # DELETE /habits/1 or /habits/1.json
   def destroy
+    message = @habit.deleted_at.present? ? "Habit was successfully destroyed." : "Habit was put in trash."
     @habit.destroy
-    respond_to do |format|
-      format.html { redirect_to habits_url, notice: "Habit was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to habits_url, notice: message
   end
 
   def set_recurrence_from_param

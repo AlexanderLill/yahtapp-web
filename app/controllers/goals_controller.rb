@@ -8,6 +8,7 @@ class GoalsController < ApplicationController
   # GET /goals
   def index
     @goals = policy_scope(Goal)
+    @trash = policy_scope(Goal).only_deleted
   end
 
   def show
