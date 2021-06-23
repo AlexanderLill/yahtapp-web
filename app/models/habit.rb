@@ -19,7 +19,7 @@ class Habit < ApplicationRecord
   belongs_to :current_config, class_name: 'Habit::Config', foreign_key: 'current_config_id', optional: true
 
   # Delegate to habit_config so attributes are available on habit as well
-  delegate :duration, :schedule, :is_skippable, :recurrence_on, :recurrence_at, to: :current_config, allow_nil: true
+  delegate :duration, :schedule, :is_skippable, :is_enabled, :recurrence_on, :recurrence_at, to: :current_config, allow_nil: true
 
   before_destroy :before_destroy
   after_recover :reschedule_occurrences # after soft delete recovery
@@ -71,4 +71,25 @@ class Habit < ApplicationRecord
 
     new_habit
   end
+
+  def enable
+    self.set_is_enabled(true)
+  end
+
+  def disable
+    self.set_is_enabled(false)
+  end
+
+  private
+    def set_is_enabled(is_enabled = true)
+      ActiveRecord::Base.transaction do
+        new_config = current_config.dup
+        new_config.is_enabled=is_enabled
+        new_config.save!
+        self.current_config = new_config
+        self.save!
+        raise ActiveRecord::Rollback unless errors.empty?
+      end
+    end
+
 end

@@ -1,11 +1,19 @@
 <li>
-  <a href="<%= habit_url(habit) %>" class="block hover:bg-gray-50">
+  <a href="<%= habit_url(habit) %>" class="block hover:bg-gray-50 <%= habit.is_enabled ? "" : "opacity-50" %>">
     <div class="px-4 py-4 sm:px-6">
       <div class="flex items-center justify-between">
         <div class="flex flex-col">
-          <p class="text-sm font-medium text-gray-900 truncate">
-            <%= habit.title %>
-          </p>
+          <div class="flex flex-row">
+            <p class="text-sm font-medium text-gray-900 truncate">
+              <%= habit.title %>
+            </p>
+            <% unless habit.is_enabled %>
+              <div class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                Disabled
+              </div>
+            <% end %>
+          </div>
+
           <% if habit.description.present? %>
             <p class="text-sm text-gray-500 truncate">
               <%= habit.description %>

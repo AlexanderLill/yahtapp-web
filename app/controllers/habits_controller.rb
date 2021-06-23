@@ -6,7 +6,7 @@ class HabitsController < ApplicationController
 
   # GET /habits or /habits.json
   def index
-    @habits = policy_scope(Habit)
+    @habits = policy_scope(Habit).includes([:goal, :current_config])
     @trash = policy_scope(Habit).only_deleted
   end
 
@@ -119,6 +119,6 @@ class HabitsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def habit_params
-      params.require(:habit).permit(:title, :description, :goal_id, :user_id, :recurrence_type, :duration, :is_template, :is_skippable, :type,:recurrence_at, :recurrence_on => [])
+      params.require(:habit).permit(:title, :description, :goal_id, :user_id, :recurrence_type, :duration, :is_template, :is_skippable, :is_enabled, :type,:recurrence_at, :recurrence_on => [])
     end
 end
