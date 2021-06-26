@@ -70,6 +70,6 @@ class ExperienceSampleConfigsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def experience_sample_config_params
-      params.require(:experience_sample_config).permit(:title, :prompt, :scale_steps, :scale_label_start, :scale_label_center, :scale_label_end, :user_id ,:recurrence_at, :recurrence_on => [])
+      params.require(:experience_sample_config).permit(:title, :prompt, :scale_steps, :scale_label_start, :scale_label_center, :scale_label_end, :user_id, :goal_id ,:recurrence_at, :recurrence_on => [])
     end
 end
