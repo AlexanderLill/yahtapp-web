@@ -1,5 +1,6 @@
 class ExperienceSampleConfig < ApplicationRecord
   belongs_to :user
+  belongs_to :goal
   has_many :samplings
 
   include Schedulable

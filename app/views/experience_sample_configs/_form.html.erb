@@ -100,11 +100,23 @@
         <p class="mt-2 text-sm text-gray-500">Format: HH:MM. Separate multiple values with a comma.</p>
       </div>
     </div>
+
+    <% if policy(experience_sample_config).set_goal? %>
+    <div class="sm:col-span-6">
+      <div class="field">
+        <%= form.label :goal_id %>
+        <%= form.select :goal_id, policy_scope(Goal).collect { |g| [ g.title, g.id] }, include_blank: true %>
+      </div>
+    </div>
+    <% else %>
+      <%= form.hidden_field :goal_id %>
+    <% end %>
+
     <% if policy(experience_sample_config).set_user? %>
       <div class="sm:col-span-6">
         <div class="field">
           <%= form.label :user_id %>
-          <%= form.select :user_id, User.all.collect { |u| [ u.username, u.id]} %>
+          <%= form.select :user_id, User.all.collect { |u| [ u.username, u.id] } %>
         </div>
       </div>
     <% else %>
