@@ -10,6 +10,7 @@ class ExperienceSampleConfigsController < ApplicationController
 
   # GET /experience_sample_configs/1
   def show
+    authorize @experience_sample_config
     @current_samplings = @experience_sample_config.samplings.where('scheduled_at <= ?', DateTime.now).order(scheduled_at: :asc)
     @chart = {
       data: @current_samplings.map { |sampling| { x: sampling.scheduled_at.iso8601(3), y: sampling.value} },
@@ -27,6 +28,7 @@ class ExperienceSampleConfigsController < ApplicationController
 
   # GET /experience_sample_configs/1/edit
   def edit
+    authorize @experience_sample_config
   end
 
   # POST /experience_sample_configs
@@ -44,6 +46,7 @@ class ExperienceSampleConfigsController < ApplicationController
 
   # PATCH/PUT /experience_sample_configs/1
   def update
+    authorize @experience_sample_config
     respond_to do |format|
       if @experience_sample_config.update(experience_sample_config_params)
         format.html { redirect_to @experience_sample_config, notice: "Self-Report config was successfully updated." }
@@ -55,6 +58,7 @@ class ExperienceSampleConfigsController < ApplicationController
 
   # DELETE /experience_sample_configs/1
   def destroy
+    authorize @experience_sample_config
     @experience_sample_config.destroy
     respond_to do |format|
       format.html { redirect_to experience_sample_configs_url, notice: "Self-Report config was successfully destroyed." }

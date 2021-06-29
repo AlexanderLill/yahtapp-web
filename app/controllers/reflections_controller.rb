@@ -9,6 +9,7 @@ class ReflectionsController < ApplicationController
 
   # GET /reflections/1 or /reflections/1.json
   def show
+    authorize @reflection
   end
 
   # GET /reflections/new
@@ -25,6 +26,7 @@ class ReflectionsController < ApplicationController
 
   # GET /reflections/1/edit
   def edit
+    authorize @reflection
     # TODO: find all occurrences between this and last reflection
     occs = current_user.occurrences.includes(habit: :goal)
                        .where('scheduled_at <= ?', DateTime.now).order(:scheduled_at)
@@ -50,6 +52,7 @@ class ReflectionsController < ApplicationController
 
   # PATCH/PUT /reflections/1 or /reflections/1.json
   def update
+    authorize @reflection
     respond_to do |format|
       if @reflection.update(reflection_params)
         format.html { redirect_to @reflection, notice: "Reflection was successfully updated." }
@@ -63,6 +66,7 @@ class ReflectionsController < ApplicationController
 
   # DELETE /reflections/1 or /reflections/1.json
   def destroy
+    authorize @reflection
     @reflection.destroy
     respond_to do |format|
       format.html { redirect_to reflections_url, notice: "Reflection was successfully destroyed." }

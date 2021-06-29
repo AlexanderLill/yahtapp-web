@@ -11,6 +11,7 @@ class GoalsController < ApplicationController
   end
 
   def show
+    authorize @goal
   end
 
   # action that is used for the view that creates a new goal
@@ -20,6 +21,7 @@ class GoalsController < ApplicationController
 
   # action that is used for the view that edits a goal
   def edit
+    authorize @goal
   end
 
   # action to create a new goal

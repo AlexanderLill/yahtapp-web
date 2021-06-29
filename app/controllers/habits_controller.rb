@@ -49,6 +49,7 @@ class HabitsController < ApplicationController
 
   # GET /habits/1 or /habits/1.json
   def show
+    authorize @habit
     @occurrences = @habit.occurrences.order(scheduled_at: :asc)
     @configs = @habit.configs.order(created_at: :desc)
   end
@@ -60,6 +61,7 @@ class HabitsController < ApplicationController
 
   # GET /habits/1/edit
   def edit
+    authorize @habit
     session[:redirect_to] = params[:redirect_to]
   end
 
@@ -85,6 +87,7 @@ class HabitsController < ApplicationController
 
   # PATCH/PUT /habits/1 or /habits/1.json
   def update
+    authorize @habit
     @habit_form = HabitForm.new(habit_params.merge("id" => params[:id]))
     @habit_path = habit_path(@habit_form.id)
     return_to = session[:redirect_to] || @habit_path
@@ -98,6 +101,7 @@ class HabitsController < ApplicationController
 
   # DELETE /habits/1 or /habits/1.json
   def destroy
+    authorize @habit
     @habit.destroy
     respond_to do |format|
       format.html { redirect_to habits_url, notice: "Habit was successfully destroyed." }
