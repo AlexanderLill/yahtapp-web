@@ -38,12 +38,12 @@
   <% @goals.each do |key, habits| %>
     <div class="flex flex-row border-b border-gray-200 mb-8">
       <div class="flex-grow">
-        <h2 class="mb-0"><i class="far fa-bullseye-arrow text-2xl mx-auto"></i> <%= habits.first.goal.title %></h2>
+        <h2 class="text-2xl font-serif mb-0"><i class="far fa-bullseye-arrow text-xl mx-auto"></i> <%= habits.first.goal.title %></h2>
         <% habits.each do |habit| %>
         <div class="mb-8">
           <div class="flex flex-row">
             <div class="flex-grow">
-              <h3 class="mt-2 mb-0">Habit: <%= habit.title %></h3>
+              <h3 class="text-md text-black font-serif mt-2 mb-0"><%= habit.title %></h3>
               <p class="text-gray-500 text-sm mb-4">Last edited <%= time_ago_in_words(habit.updated_at) %> ago</p>
             </div>
             <div class="flex ml-4 items-center justify-center">
@@ -57,70 +57,6 @@
             Occurrences: <b class="text-gray-600"><%= @post_habit_occurrences_completed[habit.id].to_i %>/<%= @post_habit_occurrences_completed[habit.id].to_i + @post_habit_occurrences_not_completed[habit.id].to_i %></b>
             <span class="text-gray-400">(<%= @pre_habit_occurrences_completed[habit.id].to_i %>/<%= @pre_habit_occurrences_completed[habit.id].to_i + @pre_habit_occurrences_not_completed[habit.id].to_i %>)</span>
           </p>
-          <div class="grid grid-cols-10 grid-rows-1 my-2 text-center text-gray-400 py-4">
-            <div class="col-span-1"></div>
-            <div class="col-span-8">
-              <div class="relative flex flex-row">
-                <div class="absolute text-gray-600 text-center top-8" style="transform: translateX(-50%); left: <%= (@pre_habit_avg_ratings[habit.id] ? @pre_habit_avg_ratings[habit.id] + 2 : 2)/4 * 100 %>%">
-                  <div class="inline-flex h-4 w-4 rounded-full bg-gray-400 mx-1 border border-white"></div>
-                  <div><%= number_with_precision(@pre_habit_avg_ratings[habit.id], :precision => 2, :delimiter => ',') %></div>
-                </div>
-                <div class="absolute text-gray-600 text-center top-0" style="transform: translateX(-50%); left: <%= (@post_habit_avg_ratings[habit.id] ? @post_habit_avg_ratings[habit.id] + 2 : 2)/4 * 100 %>%">
-                  <div class="mt-2"><%= number_with_precision(@post_habit_avg_ratings[habit.id], :precision => 2, :delimiter => ',') %></div>
-                  <div class="inline-flex h-4 w-4 rounded-full bg-gray-600 mx-1 border border-white"></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-span-1"></div>
-          </div>
-          <div class="grid grid-cols-10 grid-rows-1 my-2 text-center text-gray-400 h-9">
-            <div class="col-span-1"></div>
-            <div class="col-span-2 border-gray border"></div>
-            <div class="col-span-2 border-gray border"></div>
-            <div class="col-span-2 border-gray border"></div>
-            <div class="col-span-2 border-gray border"></div>
-            <div class="col-span-1 border-gray"></div>
-          </div>
-          <div class="grid grid-cols-5 grid-rows-1 my-2 text-center text-gray-400">
-            <div>
-              -2
-            </div>
-            <div>
-              -1
-            </div>
-            <div>
-               0
-            </div>
-            <div>
-              1
-            </div>
-            <div>
-             2
-            </div>
-          </div>
-          <div class="grid grid-cols-5 grid-rows-1 my-2 text-gray-400 text-center">
-            <div>
-              Not at all
-            </div>
-            <div>
-            </div>
-            <div>
-               I don't know
-            </div>
-            <div>
-            </div>
-            <div>
-             Definitely
-            </div>
-          </div>
-          <div class="flex flex-row">
-            <div class="flex-grow">
-              <p class="text-gray-500 text-sm leading-7"><span class="inline-block align-middle h-4 w-4 rounded-full bg-gray-600 mx-1 border border-white"></span> Avg. <b>past <%= time_ago_in_words(@start_datetime) %></b></p>
-            </div>
-            <div class="flex-grow">
-              <p class="text-gray-500 text-sm leading-7"><span class="inline-block align-middle h-4 w-4 rounded-full bg-gray-400 mx-1 border border-white"></span> Avg. <b>previous <%= time_ago_in_words(@first_reflection_at) %></b></p>
-            </div>
-          </div>
         </div>
       <% end %>
       </div>
