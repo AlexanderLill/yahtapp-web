@@ -1,16 +1,36 @@
-<%= render 'shared/page_heading', title: "Self-Experimentation", description: "Is it time for a change? Based on your past reflections and the data collected about your habits, you can experiment with different configurations here." do %>
+<%= render 'shared/page_heading', title: "Self-Experimentation", description: "Is it time for a change? Based on your past reflections and self-reports you can experiment with the settings of your existing habits, add and remove habits." do %>
 <% end %>
 
 <div class="flex flex-row pb-4 mb-4">
-  <div class="flex-grow">
-    <p class="text-gray-500 text-sm">The following data is from the
-      <span class="text-gray-600">
-        <b>past <%= time_ago_in_words(@start_datetime) %></b>
-        (<%= @start_datetime.to_date.strftime("%d.%m.%y") %> <%= " - " + DateTime.current.strftime("%d.%m.%y") %>)
-      </span>
-      <% if @has_data_before_start_date %>, compared to the aggregated data from the <span class="text-gray-400"><b>previous period</b> (<%= @first_reflection_at.to_date.strftime("%d.%m.%y") %> <%= " - " + @start_datetime.to_date.strftime("%d.%m.%y") %>)</span>.
-      <% end %>
-    </p>
+  <div class="grid grid-cols-3 gap-4">
+    <div class="rounded border border-gray-100 bg-gray-50 p-4">
+      <div class="font-medium text-gray-700 text-xs">
+        Current Period
+      </div>
+      <div class="mt-2 text-lg font-semibold text-gray-800">
+        Last 7 days
+      </div>
+
+      <div class="mt-2 font-medium text-gray-600 text-xs">
+        <%= @start_datetime.to_date.strftime("%d.%m.%y") %> <%= " - " + DateTime.current.strftime("%d.%m.%y") %>
+      </div>
+    </div>
+    <% if @has_data_before_start_date %>
+
+      <div class="rounded border border-gray-100 bg-gray-50 p-4">
+        <div class="font-medium text-gray-700 text-xs">
+          Previous Period
+        </div>
+        <div class="mt-2 text-lg font-semibold text-gray-800">
+          Previous 7 days
+        </div>
+
+        <div class="mt-2 font-medium text-gray-600 text-xs">
+          <%= @first_reflection_at.to_date.strftime("%d.%m.%y") %> <%= " - " + @start_datetime.to_date.strftime("%d.%m.%y") %>
+        </div>
+      </div>
+
+    <% end %>
   </div>
 </div>
 
