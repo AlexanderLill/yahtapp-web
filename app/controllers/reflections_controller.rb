@@ -1,6 +1,7 @@
 class ReflectionsController < ApplicationController
   before_action :set_reflection, only: %i[ show edit update destroy ]
   layout 'boxed'
+  before_action :authenticate_user!
 
   # GET /reflections or /reflections.json
   def index
