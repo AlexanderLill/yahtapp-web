@@ -38,7 +38,7 @@
   <% @goals.each do |key, habits| %>
     <div class="flex flex-row border-b border-gray-200 mb-8">
       <div class="flex-grow">
-        <h2 class="mb-0">Goal: <%= habits.first.goal.title %></h2>
+        <h2 class="mb-0"><i class="far fa-bullseye-arrow text-2xl mx-auto"></i> <%= habits.first.goal.title %></h2>
         <% habits.each do |habit| %>
         <div class="mb-8">
           <div class="flex flex-row">
