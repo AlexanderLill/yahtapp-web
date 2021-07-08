@@ -1,6 +1,12 @@
 <footer class="w-full">
   <div class="py-6 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
-    <div class="flex justify-center space-x-6 md:order-2 text-base text-gray-400">
+    <div class="flex justify-center space-x-6 md:order-3 text-base text-gray-400">
+      <div class="mr-4">
+        <a href="mailto:help@yaht.app" class="text-gray-600 hover:text-gray-800">
+          <i class="fas fa-question-circle mr-0.5"></i>
+          Help
+        </a>
+      </div>
       <%= ENV['HEROKU_RELEASE_VERSION'] ? ENV['HEROKU_RELEASE_VERSION'] : "v-dev" %>
     </div>
     <div class="mt-8 md:mt-0 md:order-1">

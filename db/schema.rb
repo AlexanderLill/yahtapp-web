@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_22_110256) do
+ActiveRecord::Schema.define(version: 2021_06_22_131455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(version: 2021_06_22_110256) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "color", default: 0
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_goals_on_deleted_at"
     t.index ["template_id"], name: "index_goals_on_template_id"
     t.index ["user_id"], name: "index_goals_on_user_id"
   end
@@ -50,6 +52,7 @@ ActiveRecord::Schema.define(version: 2021_06_22_110256) do
     t.boolean "is_skippable"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_enabled", default: true
     t.index ["habit_id"], name: "index_habit_configs_on_habit_id"
   end
 
@@ -74,7 +77,9 @@ ActiveRecord::Schema.define(version: 2021_06_22_110256) do
     t.integer "template_id"
     t.text "description"
     t.string "title"
+    t.datetime "deleted_at"
     t.index ["current_config_id"], name: "index_habits_on_current_config_id"
+    t.index ["deleted_at"], name: "index_habits_on_deleted_at"
     t.index ["goal_id"], name: "index_habits_on_goal_id"
     t.index ["user_id"], name: "index_habits_on_user_id"
   end
