@@ -1,0 +1,41 @@
+<%
+  # f : the form
+  # method: the name of the field
+  # options: list of options
+  #   value : the value of the option
+  #   label : the label of the option
+  #   description[optional] : the description of the option
+%>
+<fieldset x-init="this.value = this.$el.querySelector('input[type=radio]:checked').value" x-data="">
+  <div class="bg-white rounded-md -space-y-px" >
+    <% options.each_with_index do |option,index| %>
+      <%
+        first = index == 0
+        last = index == options.length-1
+        id = "#{f.object_name}_#{method}_#{option[:value].parameterize.underscore}"
+        wrapper_class = ""
+        if first
+          wrapper_class = "#{wrapper_class} rounded-tl-md rounded-tr-md"
+        end
+        if last
+          wrapper_class = "#{wrapper_class} rounded-bl-md rounded-br-md"
+        end
+      %>
+      <div class="relative border p-4 flex <%= wrapper_class %>"  :class="{ 'bg-indigo-100 border-indigo-200 z-10' : value == '<%= option[:value] %>', 'border-gray-200' : value != '<%= option[:value] %>' }">
+        <div class="flex items-center h-5">
+          <%= f.radio_button method, option[:value], {class: "focus:ring-blue-700 h-4 w-4 text-blue-800 cursor-pointer border-gray-300", "x-model": "value"} %>
+        </div>
+        <label for="<%= id %>" class="ml-3 flex flex-col cursor-pointer w-full">
+          <span class="block text-sm font-medium" :class="{ 'text-blue-900' : value == '<%= option[:value]  %>', 'text-gray-800' : value !== '<%= option[:value] %>' }">
+            <%= option[:label] %>
+          </span>
+          <% unless option[:description].nil? %>
+            <span class="block font-normal text-sm" :class="{ 'text-blue-800' : value == '<%= option[:value]  %>', 'text-gray-600' : value !== '<%= option[:value] %>' }">
+              <%= option[:description] %>
+            </span>
+          <% end %>
+        </label>
+      </div>
+    <% end %>
+  </div>
+</fieldset>

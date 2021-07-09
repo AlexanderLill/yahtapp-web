@@ -7,7 +7,7 @@ class OnboardingController < ApplicationController
 
   # view for selecting habits that will be cloned
   def habits
-    @goals = Habit.where(is_template: true).where(goal: { is_template: true}).includes([:goal, :current_config]).group_by{ |habit| habit.goal_id }
+    @goals = Habit.where(is_template: true).where(goal: { is_template: true }).includes([:goal, :current_config]).group_by { |habit| habit.goal_id }
   end
 
   def set_habits
@@ -22,7 +22,7 @@ class OnboardingController < ApplicationController
       Habit.transaction do
         # 2. duplicate habits and habit config
         # the habits are now cloned but still have the old goals assigned to them
-        new_habits = @habits.map{ |habit| habit.clone(current_user)}
+        new_habits = @habits.map { |habit| habit.clone(current_user) }
         # 3. loop over all the new habits
         new_habits.each do |habit|
           # check if user already has a goal that was derived from that template
@@ -56,16 +56,62 @@ class OnboardingController < ApplicationController
   end
 
   def sampling_settings
-    @sampling = ExperienceSampleConfig.new(
-      title: 'Productivity',
-      prompt: 'How productive did you feel in the last hour?',
-      recurrence_on: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
-      recurrence_at: ['09:00, 10:00, 11:00, 12:00, 14:00, 15:00, 16:00, 17:00'],
-      scale_steps: 7,
-      scale_label_start: 'Not at all',
-      scale_label_center: 'Moderately',
-      scale_label_end: 'Very'
-    )
+    @samplings = [
+      ExperienceSampleConfig.new(
+        title: 'Productivity',
+        prompt: 'How productive did you feel in the last hour?',
+        recurrence_on: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+        recurrence_at: ['09:00, 10:00, 11:00, 12:00, 14:00, 15:00, 16:00, 17:00'],
+        scale_steps: 7,
+        scale_label_start: 'Not at all',
+        scale_label_center: 'Moderately',
+        scale_label_end: 'Very'
+      ),
+      ExperienceSampleConfig.new(
+        title: 'Focus',
+        prompt: 'How focused did you feel in the last hour?',
+        recurrence_on: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+        recurrence_at: ['09:00, 10:00, 11:00, 12:00, 14:00, 15:00, 16:00, 17:00'],
+        scale_steps: 7,
+        scale_label_start: 'Not at all',
+        scale_label_center: 'Moderately',
+        scale_label_end: 'Very'
+      ),
+      ExperienceSampleConfig.new(
+        title: 'Motivation',
+        prompt: 'How motivated did you feel in the last hour?',
+        recurrence_on: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+        recurrence_at: ['09:00, 10:00, 11:00, 12:00, 14:00, 15:00, 16:00, 17:00'],
+        scale_steps: 7,
+        scale_label_start: 'Not at all',
+        scale_label_center: 'Moderately',
+        scale_label_end: 'Very'
+      ),
+      ExperienceSampleConfig.new(
+        title: 'Well-being',
+        prompt: 'How well did you feel in the last hour?',
+        recurrence_on: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+        recurrence_at: ['09:00, 10:00, 11:00, 12:00, 14:00, 15:00, 16:00, 17:00'],
+        scale_steps: 7,
+        scale_label_start: 'Not at all',
+        scale_label_center: 'Moderately',
+        scale_label_end: 'Very'
+      ),
+      ExperienceSampleConfig.new(
+        title: 'Time Well Spent',
+        prompt: 'How well have you spent your time in the last hour?',
+        recurrence_on: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+        recurrence_at: ['09:00, 10:00, 11:00, 12:00, 14:00, 15:00, 16:00, 17:00'],
+        scale_steps: 7,
+        scale_label_start: 'Not at all',
+        scale_label_center: 'Moderately',
+        scale_label_end: 'Very'
+      )
+    ]
+
+    @sampling = @samplings.first
+    # get the last added goal
+    @goal = current_user.goals.order('created_at': :desc).first
   end
 
   def set_sampling_settings
@@ -73,6 +119,7 @@ class OnboardingController < ApplicationController
       user: current_user
     )
     @sampling.assign_attributes(sampling_params)
+    @sampling.goal = current_user.goals.order('created_at': :desc).first
     if @sampling.save
       redirect_to onboarding_client_path, notice: 'Self-Report config was successfully created.'
     else

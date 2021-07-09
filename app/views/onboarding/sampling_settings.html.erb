@@ -3,23 +3,58 @@
   <h1>Set Self-Report Schedule</h1>
   <div class="text-gray-600 space-y-2">
     <p>Self-Reports help you to report metrics such as your perceived productivity or your well-being. This allows you to track these metrics over time and measure the impact of the habits on them.</p>
-    <p>You can define yourself how often and at what time you want to be asked about. For optimal results we recommend having <strong>at least one self-report</strong> at the end of your work day.</p>
+    <p>You can define how often and at what time you want to be asked to self-report a metric. For optimal results we recommend having at least <strong>one self-report</strong> at the end of your work day.</p>
   </div>
 </div>
-<h2>Self-Report Settings</h2>
-
+<div class="mb-4">
+  <h3 class="mb-2">1. Select Self-Report Template</h3>
+  <p class="text-gray-500">Select a template that fits the goal you have selected previously: <br/><strong><i class="far fa-bullseye-arrow mr-1 text-gray-700"></i><%= @goal.title %></strong></p>
+</div>
+<fieldset x-data="{ value: '<%= @samplings.first.title %>' }" class="mb-8">
+  <div class="bg-white rounded-md -space-y-px" >
+    <% @samplings.each_with_index  do |sampling, index| %>
+      <%
+        id = "#{sampling.title.parameterize.underscore}"
+        first = index == 0
+        last = index == @samplings.length-1
+        wrapper_class = ""
+        if first
+          wrapper_class = "#{wrapper_class} rounded-tl-md rounded-tr-md"
+        end
+        if last
+          wrapper_class = "#{wrapper_class} rounded-bl-md rounded-br-md"
+        end
+      %>
+      <div class="relative border p-4 flex <%= wrapper_class %>"  :class="{ 'bg-gray-50 border-gray-400 z-10' : value == '<%= sampling.title %>', 'border-gray-200' : value != '<%= sampling.title %>' }">
+        <div class="flex items-center h-5">
+          <input id="<%= id %>" type="radio" name="sampling" value="<%= sampling.title %>" class="h-4 w-4 mt-0.5 cursor-pointer text-gray-900 border-gray-300 focus:ring-gray-900" x-model="value" x-on:change="$dispatch('set-sampling', { title: '<%= sampling.title %>', prompt: '<%= sampling.prompt %>'})" >
+        </div>
+        <label for="<%= id %>" class="ml-3 flex flex-col cursor-pointer w-full">
+          <span class="block text-sm font-medium" :class="{ 'text-gray-900' : value == '<%= sampling.title  %>', 'text-gray-800' : value !== '<%= sampling.title %>' }">
+            <%= sampling.title %>
+          </span>
+          <span class="block font-normal text-sm" :class="{ 'text-gray-800' : value == '<%= sampling.title  %>', 'text-gray-600' : value !== '<%= sampling.title %>' }">
+            <%= sampling.prompt %>
+          </span>
+        </label>
+      </div>
+    <% end %>
+  </div>
+</fieldset>
+<h3>2. Adjust to your Schedule</h3>
 <%= form_for(@sampling, url: onboarding_samplings_path, html: { method: :post, class: "space-y-6" }) do |f| %>
+
   <div class="flex flex-row -mx-2">
     <div class="flex-1 mx-2">
       <div class="field">
         <%= f.label :title %>
-        <%= f.text_field :title %>
+        <%= f.text_field :title, { "@set-sampling.window" => "$el.value=$event.detail.title", "x-data" => "{}"} %>
       </div>
     </div>
     <div class="flex-1 mx-2">
       <div class="field">
         <%= f.label :prompt %>
-        <%= f.text_field :prompt %>
+        <%= f.text_field :prompt, { "@set-sampling.window" => "$el.value=$event.detail.prompt", "x-data" => "{}"} %>
         <p class="mt-2 text-sm text-gray-500">The question that will be displayed in the prompt.</p>
       </div>
     </div>

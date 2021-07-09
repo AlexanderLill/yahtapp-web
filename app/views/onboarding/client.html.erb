@@ -42,11 +42,12 @@
       </dt>
     </div>
   </div>
-  <div class="my-4 text-gray-600">
+  <%= render 'shared/info' do %>
     <strong>TLDR:</strong> We only track interactions with our application based on your settings and nothing else.
-  </div>
+  <% end %>
+
   <div class="text-gray-600 my-4 space-y-2">
-    <p>When you run the application for the first time you need to enter your credentials.</p>
+    <p>When you run the application for the first time you need to enter your credentials (username and password).</p>
     <p>If you shut down your computer, make sure to restart the application again and keep it running in the background.</p>
   </div>
 </div>

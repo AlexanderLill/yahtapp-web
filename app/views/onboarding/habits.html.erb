@@ -5,19 +5,21 @@
     <p>We'll begin by suggesting a number of habits that you could try to establish. Each habit is tied to a goal and has a schedule that determines how often you'll be reminded to do it. You can adjust the schedule to your needs after you've selected it.</p>
     <p>You can also add your own goals and habits later on.</p>
   </div>
-
+  <%= render 'shared/info' do %>
+    To begin select <strong>one goal</strong> and <strong>one habit</strong>. You will be able to add more habits later.
+  <% end %>
   <%= form_with(url: onboarding_habits_path, method: "post") do |form| %>
     <div class="grid">
       <div class="" x-data="{ selected: null }">
         <ul class="">
           <% @goals.each do |goal_id, habits| %>
             <li class="relative mb-4">
-              <div class="font-medium bg-opacity-50 bg-gray-100 cursor-pointer border-2 hover:bg-opacity-100 duration-300 p-3 rounded-lg flex justify-between w-full px-6 py-4"
+              <div class="font-medium bg-opacity-50 bg-gray-100 cursor-pointer border-2 hover:bg-opacity-100 duration-300 p-3 rounded-lg flex justify-between w-full p-4"
                 :class="{ 'border-transparent': selected === <%=goal_id%>, 'border-gray-900': selected === <%=goal_id%> }"
                 @click="$dispatch('goal-selected', { selected }), selected !== <%=goal_id%> ? selected = <%=goal_id%> : selected = null"
               >
                 <div>
-                  <h3 class="mb-1"><%= habits.first.goal.title %></h3>
+                  <h3 class="m-0"><i class="far fa-bullseye-arrow text-2xl mr-2 text-gray-700"></i><%= habits.first.goal.title %></h3>
                   <p class="text-sm text-gray-500"><%= habits.first.goal.description %></p>
                 </div>
               </div>
