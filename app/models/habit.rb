@@ -4,7 +4,7 @@ class Habit < ApplicationRecord
   belongs_to :user
   has_many :occurrences, dependent: :destroy
   belongs_to :template, class_name: 'Habit', optional: true
-  has_many :habit_reflections
+  has_many :habit_reflections, dependent: :destroy
   has_many :reflections, through: :habit_reflections
 
   validates :title, presence: true

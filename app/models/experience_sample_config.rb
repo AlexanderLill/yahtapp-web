@@ -1,7 +1,7 @@
 class ExperienceSampleConfig < ApplicationRecord
   belongs_to :user
   belongs_to :goal
-  has_many :samplings
+  has_many :samplings, dependent: :destroy
 
   include Schedulable
   include_schedule :schedule

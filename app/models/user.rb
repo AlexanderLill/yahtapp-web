@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 
-  has_many :habits
-  has_many :goals
+  has_many :habits, dependent: :destroy
+  has_many :goals, dependent: :destroy
   has_many :occurrences, through: :habits
   has_many :reflections, dependent: :destroy
   has_many :habit_reflections, through: :reflections
