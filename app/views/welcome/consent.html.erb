@@ -1,11 +1,40 @@
 <%= render 'shared/navigation' %>
-<div class="max-w-3xl w-full mx-auto px-4 my-4 md:my-8 flex-col md:flex-row relative md:mb-32 mb-16 sm:px-6 lg:px-8 prose">
+<div class="max-w-3xl w-full mx-auto px-4 my-4 md:my-8 flex-col md:flex-row relative md:mb-32 mb-16 sm:px-6 lg:px-8">
+
   <h1 class="">Study Participation Terms</h1>
+
+  <div class="bg-white shadow sm:rounded-lg mb-8">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900 my-0">
+        We need your Consent
+      </h3>
+      <div class="mt-2 sm:flex sm:items-start sm:justify-between">
+        <div class="text-sm text-gray-500">
+          <p>
+            The University of Zurich requires us to gather your written consent before you can participate in our study. If you have not already done so, please download
+            the consent form, read through the content carefully and send us the signed version of it to <a href="mailto:contact@yaht.app" class="text-gray-900 underline">contact@yaht.app</a>.
+          </p>
+
+          <%= link_to root_url + "yaht_consent_form_v1.pdf", class: "mt-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 sm:text-sm", download: "yaht_consent_form_v1.pdf", target: "_blank" do %>
+            <i class="fa fa-file-pdf mr-2"></i>
+            Download Consent Form
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose">
+
   <h2 class="">1. People</h2>
   <p>This study is conducted as part of an ongoing Master Project at the Department of Informatics at the University of Zurich. It is conducted by: </p>
   <div class="grid grid-cols-2 gap-4">
     <div class="">
       <h4 class="mb-2">Principal Investigators</h4>
+      <ul>
+        <li>Prof. Dr. Thomas Fritz (fritz@ifi.uzh.ch)</li>
+      </ul>
+      <h4>Students / Developers</h4>
       <ul>
         <li>Sebastian Richner (sebastian@yaht.app)</li>
         <li>Michael Ziörjen (michael@yaht.app)</li>
@@ -27,14 +56,14 @@
       </div>
       <div class="ml-3 flex-1 md:flex md:justify-between">
         <div class="m-0 text-gray-700">
-          If you have any questions or desire further information with respect to the study, you may contact the research team (<a href="mailto:contact@yaht.app" class="underline font-semibold">contact@yaht.app</a>) or Prof. Dr. Thomas Fritz (<a href="mailto:fritz@ifi.uzh.ch" class="underline font-semibold">fritz@ifi.uzh.ch</a>).
+          If you have any questions or desire further information with respect to the study, you may contact the research team (<a href="mailto:contact@yaht.app" class="underline font-semibold">contact@yaht.app</a>), Anastasia Ruvimova (<a href="mailto:ruvimova@ifi.uzh.ch" class="underline font-semibold">ruvimova@ifi.uzh.ch</a> or Alexander Lill (<a href="mailto:lill@ifi.uzh.ch" class="underline font-semibold">lill@ifi.uzh.ch</a>).
         </div>
       </div>
     </div>
   </div>
   <div class="">
     <h2 class="">2. Purpose</h2>
-    <p>The goal of this study is to evaluate the use of yaht and its effect on productivity and other work-related metrics. yaht is based on existing work by <a href="https://ieeexplore.ieee.org/document/8823032/" title="Enabling Good Work Habits in Software Developers through Reflective Goal-Setting" target="_blank">Meyer et. al. (2020)</a> and aims to help its users to conduct self-experiments to form productive work habits.</p>
+    <p>The goal of this study is to evaluate the use of a new software called “yaht”  and its effect on productivity and other work-related metrics. yaht is based on existing work by <a href="https://ieeexplore.ieee.org/document/8823032/" title="Enabling Good Work Habits in Software Developers through Reflective Goal-Setting" target="_blank">Meyer et. al. (2020)</a> and aims to help its users to conduct self-experiments to form productive work habits.</p>
     <p>The study aims to answer the following research questions:</p>
     <ul>
       <li>RQ1: Which templates for goals and habits do the users of yaht pick and which do they create by themselves?</li>
@@ -89,4 +118,5 @@
   <p>All data will be saved on the researchers’ password-protected devices. You will be identified by pseudonyms in any internal or academic research publication or presentation. Your data will be used and seen only by researchers directly involved with this project. The anonymized, non-identifiable data will be stored for five years, after which it will be permanently deleted.</p>
   <h2 class="">7. Uses of the Study Data</h2>
   <p>The results of this study will potentially appear in both internal and external academic research presentations and publications, such as academic journals and conference proceedings.</p>
+</div>
 </div>
