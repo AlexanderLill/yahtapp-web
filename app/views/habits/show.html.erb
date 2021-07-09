@@ -4,33 +4,14 @@
 
 <p>
   <strong>Goal:</strong>
-  <%= @habit.goal_id %>
+  <%= @habit.goal.title %>
 </p>
 
 <p>
   <strong>User:</strong>
-  <%= @habit.user_id %>
+  <%= @habit.user.username %>
 </p>
 
-<p>
-  <strong>Duration:</strong>
-  <%= @habit.duration %>
-</p>
-
-<p>
-  <strong>Is template:</strong>
-  <%= @habit.is_template %>
-</p>
-
-<p>
-  <strong>Is skippable:</strong>
-  <%= @habit.is_skippable %>
-</p>
-
-<p>
-  <strong>Type:</strong>
-  <%= @habit.type %>
-</p>
 
 <h3 class="mt-8">History:</h3>
 
