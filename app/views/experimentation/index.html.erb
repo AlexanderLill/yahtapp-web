@@ -12,7 +12,7 @@
       </div>
 
       <div class="mt-2 font-medium text-gray-600 text-xs">
-        <%= @start_datetime.to_date.strftime("%d.%m.%y") %> <%= " - " + DateTime.current.strftime("%d.%m.%y") %>
+        <%= @current_period_start.to_date.strftime("%d.%m.%y") %> <%= " - " + @current_period_end.strftime("%d.%m.%y") %>
       </div>
     </div>
     <% if @has_data_before_start_date %>
@@ -35,30 +35,123 @@
 </div>
 
 <div class="flow-root">
-  <% @goals.each do |key, habits| %>
+  <% @goals.each do |goal| %>
     <div class="flex flex-row border-b border-gray-200 mb-8">
       <div class="flex-grow">
-        <h2 class="text-2xl font-serif mb-0"><i class="far fa-bullseye-arrow text-xl mx-auto"></i> <%= habits.first.goal.title %></h2>
-        <% habits.each do |habit| %>
-        <div class="mb-8">
-          <div class="flex flex-row">
-            <div class="flex-grow">
-              <h3 class="text-md text-black font-serif mt-2 mb-0"><%= habit.title %></h3>
-              <p class="text-gray-500 text-sm mb-4">Last edited <%= time_ago_in_words(habit.updated_at) %> ago</p>
-            </div>
-            <div class="flex ml-4 items-center justify-center">
-              <a href="<%= edit_habit_url(habit, redirect_to: request.env['ORIGINAL_FULLPATH']) %>" class="btn btn-primary flex whitespace-nowrap">Edit Habit</a>
+        <h2 class="text-2xl font-serif mb-0"><i class="far fa-bullseye-arrow text-xl mx-auto"></i> <%= goal.title %></h2>
+        <% goal.experience_sample_configs.each do |self_report| %>
+
+          <div class="">
+            <div class="flex flex-row">
+              <div class="flex flex-col">
+                <div class="text-lg text-gray-600 font-semibold">Self Report: <%= self_report.title %></div>
+                <div class="text-gray-400 font-medium"><%= self_report.prompt %></div>
+              </div>
+              <div class="flex flex-row ml-auto pb-2">
+                <div class="flex flex-col">
+                  <div class="text-blue-400 font-semibold text-sm">Avg. <%= self_report.title %></div>
+                  <div class="text-gray-400 text-sm">Current</div>
+                </div>
+                <div class="flex justify-center items-center ml-4">
+                  <div class="text-blue-400 font-semibold text-lg">
+                    3.2
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-row ml-4 pb-2">
+                <div class="flex flex-col border-l border-gray-200 pl-4">
+                  <div class="text-gray-400 font-semibold text-sm">Avg. <%= self_report.title %></div>
+                  <div class="text-gray-400 text-sm">Previous</div>
+                </div>
+                <div class="flex justify-center items-center ml-4">
+                  <div class="text-gray-400 font-semibold text-lg">
+                    3.2
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <p class="text-gray-500 text-sm">
-            Reflections: <b class="text-gray-600"><%= @post_habit_reflections_count[habit.id].to_i %></b> <span class="text-gray-400">(<%= @pre_habit_reflections_count[habit.id].to_i %>)</span>
-          </p>
-          <p class="text-gray-500 text-sm">
-            Occurrences: <b class="text-gray-600"><%= @post_habit_occurrences_completed[habit.id].to_i %>/<%= @post_habit_occurrences_completed[habit.id].to_i + @post_habit_occurrences_not_completed[habit.id].to_i %></b>
-            <span class="text-gray-400">(<%= @pre_habit_occurrences_completed[habit.id].to_i %>/<%= @pre_habit_occurrences_completed[habit.id].to_i + @pre_habit_occurrences_not_completed[habit.id].to_i %>)</span>
-          </p>
-        </div>
-      <% end %>
+          <!-- Chart Self-Report -->
+          <div class="">
+            <%
+              chart = {
+                data: self_report.samplings.where('scheduled_at >= ?', @current_period_start).where('scheduled_at <= ?', @current_period_end).map { |sampling| { x: sampling.scheduled_at.iso8601(3), y: sampling.value.nil? ?  0 : sampling.value } },
+                min: 1,
+                max: 1 + self_report.scale_steps-1,
+                label: self_report.title
+              }
+
+
+            %>
+            <%= content_tag :canvas, id: "myChart", class: "self-report-sampling-chart", data: { chart: chart.to_json } do %><% end %>
+            <script>
+                if(document.querySelectorAll(".self-report-sampling-chart").length) {
+
+                    var chart = document.querySelector(".self-report-sampling-chart");
+                    var data = JSON.parse(chart.dataset.chart);
+
+                    const config = {
+                        type: 'scatter',
+                        data: {
+                            datasets: [{
+                                label: data.label,
+                                data: data.data,
+                                backgroundColor: "#1f2937",
+                                borderColor: "#1f2937"
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    align: 'end'
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    bounds: 'ticks',
+                                    type: 'time',
+                                    min: new Date(<%= @current_period_start.to_i*1000 %>),
+                                    max: new Date(<%= @current_period_end.to_i*1000 %>),
+                                    time: {
+                                        // Luxon format string
+                                        tooltipFormat: 'DD T',
+                                        isoWeekday: true,
+                                        unit: 'day'
+                                    },
+                                    title: {
+                                        display: false,
+                                        text: 'Date'
+                                    },
+                                    ticks: {
+                                        source: 'auto'
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    min: 0,
+                                    max: data.max,
+                                    title: {
+                                        display: false,
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+
+                    var myChart = new Chart(
+                        chart,
+                        config
+                    );
+                }
+            </script>
+          </div>
+        <% end %>
+        <% goal.habits.each do |habit| %>
+
+        <% end %>
       </div>
     </div>
   <% end %>

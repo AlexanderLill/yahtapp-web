@@ -105,7 +105,7 @@
     <div class="sm:col-span-6">
       <div class="field">
         <%= form.label :goal_id %>
-        <%= form.select :goal_id, policy_scope(Goal).collect { |g| [ g.title, g.id] }, include_blank: true %>
+        <%= form.select :goal_id, experience_sample_config.user.goals.collect { |g| [ g.title, g.id] }, include_blank: true %>
       </div>
     </div>
     <% else %>
