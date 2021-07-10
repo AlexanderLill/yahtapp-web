@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!-- Set the language of your main document. This helps screenreaders use the proper language profile, pronunciation, and accent. -->
+<html lang="en">
+ <head>
+  <!-- The title is useful for screenreaders reading a document. Use your sender name or subject line. -->
+   <title>Your weekly report is ready.</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!-- Never disable zoom behavior! Fine to set the initial width and scale, but allow users to set their own zoom preferences. -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <style type="text/css">
+    /* CLIENT-SPECIFIC STYLES */
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; }
+
+    /* RESET STYLES */
+    img { border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+    table { border-collapse: collapse !important; }
+    body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
+
+    /* iOS BLUE LINKS */
+    a[x-apple-data-detectors] {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+    }
+
+    /* GMAIL BLUE LINKS */
+    u + #body a {
+        color: inherit;
+        text-decoration: none;
+        font-size: inherit;
+        font-family: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+    }
+
+    /* SAMSUNG MAIL BLUE LINKS */
+    #MessageViewBody a {
+        color: inherit;
+        text-decoration: none;
+        font-size: inherit;
+        font-family: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+    }
+
+    /* These rules set the link and hover states, making it clear that links are, in fact, links. */
+    /* Embrace established conventions like underlines on links to keep emails accessible. */
+    a { color: #111827; font-weight: 600; text-decoration: underline; }
+    a:hover { color: #000000 !important; text-decoration: none !important; }
+    a.button:hover { color: #ffffff !important; background-color: #000000 !important; }
+
+    /* These rules adjust styles for desktop devices, keeping the email responsive for users. */
+    /* Some email clients don't properly apply media query-based styles, which is why we go mobile-first. */
+    @media screen and (min-width:600px) {
+        h1 { font-size: 36px !important; line-height: 40px !important; }
+        .intro { font-size: 20px !important; line-height: 32px !important; }
+    }
+</style>
+  
+</head>
+ <body style="margin: 0 !important; padding: 0 !important;">
+
+<!-- Some preview text. -->
+<div style="display: none; max-height: 0; overflow: hidden;">
+
+</div>
+<!-- Get rid of unwanted preview text. -->
+<div style="display: none; max-height: 0px; overflow: hidden;">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
+
+<!-- This ghost table is used to constrain the width in Outlook. The role attribute is set to presentation to prevent it from being read by screenreaders. -->
+<!--[if (gte mso 9)|(IE)]>
+<table cellspacing="0" cellpadding="0" border="0" width="600" align="center" role="presentation"><tr><td>
+<![endif]-->
+<!-- The role and aria-label attributes are added to wrap the email content as an article for screen readers. Some of them will read out the aria-label as the title of the document, so use something like "An email from Your Brand Name" to make it recognizable. -->
+<!-- Default styling of text is applied to the wrapper div. Be sure to use text that is large enough and has a high contrast with the background color for people with visual impairments. -->
+<div role="article" aria-label="An email from Your Brand Name" lang="en" style="background-color: white; color: #2b2b2b; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; font-size: 18px; font-weight: 400; line-height: 28px; margin: 0 auto; max-width: 600px; padding: 40px 20px 40px 20px;">
+
+  <!-- Logo section and header. Headers are useful landmark elements. -->
+  <header>
+    <!-- Since this is a purely decorative image, we can leave the alternative text blank. -->
+    <!-- Linking images also helps with Gmail displaying download links next to them. -->
+    <a href="https://yaht.app">
+      <center><img src="<%= asset_url("yaht-logo-email@2x.png") %>>" alt="yaht - yet another habit tracker" height="51" width="80" /></center>
+    </a>
+    <!-- The h1 is the main heading of the document and should come first. -->
+    <!-- We can override the default styles inline. -->
+    <h1 style="color: #111827; font-size: 32px; font-weight: 600; line-height: 32px; margin: 24px 0 24px 0; text-align: center; font-family:  'Georgia', serif;">It's time to experiment!</h1>
+  </header>
+
+  <!-- Main content section. Main is a useful landmark element. -->
+  <main>
+    <!-- Since this is a purely decorative image, we can leave the alternative text blank. -->
+    <!-- Linking images also helps with Gmail displaying download links next to them. -->
+
+    <!-- A level 2 heading is used to keep the document order correct. -->
+    <h2 style="color: #111827; font-size: 24px; font-weight: 600; line-height: 32px; margin: 24px 0 24px 0; text-align: center;">Your Productivity was up 10%.</h2>
+    <p style="color: #4B5563;">We&rsquo;ve compiled an overview of your progress with&nbsp;yaht&nbsp;this week. Use it to gain insights about your habits and goals and tweak your settings for next week accordingly.</p>
+    <!-- This paragraph uses column-count for multiple columns. A more robust solution would require more tables... -->
+
+    <!-- This CTA was adapted from code from Campaign Monitor's buttons.cm. -->
+    <center>
+      <div style="margin: 48px 0;"><!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://yaht.app/experimentation" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" stroke="f" fillcolor="#B200FD">
+        <w:anchorlock/>
+        <center>
+      <![endif]-->
+        <a class="button" href="https://yaht.app/experimentation" style="background-color: #111827;border-radius: 4px;color: #ffffff;display: inline-block;font-family: sans-serif;font-size: 18px;font-weight: bold;line-height: 60px;text-align: center;text-decoration: none;width: 300px;-webkit-text-size-adjust: none;" bgcolor="#111827">See Report</a>
+        <!--[if mso]>
+        </center>
+        </v:roundrect>
+        <![endif]--></div>
+    </center>
+    <p style="color: #4B5563;">Experimenting is at the core of yaht. What works for other people might not work for you, so that&rsquo;s why we encourage you to&nbsp;take a look&nbsp;and conduct little self-experiments to find out what works best for you.</p>
+    <p style="color: #4B5563;"><strong>Pro Tip:</strong>&nbsp;Start with small tweaks (e.g.,&nbsp;change the schedule of a habit,&nbsp;add&nbsp;a new one, or&nbsp;remove&nbsp;one that doesn&rsquo;t work for you) and check back in one week to see how the change affected your goal achievement.</p>
+    <p style="color: #4B5563;">If you have any questions or need help with tweaking your settings, just reply to this e-mail and we&rsquo;ll get right back to you.&nbsp;</p>
+    <p style="color: #4B5563;">Have a great week!</p>
+    <p style="color: #4B5563;">Michael &amp; Sebastian</p>
+  </main>
+  <br><br>
+  <!-- Footer information. Footer is a useful landmark element. -->
+  <footer>
+    <div style="border-top: 2px solid #eaeaea; padding: 40px 0 0 0;">
+      <!-- This link uses descriptive text to inform the user what will happen with the link is tapped. -->
+      <!-- It also uses inline styles since some email clients won't render embedded styles from the head. -->
+      <p style="font-size: 16px; font-weight: 400; line-height: 24px; margin-top: 48px; color: #4B5563;">
+        You received this email because you signed up for yaht. If you don't wish to receive these e-mails anymore feel free to <a href="https://www.yaht.app/settings" style="color: #111827; text-decoration: underline;">unsubscribe here</a>.
+      </p>
+
+      <!-- The address element does exactly what it says. By default, it is block-level and italicizes text. You can override this behavior inline. -->
+      <address style="font-size: 16px; font-style: normal; font-weight: 400; line-height: 24px; color: #9CA3AF;">
+        <strong>yaht - yet another habit tracker:</strong> University of Zurich, Department of Informatics, Binzmühlestrasse 14, CH-8050 Zürich
+      </address>
+    </div>
+  </footer>
+
+</div>
+<!--[if (gte mso 9)|(IE)]>
+</td></tr></table>
+<![endif]-->
+ </body>
+</html>
