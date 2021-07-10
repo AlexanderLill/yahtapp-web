@@ -30,8 +30,14 @@
           -->
         </div>
         <div class="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
-          <%= link_to "Log in", new_user_session_url,  class: "btn btn-secondary inline-flex mr-2" %>
-          <%= link_to "Sign up for free", new_user_registration_url,  class: "btn btn-primary inline-flex" %>
+          <% if current_user.present? %>
+            <%= link_to dashboard_path, class: 'btn btn-secondary'  do %>
+              <i class="icon far fa-sign-in "></i>Open App
+            <% end %>
+          <% else %>
+              <%= link_to "Log in", new_user_session_url,  class: "btn btn-secondary inline-flex mr-2" %>
+              <%= link_to "Sign up for free", new_user_registration_url,  class: "btn btn-primary inline-flex" %>
+          <% end %>
         </div>
       </nav>
     </div>
@@ -84,8 +90,15 @@
           -->
         </div>
         <div class="p-2">
-          <%= link_to "Log in", new_user_session_url,  class: "btn btn-secondary block w-full mb-2" %>
-          <%= link_to "Sign up for free", new_user_registration_url,  class: "btn btn-primary block w-full" %>
+          <% if current_user.present? %>
+            <%= link_to dashboard_path, class: 'btn btn-secondary block w-full'  do %>
+              <i class="icon far fa-sign-in "></i>Open App
+            <% end %>
+          <% else %>
+            <%= link_to "Log in", new_user_session_url,  class: "btn btn-secondary block w-full mb-2" %>
+            <%= link_to "Sign up for free", new_user_registration_url,  class: "btn btn-primary block w-full" %>
+          <% end %>
+
         </div>
       </div>
     </div>
