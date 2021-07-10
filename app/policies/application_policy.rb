@@ -11,7 +11,7 @@ class ApplicationPolicy
   end
 
   def show?
-    user.admin? or record.is_template? or record.user_id == user.id
+    user.admin? or record.user_id == user.id
   end
 
   def create?
