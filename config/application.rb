@@ -20,12 +20,6 @@ module YahtWeb
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.beginning_of_week = :monday
-
-    # These paths will be ignored when redirecting the user to last visited page
-    # Devise routes need to always be here, so that a redirect loop does not occur
-    # after signing in
-    config.ignored_paths = %W(/users/sign_in /users/sign_up /register/sign_up /users/password /users/sign_out /users/confirm_password /login /register)
-
-
+    
   end
 end

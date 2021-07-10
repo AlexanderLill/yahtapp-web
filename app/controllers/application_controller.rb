@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pundit
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :persist_last_visited_path
 
   around_action :set_time_zone, if: :current_user
 
@@ -24,8 +23,8 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if session[:last_visited_path].present?
-      session[:last_visited_path]
+    if session[:user_return_to].present?
+      session[:user_return_to]
     else
       dashboard_path
     end
@@ -38,13 +37,6 @@ class ApplicationController < ActionController::Base
 
   def set_time_zone(&block)
     Time.use_zone(current_user.timezone, &block)
-  end
-
-  # persists the last visited path of the user so a redirect can be made to that path after registration / login
-  def persist_last_visited_path
-    unless Rails.configuration.ignored_paths.include?(request.path) || request.xhr?
-      session[:last_visited_path] = request.path
-    end
   end
 
   # configures the permitted parameters for devise (i.e. used on registration / sign up)
