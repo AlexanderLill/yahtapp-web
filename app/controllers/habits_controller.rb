@@ -6,7 +6,16 @@ class HabitsController < ApplicationController
 
   # GET /habits or /habits.json
   def index
-    @habits = policy_scope(Habit)
+    show = params[:show].to_s
+    case show
+    when "templates"
+      @habits = policy_scope(Habit).where(is_template: true)
+    when "own"
+      @habits = current_user.habits
+    else
+      @habits = policy_scope(Habit)
+    end
+
   end
 
   # view for selecting a new habit (based on a template)

@@ -1,0 +1,17 @@
+<%
+  # options: list of options
+  #   link : the page / object to be linked to
+%>
+<span class="relative z-0 inline-flex shadow-sm rounded-md">
+  <% options.each_with_index do |option,index| %>
+      <%
+        path = request.env['ORIGINAL_FULLPATH']
+        first = index == 0
+        last = index == options.length-1
+        active = path == option[:link]
+      %>
+      <%= link_to option[:link], class: "#{!first ? "-ml-px" : ""} #{first ? "rounded-l-md" : ""} #{last ? "rounded-r-md" : ""} relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm #{active ? "font-bold text-gray-900" : "font-medium text-gray-700"} hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900" do %>
+        <%= option[:title] %>
+      <% end %>
+  <% end %>
+</span>

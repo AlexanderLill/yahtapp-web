@@ -7,7 +7,17 @@ class GoalsController < ApplicationController
 
   # GET /goals
   def index
-    @goals = policy_scope(Goal)
+    show = params[:show].to_s
+
+    case show
+    when "templates"
+      @goals = policy_scope(Goal).where(is_template: true)
+    when "own"
+      @goals = current_user.goals
+    else
+      @goals = policy_scope(Goal)
+    end
+
   end
 
   def show

@@ -4,6 +4,11 @@
   <% end %>
   <%= link_to 'New Habit', new_habit_path, class: "btn btn-primary flex" %>
 <% end %>
+<% if policy(Habit).see_all? %>
+  <div class="flex flex-row mb-4 items-center justify-end">
+    <%= render 'shared/buttongroup', options: [{ title: "All", link: habits_path}, { title: "Own", link: habits_path(:show => :own)}, { title: "Templates", link: habits_path(:show => :templates)}] %>
+  </div>
+<% end %>
 <div class="bg-white shadow overflow-hidden sm:rounded-md">
   <ul class="divide-y divide-gray-200">
     <% @habits.each_with_index do |habit,index| %>
