@@ -1,4 +1,5 @@
 class Habit < ApplicationRecord
+  acts_as_paranoid # soft delete
 
   belongs_to :goal
   belongs_to :user
@@ -17,19 +18,39 @@ class Habit < ApplicationRecord
   # the current config for this habit
   belongs_to :current_config, class_name: 'Habit::Config', foreign_key: 'current_config_id', optional: true
 
-  # Delegations
-  delegate :duration, :schedule, :is_skippable, :recurrence_on, :recurrence_at, to: :current_config, allow_nil: true
+  # Delegate to habit_config so attributes are available on habit as well
+  delegate :duration, :schedule, :is_skippable, :is_enabled, :recurrence_on, :recurrence_at, to: :current_config, allow_nil: true
 
-  before_destroy :destroy_configs
+  before_destroy :before_destroy
+  after_recover :reschedule_occurrences # after soft delete recovery
+
+  def before_destroy
+    destroy_occurrences
+    destroy_configs
+  end
+
+  def destroy_occurrences
+    if deleted?
+      occurrences.delete_all
+    else
+      occurrences.where("scheduled_at >= ?", DateTime.now).delete_all
+    end
+  end
+
+  def reschedule_occurrences
+    current_config.schedule_occurrences(DateTime.now)
+  end
 
   # we're manually doing the destroy since there is a circular dependency between habit <-> current_config
   # that results in a ForeignKey violation otherwise
   def destroy_configs
-    Habit.transaction do
-      config = current_config
-      update({current_config: nil})
-      config.destroy
-      Config.where(habit_id: id).delete_all
+    if deleted?
+      Habit.transaction do
+        config = current_config
+        update({current_config: nil})
+        config.destroy
+        Config.where(habit_id: id).delete_all
+      end
     end
   end
 
@@ -50,4 +71,25 @@ class Habit < ApplicationRecord
 
     new_habit
   end
+
+  def enable
+    self.set_is_enabled(true)
+  end
+
+  def disable
+    self.set_is_enabled(false)
+  end
+
+  private
+    def set_is_enabled(is_enabled = true)
+      ActiveRecord::Base.transaction do
+        new_config = current_config.dup
+        new_config.is_enabled=is_enabled
+        new_config.save!
+        self.current_config = new_config
+        self.save!
+        raise ActiveRecord::Rollback unless errors.empty?
+      end
+    end
+
 end

@@ -1,6 +1,20 @@
 <%= render 'shared/page_heading', title: "Habit: #{@habit.title}", description: @habit.description do %>
   <%= link_to 'Edit', edit_habit_path(@habit), class: 'btn btn-primary flex whitespace-nowrap' %>
 <% end %>
+<% unless @habit.is_enabled %>
+  <div class="rounded-md bg-gray-100 border border-gray-200 my-4 p-4">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <i class="far fa-info-circle h-5 w-5 text-gray-400"></i>
+      </div>
+      <div class="ml-3 flex-1 md:flex md:justify-between">
+        <div class="m-0 text-gray-700 text-sm">
+          This habit is disabled. It will not show up on the dashboard and you will not receive any notifications.
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
 
 <p>
   <strong>Goal:</strong>
@@ -13,6 +27,15 @@
 </p>
 
 
+<p>
+  <strong>Is template:</strong>
+  <%= @habit.is_template %>
+</p>
+<p>
+  <strong>Is skippable:</strong>
+  <%= @habit.is_skippable %>
+</p>
+
 <h3 class="mt-8">History:</h3>
 
 <%= render 'shared/table/wrapper' do %>
@@ -20,6 +43,7 @@
   <tr>
     <%= render 'shared/table/heading', title: "Schedule" %>
     <%= render 'shared/table/heading', title: "Duration" %>
+    <%= render 'shared/table/heading', title: "Enabled" %>
     <%= render 'shared/table/heading', title: "Skippable" %>
     <%= render 'shared/table/heading', title: "Created" %>
   </tr>
@@ -31,10 +55,13 @@
         <%= config.recurrence_on.map{|day| day.slice(0,2)}.join(', ') %> at <%= config.recurrence_at %>
       <% end %>
       <%= render 'shared/table/cell' do %>
-        <%= config.duration %>
+        <%= config.duration %> mins
       <% end %>
       <%= render 'shared/table/cell' do %>
-        <%= config.is_skippable %>
+        <%= config.is_enabled ? "yes" : "no" %>
+      <% end %>
+      <%= render 'shared/table/cell' do %>
+        <%= config.is_skippable ? "yes" : "no" %>
       <% end %>
       <%= render 'shared/table/cell' do %>
         <%= time_ago_in_words(config.created_at) %> ago

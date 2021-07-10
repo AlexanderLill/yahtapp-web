@@ -16,6 +16,7 @@ namespace :schedule do
   end
 
   def schedule_all_occurrences
+    # habit all does NOT include soft deleted habits, which is what we want
     Habit.all.each do |habit|
       # ensures that schedule is based on user's timezone
       Time.use_zone(habit.user.timezone) do

@@ -111,11 +111,9 @@ class HabitsController < ApplicationController
   # DELETE /habits/1 or /habits/1.json
   def destroy
     authorize @habit
+    message = @habit.deleted_at.present? ? "Habit was successfully destroyed." : "Habit was put in trash."
     @habit.destroy
-    respond_to do |format|
-      format.html { redirect_to habits_url, notice: "Habit was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to habits_url, notice: message
   end
 
   def set_recurrence_from_param
@@ -133,6 +131,6 @@ class HabitsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def habit_params
-      params.require(:habit).permit(:title, :description, :goal_id, :user_id, :recurrence_type, :duration, :is_template, :is_skippable, :type,:recurrence_at, :recurrence_on => [])
+      params.require(:habit).permit(:title, :description, :goal_id, :user_id, :recurrence_type, :duration, :is_template, :is_skippable, :is_enabled, :type,:recurrence_at, :recurrence_on => [])
     end
 end

@@ -7,54 +7,24 @@
    <%= render 'shared/buttongroup', options: [{ title: "All", link: goals_path}, { title: "Own", link: goals_path(:show => :own)}, { title: "Templates", link: goals_path(:show => :templates)}] %>
   </div>
 <% end %>
-<div class="bg-white shadow overflow-hidden sm:rounded-md">
-  <ul class="divide-y divide-gray-200">
-    <% @goals.each_with_index do |goal,index| %>
-      <li>
-        <a href="<%= edit_goal_url(goal) %>" class="flex flex-row hover:bg-gray-50">
-          <div class="flex-none w-1 mr-1 <%= color_bg_class(goal.color) %> rounded-full"></div>
-          <div class="flex flex-grow flex-col px-4 py-4">
-            <div class="flex items-center justify-between">
-              <div class="">
-                <p class="text-sm font-medium text-gray-900 truncate">
-                  <%= goal.title %>
-                </p>
-                <% if goal.description.present? %>
-                  <p class="text-sm text-gray-800 truncate">
-                    <%= goal.description %>
-                  </p>
-                <% end %>
-              </div>
-              <div class="ml-2 flex-shrink-0 flex">
-                <% if goal.is_template %>
-                  <p class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                    Template
-                  </p>
-                <% end %>
-              </div>
-            </div>
-            <div class="mt-2 sm:flex sm:justify-between ">
-              <div class="sm:flex">
-                <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                  <i class="far fa-user mr-2"></i>
-                  <%= goal.user.username %>
-                </p>
-              </div>
-              <div class="sm:flex">
-                <% if goal.template %>
-                  <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                    <i class="far fa-copy mr-2"></i>
-                    <%= goal.template ? goal.template.title : '-' %>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </a>
-      </li>
-    <% end %>
-  </ul>
-</div>
 
-
-<br>
+<%= render 'shared/boxed_list' do %>
+  <% @goals.each_with_index do |goal,index| %>
+    <%= render 'goal_list', goal: goal, index: index %>
+  <% end %>
+<% end %>
+<% if policy(Goal).show_trash? %>
+  <div class="my-8">
+    <h3>Trash</h3>
+    <div class="border-b border-gray-200 my-4"></div>
+    <% if @trash.any? %>
+      <%= render 'shared/boxed_list' do %>
+        <% @trash.each_with_index do |goal,index| %>
+          <%= render 'goal_list', goal: goal, index: index %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <p class="text-gray-500 text-sm">There are no items in the trash.</p>
+      <% end %>
+  </div>
+<% end %>

@@ -34,6 +34,10 @@ class ApplicationPolicy
     user.admin? or record.user_id == user.id
   end
 
+  def show_trash?
+    user.admin?
+  end
+
   class Scope
     attr_reader :user, :scope
 

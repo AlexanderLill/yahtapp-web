@@ -1,7 +1,7 @@
 class HabitForm
   include ActiveModel::Model
 
-  attr_accessor :id, :goal_id, :is_template, :user_id, :user, :title, :description ,:duration, :schedule, :recurrence_on, :recurrence_at, :is_skippable, :created_at, :updated_at
+  attr_accessor :id, :goal_id, :is_template, :user_id, :user, :title, :description ,:duration, :schedule, :recurrence_on, :recurrence_at, :is_skippable, :is_enabled, :created_at, :updated_at
 
   validates :title, presence: true
   validates :duration, numericality: { only_integer: true }
@@ -42,8 +42,6 @@ class HabitForm
     ActiveRecord::Base.transaction do
       @habit.update!(habit_params(params))
       new_config = @config.dup
-      puts @config.attributes
-      puts new_config.attributes
       new_config.attributes = config_params(params)
 
       new_config.save!
@@ -80,7 +78,7 @@ class HabitForm
   end
 
   def config_params(params)
-    params.slice(:duration, :schedule, :is_skippable, :recurrence_on, :recurrence_at)
+    params.slice(:duration, :schedule, :is_skippable, :is_enabled, :recurrence_on, :recurrence_at)
   end
 
   def habit_params(params)

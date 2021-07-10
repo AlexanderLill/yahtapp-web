@@ -74,6 +74,12 @@
           <%= form.check_box :is_skippable %>
         </div>
       </div>
+      <div class="sm:col-span-6">
+        <div class="field">
+          <%= form.label :is_enabled %>
+          <%= form.check_box :is_enabled %>
+        </div>
+      </div>
       <% if policy(habit).set_template? %>
         <div class="sm:col-span-6">
           <div class="field">
