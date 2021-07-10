@@ -21,5 +21,8 @@ module YahtWeb
 
     config.beginning_of_week = :monday
 
+    config.asset_host = 'https://yaht.app'
+    config.action_mailer.default_url_options = { host: 'yaht.app' }
+
   end
 end
