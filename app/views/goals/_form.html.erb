@@ -1,4 +1,4 @@
-<%= form_with(model: goal) do |form| %>
+<%= form_with model: goal, class: "space-y-4" do |form| %>
   <% if goal.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(goal.errors.count, "error") %> prohibited this goal from being saved:</h2>
