@@ -2,7 +2,7 @@ class ExperienceSampleConfig < ApplicationRecord
   acts_as_paranoid # soft delete
 
   belongs_to :user
-  belongs_to :goal
+  belongs_to :goal, with_deleted: true
   has_many :samplings
 
   include Schedulable

@@ -1,6 +1,6 @@
 <li>
   <a href="<%= habit_url(habit) %>" class="flex flex-row hover:bg-gray-50 <%= habit.is_enabled ? "" : "opacity-50" %>">
-    <div class="flex-none w-1 mr-1 <%= color_bg_class(habit.goal.color) %> rounded-full"></div>
+    <div class="flex-none w-1 mr-1 <%= color_bg_class(habit.goal.color) %>"></div>
     <div class="flex flex-grow flex-col px-4 py-4">
       <div class="flex items-center justify-between">
         <div class="flex flex-col">

@@ -1,0 +1,33 @@
+<li>
+  <a href="<%= experience_sample_config_url(sampling) %>" class="flex flex-row hover:bg-gray-50">
+    <div class="flex-none w-1 mr-1 <%= color_bg_class(sampling.goal.color) %>"></div>
+    <div class="flex flex-grow flex-col px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex flex-col">
+          <p class="text-sm font-medium text-gray-900 truncate">
+            <%= sampling.title %>
+          </p>
+          <p class="text-sm text-gray-500 truncate">
+            <%= sampling.prompt %>
+          </p>
+        </div>
+      </div>
+      <div class="mt-2 sm:flex sm:justify-between">
+        <div class="sm:flex">
+          <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+            <i class="far fa-user mr-2"></i>
+            <%= sampling.user.username %>
+          </p>
+        </div>
+        <div class="sm:flex">
+          <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+            <i class="far fa-calendar-alt mr-2"></i>
+            <p>
+              <%= sampling.recurrence_on.map{|day| day.slice(0,2)}.join(', ') %> at <%= sampling.recurrence_at %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</li>

@@ -5,7 +5,17 @@ class ExperienceSampleConfigsController < ApplicationController
 
   # GET /experience_sample_configs
   def index
-    @experience_sample_configs = policy_scope(ExperienceSampleConfig)
+    show = params[:show].to_s
+
+    case show
+    when "own"
+      @experience_sample_configs = current_user.experience_sample_configs
+    when "trash"
+      @experience_sample_configs = policy_scope(ExperienceSampleConfig).only_deleted
+    else
+      @experience_sample_configs = policy_scope(ExperienceSampleConfig)
+    end
+
   end
 
   # GET /experience_sample_configs/1
