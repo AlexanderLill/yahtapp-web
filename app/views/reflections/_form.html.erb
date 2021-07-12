@@ -1,7 +1,7 @@
-<h3>It’s time for your reflection.</h3>
-<p>Reflecting will help you to identify which of your habits are
+<h3 class="mb-1">It’s time for your reflection.</h3>
+<p class="text-sm text-gray-600 border-b border-gray-200 pb-4">Reflecting will help you to identify which of your habits are
   helping you towards achieving your goals.</p>
-<%= form_with(model: reflection) do |form| %>
+<%= form_with model: reflection, class: "space-y-4" do |form| %>
   <% if reflection.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(reflection.errors.count, "error") %> prohibited this reflection from being saved:</h2>
@@ -24,16 +24,17 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :description %>
+    <%= form.label "How was your day?" %>
     <%= form.text_area :description %>
   </div>
 
-  <h3 class="mt-8">Goal Reflection</h3>
+
 
   <% @goals.each do |key,habits| %>
-    <div class="mb-4">
-      <p>Do you think that the following habits have worked towards
-        achieving your goal to <strong><%= habits.first.habit.goal.title %></strong>?</p>
+    <div class="mb-4 border-b border-gray-200 pb-4">
+      <h3 class="mt-8 mb-2 text-gray-700"><i class="far fa-bullseye-arrow text-xl mr-2"></i><%= habits.first.habit.goal.title %></h3>
+      <p class="text-gray-600 mb-4">Do you think that the following habits have worked towards
+        achieving your goal?</p>
       <%= form.fields_for :habit_reflections, habits do |subform| %>
         <%= subform.hidden_field :habit_id %>
         <% ratings = {
