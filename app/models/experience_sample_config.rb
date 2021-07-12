@@ -1,7 +1,9 @@
 class ExperienceSampleConfig < ApplicationRecord
+  acts_as_paranoid # soft delete
+
   belongs_to :user
   belongs_to :goal
-  has_many :samplings, dependent: :destroy
+  has_many :samplings
 
   include Schedulable
   include_schedule :schedule
@@ -9,6 +11,24 @@ class ExperienceSampleConfig < ApplicationRecord
   validates :title, presence: true
   after_save :schedule_samplings # TODO: later this action must be performed when a habit is *duplicated* and on a daily schedule
 
+  before_destroy :before_destroy
+  after_recover :reschedule_samplings # after soft delete recovery
+
+  def before_destroy
+    destroy_samplings
+  end
+
+  def destroy_samplings
+    if deleted?
+      samplings.delete_all
+    else
+      samplings.where("scheduled_at >= ?", DateTime.now).delete_all
+    end
+  end
+
+  def reschedule_samplings
+    schedule_samplings(DateTime.now)
+  end
 
   def schedule_samplings(starting_from = self.updated_at, retention_period = 7.days)
 

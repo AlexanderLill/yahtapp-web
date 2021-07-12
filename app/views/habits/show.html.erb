@@ -1,5 +1,8 @@
-<%= render 'shared/page_heading', title: "Habit: #{@habit.title}", description: @habit.description do %>
-  <%= link_to 'Edit', edit_habit_path(@habit), class: 'btn btn-primary flex whitespace-nowrap' %>
+<%= render 'shared/page_heading', title: @habit.title, description: @habit.description do %>
+  <%= render 'toggle' %>
+  <%= link_to edit_habit_path(@habit), class: 'btn btn-primary flex whitespace-nowrap' do %>
+    <i class="fas fa-pencil-alt mr-2"></i>Edit
+  <% end %>
 <% end %>
 <% unless @habit.is_enabled %>
   <div class="rounded-md bg-gray-100 border border-gray-200 my-4 p-4">

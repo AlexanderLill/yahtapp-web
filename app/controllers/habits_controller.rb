@@ -12,6 +12,8 @@ class HabitsController < ApplicationController
       @habits = policy_scope(Habit).where(is_template: true)
     when "own"
       @habits = current_user.habits
+    when "trash"
+      @habits = policy_scope(Habit).only_deleted
     else
       @habits = policy_scope(Habit)
     end

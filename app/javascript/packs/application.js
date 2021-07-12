@@ -27,7 +27,6 @@ import "channels"
 // custom components
 import "./Notification"
 
-
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
@@ -35,10 +34,12 @@ ActiveStorage.start()
 document.addEventListener("turbo:load", initiate)
 document.addEventListener("turbolinks:load", initiate)
 document.addEventListener("turbo:before-stream-render", initiate)
+
 function initiate() {
     initiateChoices()
     initiateChart()
 }
+
 const choiceConfig = {
     addItems: true,
     duplicateItemsAllowed: false,
@@ -100,7 +101,6 @@ function initiateChart() {
                 }
             }
         };
-
 
         var myChart = new Chart(
             chart,

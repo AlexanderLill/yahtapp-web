@@ -1,11 +1,11 @@
 class Habit < ApplicationRecord
   acts_as_paranoid # soft delete
 
-  belongs_to :goal
+  belongs_to :goal, with_deleted: true
   belongs_to :user
-  has_many :occurrences, dependent: :destroy
+  has_many :occurrences
   belongs_to :template, class_name: 'Habit', optional: true
-  has_many :habit_reflections, dependent: :destroy
+  has_many :habit_reflections
   has_many :reflections, through: :habit_reflections
 
   validates :title, presence: true
@@ -27,6 +27,13 @@ class Habit < ApplicationRecord
   def before_destroy
     destroy_occurrences
     destroy_configs
+    destroy_habit_reflections
+  end
+
+  def destroy_habit_reflections
+    if deleted?
+      habit_reflections.delete_all
+    end
   end
 
   def destroy_occurrences

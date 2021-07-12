@@ -139,4 +139,6 @@ Rails.application.configure do
     authentication: :plain
   }
   config.action_mailer.default_url_options = { host: 'yaht.app' }
+  config.asset_host = 'https://yaht.app'
+
 end

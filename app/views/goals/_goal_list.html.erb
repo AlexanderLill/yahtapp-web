@@ -1,6 +1,7 @@
 <li>
-  <a href="<%= edit_goal_url(goal) %>" class="block hover:bg-gray-50">
-    <div class="px-4 py-4 sm:px-6">
+  <a href="<%= edit_goal_url(goal) %>" class="flex flex-row hover:bg-gray-50">
+    <div class="flex-none w-1 mr-1 <%= color_bg_class(goal.color) %> rounded-full"></div>
+    <div class="flex flex-grow flex-col px-4 py-4">
       <div class="flex items-center justify-between">
         <div class="">
           <p class="text-sm font-medium text-gray-900 truncate">

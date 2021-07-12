@@ -14,6 +14,8 @@ class GoalsController < ApplicationController
       @goals = policy_scope(Goal).where(is_template: true)
     when "own"
       @goals = current_user.goals
+    when "trash"
+      @goals = policy_scope(Goal).only_deleted
     else
       @goals = policy_scope(Goal)
     end

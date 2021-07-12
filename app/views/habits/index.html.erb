@@ -6,7 +6,7 @@
 <% end %>
 <% if policy(Habit).see_all? %>
   <div class="flex flex-row mb-4 items-center justify-end">
-    <%= render 'shared/buttongroup', options: [{ title: "All", link: habits_path}, { title: "Own", link: habits_path(:show => :own)}, { title: "Templates", link: habits_path(:show => :templates)}] %>
+    <%= render 'shared/buttongroup', options: [{ title: "All", link: habits_path}, { title: "Own", link: habits_path(:show => :own)}, { title: "Templates", link: habits_path(:show => :templates)}, { title: "Trash", link: habits_path(:show => :trash)}] %>
   </div>
 <% end %>
 
@@ -16,18 +16,3 @@
   <% end %>
 <% end %>
 
-<% if policy(Habit).show_trash? %>
-  <div class="my-8">
-    <h3>Trash</h3>
-    <div class="border-b border-gray-200 my-4"></div>
-    <% if @trash.any? %>
-      <%= render 'shared/boxed_list' do %>
-        <% @trash.each_with_index do |habit,index| %>
-          <%= render 'habit_list', habit: habit, index: index %>
-        <% end %>
-      <% end %>
-    <% else %>
-      <p class="text-gray-500 text-sm">There are no items in the trash.</p>
-    <% end %>
-  </div>
-<% end %>

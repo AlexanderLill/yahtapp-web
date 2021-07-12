@@ -1,13 +1,13 @@
 class Goal < ApplicationRecord
   acts_as_paranoid # soft delete
 
-  belongs_to :user
   has_many :derivatives, class_name: 'Goal', foreign_key: 'template_id'
-  has_many :experience_sample_configs
+  has_many :experience_sample_configs, dependent: :destroy
+  has_many :habits, dependent: :destroy # will also soft delete the habits if goal is soft deleted
 
   belongs_to :template, class_name: 'Goal', optional: true
+  belongs_to :user
 
-  has_many :habits, dependent: :destroy # will also soft delete the habits if goal is soft deleted
 
   validates :title, presence: true
   validates :is_template, inclusion: [false], if: :template_id? # cannot be template if associated with template

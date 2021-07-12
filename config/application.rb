@@ -21,8 +21,12 @@ module YahtWeb
 
     config.beginning_of_week = :monday
 
-    config.asset_host = 'https://yaht.app'
     config.action_mailer.default_url_options = { host: 'yaht.app' }
+
+    # These paths will be ignored when redirecting the user to last visited page
+    # Devise routes need to always be here, so that a redirect loop does not occur
+    # after signing in
+    config.ignored_paths = %W(/users/sign_in /users/sign_up /register/sign_up /users/password /users/sign_out /users/confirm_password /login /register /password/edit)
 
   end
 end

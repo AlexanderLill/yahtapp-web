@@ -18,7 +18,7 @@ class ExperienceSampleConfigsController < ApplicationController
       max: 1 + @experience_sample_config.scale_steps-1,
       label: @experience_sample_config.title
     }
-    @samplings = @experience_sample_config.samplings.order(scheduled_at: :asc)
+    @samplings = @experience_sample_config.samplings.where('scheduled_at >= ?', DateTime.now.beginning_of_week).order(scheduled_at: :asc).limit(50)
   end
 
   # GET /experience_sample_configs/new

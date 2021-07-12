@@ -4,7 +4,7 @@
 
 <% if policy(Goal).see_all? %>
   <div class="flex flex-row mb-4 items-center justify-end">
-   <%= render 'shared/buttongroup', options: [{ title: "All", link: goals_path}, { title: "Own", link: goals_path(:show => :own)}, { title: "Templates", link: goals_path(:show => :templates)}] %>
+   <%= render 'shared/buttongroup', options: [{ title: "All", link: goals_path}, { title: "Own", link: goals_path(:show => :own)}, { title: "Templates", link: goals_path(:show => :templates)}, { title: "Trash", link: goals_path(:show => :trash)}] %>
   </div>
 <% end %>
 
@@ -12,19 +12,4 @@
   <% @goals.each_with_index do |goal,index| %>
     <%= render 'goal_list', goal: goal, index: index %>
   <% end %>
-<% end %>
-<% if policy(Goal).show_trash? %>
-  <div class="my-8">
-    <h3>Trash</h3>
-    <div class="border-b border-gray-200 my-4"></div>
-    <% if @trash.any? %>
-      <%= render 'shared/boxed_list' do %>
-        <% @trash.each_with_index do |goal,index| %>
-          <%= render 'goal_list', goal: goal, index: index %>
-        <% end %>
-      <% end %>
-    <% else %>
-      <p class="text-gray-500 text-sm">There are no items in the trash.</p>
-      <% end %>
-  </div>
 <% end %>

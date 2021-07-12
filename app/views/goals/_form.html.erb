@@ -52,7 +52,7 @@
   <div class="flex my-4">
     <%= form.submit class: "btn btn-primary"  %>
     <% if goal.persisted? %>
-      <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' }, class: 'ml-auto btn btn-secondary'  do %>
+      <%= link_to goal, method: :delete, data: { confirm: 'Are you sure? This will also delete all habits and self-reports connected to this goal.' }, class: 'ml-auto btn btn-secondary'  do %>
         <i class="icon far fa-trash-alt "></i>Delete Goal
       <% end %>
     <% end %>

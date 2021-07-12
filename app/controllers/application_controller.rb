@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if session[:user_return_to].present?
+    if session[:user_return_to].present? and !Rails.configuration.ignored_paths.include?(session[:user_return_to])
       session[:user_return_to]
     else
       dashboard_path
