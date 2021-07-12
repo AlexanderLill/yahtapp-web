@@ -43,6 +43,10 @@ Rails.application.routes.draw do
       get 'select'
       post 'clone'
     end
+    member do
+      post 'enable'
+      post 'disable'
+    end
   end
 
   resources :reflections

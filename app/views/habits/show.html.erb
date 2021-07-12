@@ -1,5 +1,5 @@
 <%= render 'shared/page_heading', title: @habit.title, description: @habit.description do %>
-  <%= render 'toggle' %>
+  <%= render 'toggle', habit: @habit %>
   <%= link_to edit_habit_path(@habit), class: 'btn btn-primary flex whitespace-nowrap' do %>
     <i class="fas fa-pencil-alt mr-2"></i>Edit
   <% end %>
@@ -27,16 +27,6 @@
 <p>
   <strong>User:</strong>
   <%= @habit.user.username %>
-</p>
-
-
-<p>
-  <strong>Is template:</strong>
-  <%= @habit.is_template %>
-</p>
-<p>
-  <strong>Is skippable:</strong>
-  <%= @habit.is_skippable %>
 </p>
 
 <h3 class="mt-8">History:</h3>

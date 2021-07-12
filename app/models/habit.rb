@@ -97,6 +97,7 @@ class Habit < ApplicationRecord
         self.save!
         raise ActiveRecord::Rollback unless errors.empty?
       end
+      errors.empty?
     end
 
 end

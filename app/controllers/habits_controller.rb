@@ -1,5 +1,5 @@
 class HabitsController < ApplicationController
-  before_action :set_habit, only: %i[ show edit update destroy ]
+  before_action :set_habit, only: %i[ show edit update destroy enable disable ]
   before_action :authenticate_user!
 
   layout 'boxed' # sets the layout for all views with this controller
@@ -93,6 +93,43 @@ class HabitsController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @habit.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+
+  def disable
+    authorize @habit
+
+    if !@habit.is_enabled
+      redirect_to @habit_path, alert: "Habit is already disabled."
+    end
+
+    @habit_path = habit_path(@habit.id)
+    return_to = session[:redirect_to] || @habit_path
+    session[:redirect_to] = nil
+
+    if @habit.disable
+      redirect_to return_to, notice: "Habit was successfully disabled."
+    else
+      redirect_to @habit_path, alert: "Habit could not be disabled."
+    end
+  end
+
+  def enable
+    authorize @habit
+
+    if @habit.is_enabled
+      redirect_to @habit_path, alert: "Habit is already enabled."
+    end
+
+    @habit_path = habit_path(@habit.id)
+    return_to = session[:redirect_to] || @habit_path
+    session[:redirect_to] = nil
+
+    if @habit.enable
+      redirect_to return_to, notice: "Habit was successfully enabled."
+    else
+      redirect_to @habit_path, alert: "Habit could not be enabled."
     end
   end
 
