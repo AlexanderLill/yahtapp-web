@@ -14,14 +14,20 @@
           Completed
         </div>
         <div class="mt-2 text-lg font-semibold text-gray-800">
-          15 / 20 <span class="ml-1 text-xs text-gray-500">18/20</span>
+          <%= done_occs_from_habit(habit, @current_period_start, @current_period_end) %> / <%= total_occs_from_habit(habit, @current_period_start, @current_period_end) %>
+          <span class="ml-1 text-xs text-gray-500">
+            <%= done_occs_from_habit(habit, @previous_period_start, @previous_period_end) %>/<%= total_occs_from_habit(habit, @current_period_start, @current_period_end) %>
+          </span>
         </div>
-        <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-          +5%
-        </p>
-        <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-          -5%
-        </p>
+        <% if percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) >= 0 %>
+          <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+            +<%= percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) %>%
+          </p>
+        <% else %>
+          <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+            -<%= percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) %>%
+          </p>
+        <% end %>
       </div>
       <div class="col-span-5 rounded border border-gray-100 bg-gray-50 p-4">
         <div class="font-medium text-gray-700 text-xs">
