@@ -43,7 +43,7 @@
           <%= render "self_report_chart_header", self_report: self_report %>
           <%= render "self_report_chart", self_report: self_report %>
         <% end %>
-        <%= render partial: "habit", collection: goal.habits %>
+        <%= render partial: "habit", collection: goal.habits, current_period_start: @current_period_start, current_period_end: @current_period_end, previous_period_start: @first_reflection_at, previous_period_end: @start_datetime %>
       </div>
     </div>
   <% end %>
