@@ -36,7 +36,7 @@
 
 <div class="flow-root">
   <% @goals.each do |goal| %>
-    <div class="flex flex-row border-b border-gray-200 mb-8">
+    <div class="flex flex-row">
       <div class="flex-grow">
         <h2 class="text-2xl font-serif mb-0"><i class="far fa-bullseye-arrow text-xl mx-auto"></i> <%= goal.title %></h2>
         <% goal.experience_sample_configs.each do |self_report| %>
@@ -149,9 +149,7 @@
             </script>
           </div>
         <% end %>
-        <% goal.habits.each do |habit| %>
-
-        <% end %>
+        <%= render partial: "habit", collection: goal.habits %>
       </div>
     </div>
   <% end %>
