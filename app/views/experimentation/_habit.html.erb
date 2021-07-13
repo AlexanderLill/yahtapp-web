@@ -7,9 +7,9 @@
     <span class="text-gray-800">7d ago</span>
   </div>
 
-  <div class="flex flex-row pb-4 mb-4">
-    <div class="grid grid-cols-8 gap-4">
-      <div class="col-span-2 rounded border border-gray-100 bg-gray-50 p-4">
+  <div class="pb-4 mb-4">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-3 rounded border border-gray-100 bg-gray-50 p-4">
         <div class="font-medium text-gray-700 text-xs">
           Completed
         </div>
@@ -23,7 +23,7 @@
           -5%
         </p>
       </div>
-      <div class="col-span-4 rounded border border-gray-100 bg-gray-50 p-4">
+      <div class="col-span-5 rounded border border-gray-100 bg-gray-50 p-4">
         <div class="font-medium text-gray-700 text-xs">
           Subjective Goal Contribution
         </div>
@@ -54,6 +54,20 @@
         <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
           -0.8
         </p>
+      </div>
+      <div class="col-span-4 pt-4">
+        <div class="space-y-4 float-right">
+          <div class="inline-block">
+            <%= link_to edit_habit_path(habit), class: 'btn btn-secondary mr-2'  do %>
+              <i class="icon far fa-pencil "></i>Edit
+            <% end %>
+          </div>
+          <div class="inline-block">
+            <%= link_to edit_habit_path(habit), class: 'btn btn-secondary mr-2'  do %>
+              <i class="icon far fa-eye-slash "></i>Disable
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
   </div>
