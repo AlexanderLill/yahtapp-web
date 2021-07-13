@@ -19,13 +19,17 @@
             <%= done_occs_from_habit(habit, @previous_period_start, @previous_period_end) %>/<%= total_occs_from_habit(habit, @current_period_start, @current_period_end) %>
           </span>
         </div>
-        <% if percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) >= 0 %>
+        <% if percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) > 0 %>
           <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
             +<%= percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) %>%
           </p>
-        <% else %>
+        <% elsif percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) < 0%>
           <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
             -<%= percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) %>%
+          </p>
+        <% else %>
+          <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 text-gray-800">
+            no change
           </p>
         <% end %>
       </div>
