@@ -1,0 +1,77 @@
+<!-- Chart Self-Report -->
+<div class="">
+  <%
+    chart = {
+      data: self_report.samplings.where('scheduled_at >= ?', @current_period_start).where('scheduled_at <= ?', @current_period_end).map { |sampling| { x: sampling.scheduled_at.iso8601(3), y: sampling.value.nil? ?  0 : sampling.value } },
+      min: 1,
+      max: 1 + self_report.scale_steps-1,
+      label: self_report.title
+    }
+
+
+  %>
+  <%= content_tag :canvas, id: "myChart", class: "self-report-sampling-chart", data: { chart: chart.to_json } do %><% end %>
+  <script>
+      if(document.querySelectorAll(".self-report-sampling-chart").length) {
+
+          var chart = document.querySelector(".self-report-sampling-chart");
+          var data = JSON.parse(chart.dataset.chart);
+
+          const config = {
+              type: 'scatter',
+              data: {
+                  datasets: [{
+                      label: data.label,
+                      data: data.data,
+                      backgroundColor: "#1f2937",
+                      borderColor: "#1f2937"
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  plugins: {
+                      legend: {
+                          position: 'bottom',
+                          align: 'end'
+                      }
+                  },
+                  scales: {
+                      x: {
+                          bounds: 'ticks',
+                          type: 'time',
+                          min: new Date(<%= @current_period_start.to_i*1000 %>),
+                          max: new Date(<%= @current_period_end.to_i*1000 %>),
+                          time: {
+                              // Luxon format string
+                              tooltipFormat: 'DD T',
+                              isoWeekday: true,
+                              unit: 'day'
+                          },
+                          title: {
+                              display: false,
+                              text: 'Date'
+                          },
+                          ticks: {
+                              source: 'auto'
+                          }
+                      },
+                      y: {
+                          beginAtZero: true,
+                          min: 0,
+                          max: data.max,
+                          title: {
+                              display: false,
+                          }
+                      }
+                  }
+              }
+          };
+
+
+          var myChart = new Chart(
+              chart,
+              config
+          );
+      }
+  </script>
+</div>
