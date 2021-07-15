@@ -26,4 +26,18 @@ module GoalsHelper
     }
     colors[color.to_sym]
   end
+
+  def chart_color_value(color, opacity=0.5)
+    colors = {
+      gray: "rgba(75, 85, 99, #{opacity})",
+      red:  "rgba(239, 68, 68, #{opacity})",
+      yellow:  "rgba(245, 158, 11, #{opacity})",
+      green:  "rgba(16, 185, 129, #{opacity})",
+      blue:  "rgba(59, 130, 246, #{opacity})",
+      indigo:  "rgba(99, 102, 241, #{opacity})",
+      purple:  "rgba(139, 92, 246, #{opacity})",
+      pink:  "rgba(236, 72, 153, #{opacity})"
+    }
+    colors[color.to_sym]
+  end
 end
