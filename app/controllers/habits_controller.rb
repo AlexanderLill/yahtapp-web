@@ -100,13 +100,12 @@ class HabitsController < ApplicationController
   def disable
     authorize @habit
 
-    if !@habit.is_enabled
+    unless @habit.is_enabled
       redirect_to @habit_path, alert: "Habit is already disabled."
     end
 
     @habit_path = habit_path(@habit.id)
-    return_to = session[:redirect_to] || @habit_path
-    session[:redirect_to] = nil
+    return_to = params[:redirect_to].to_s.present? ? params[:redirect_to].to_s : @habit_path
 
     if @habit.disable
       redirect_to return_to, notice: "Habit was successfully disabled."
@@ -123,8 +122,7 @@ class HabitsController < ApplicationController
     end
 
     @habit_path = habit_path(@habit.id)
-    return_to = session[:redirect_to] || @habit_path
-    session[:redirect_to] = nil
+    return_to = params[:redirect_to].to_s.present? ? params[:redirect_to].to_s : @habit_path
 
     if @habit.enable
       redirect_to return_to, notice: "Habit was successfully enabled."
@@ -138,7 +136,7 @@ class HabitsController < ApplicationController
     authorize @habit
     @habit_form = HabitForm.new(habit_params.merge("id" => params[:id]))
     @habit_path = habit_path(@habit_form.id)
-    return_to = session[:redirect_to] || @habit_path
+    return_to = session[:redirect_to].to_s.present? ? session[:redirect_to].to_s : @habit_path
     session[:redirect_to] = nil
     if @habit_form.update(habit_params)
       redirect_to return_to, notice: "Habit was successfully updated."

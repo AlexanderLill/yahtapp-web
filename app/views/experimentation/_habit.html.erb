@@ -1,5 +1,13 @@
 <div class="border-b border-gray-200 mb-8">
-  <h3 class="font-serif mb-1"><%= habit.title %></h3>
+  <div class="flex flex-row <%= !habit.is_enabled ? "opacity-50" : "" %>">
+    <h3 class="font-serif mb-1"><%= habit.title %></h3>
+    <% unless habit.is_enabled %>
+      <div class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 self-center justify-self-center">
+        Disabled
+      </div>
+    <% end %>
+  </div>
+
   <div class="text-xs mb-4">
     <span class="text-gray-500">Last change:</span>
     <span class="text-gray-800"><%= time_ago_in_words(habit.updated_at) %> ago</span>
@@ -83,13 +91,19 @@
       <div class="col-span-4 pt-4">
         <div class="space-y-4 float-right">
           <div class="inline-block">
-            <%= link_to edit_habit_path(habit), class: 'btn btn-secondary mr-2'  do %>
+            <%= link_to edit_habit_path(habit, :redirect_to => request.path), class: 'btn btn-secondary mr-2'  do %>
               <i class="icon far fa-pencil "></i>Edit
             <% end %>
           </div>
           <div class="inline-block">
-            <%= link_to edit_habit_path(habit), class: 'btn btn-secondary mr-2'  do %>
-              <i class="icon far fa-eye-slash "></i>Disable
+            <% if habit.is_enabled %>
+              <%= link_to disable_habit_path(habit, :redirect_to => request.path), method: :post, class: 'btn btn-secondary mr-2'  do %>
+                <i class="icon far fa-eye-slash "></i>Disable
+              <% end %>
+            <% else %>
+              <%= link_to enable_habit_path(habit, :redirect_to => request.path), method: :post, class: 'btn btn-secondary mr-2'  do %>
+                <i class="icon far fa-eye "></i>Enable
+              <% end %>
             <% end %>
           </div>
         </div>
