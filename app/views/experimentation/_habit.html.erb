@@ -43,9 +43,7 @@
           </div>
         </div>
 
-
         <%
-
           current_contribution = subjective_goal_contribution(habit, @current_period_start, @current_period_end)
           current_percentage = current_contribution.nil? ? nil : (current_contribution+2)*25
           previous_contribution = subjective_goal_contribution(habit, @previous_period_start, @previous_period_end)

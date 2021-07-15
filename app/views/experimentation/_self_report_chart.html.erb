@@ -1,126 +1,169 @@
 <!-- Chart Self-Report -->
+<%
+  empty = (current_self_reports.count == 0 and previous_self_reports.count == 0)
+  chart_id = "selfReportSamplingChart-#{self_report.id}"
+
+%>
 <div class="">
-  <%
-    chart = {
-      #data: self_report.samplings.where('scheduled_at >= ?', @current_period_start).where('scheduled_at <= ?', @current_period_end).map { |sampling| { x: sampling.scheduled_at.iso8601(3), y: sampling.value.nil? ?  0 : sampling.value } },
-      current_data: current_self_reports.map { |sampling| { x: sampling.scheduled_at.iso8601(3), y: sampling.value } },
-      previous_data: previous_self_reports .map { |sampling| { x: (sampling.scheduled_at + 7.days).iso8601(3), xReal: sampling.scheduled_at.iso8601(3),  y: sampling.value } },
-      min: 1,
-      max: 1 + self_report.scale_steps-1,
-      label: self_report.title
-    }
 
-
-
-  %>
-  <%= content_tag :canvas, id: "selfReportSamplingChart-#{self_report.id}", class: "self-report-sampling-chart", data: { chart: chart.to_json } do end %>
-  <script>
-      if(document.querySelectorAll(".self-report-sampling-chart").length) {
-
-          var chart = document.querySelector(".self-report-sampling-chart");
-          var data = JSON.parse(chart.dataset.chart);
-
-
-          const config = {
-              data: {
-                  datasets: [{
-                      label: "Current week",
-                      data: data.current_data,
-                      backgroundColor: "rgba(96, 165, 250, 0.5)",
-                      borderColor: "rgba(96, 165, 250, 1)",
-                      hoverBackgroundColor: "rgba(96, 165, 250, 1)",
-                      barPercentage: 1,
-                      categoryPercentage: 1,
-                      type: 'bar',
-                  },
-                  {
-                      label: "Previous week",
-                      data: data.previous_data,
-                      backgroundColor: "rgba(209, 213, 219, 0.5)",
-                      borderColor: "rgba(209, 213, 219, 1)",
-                      hoverBackgroundColor: "rgba(209, 213, 219, 1)",
-                      barPercentage: 1,
-                      categoryPercentage: 1,
-                      type: 'bar',
-                  }]
-              },
-              options: {
-                  responsive: true,
-                  legend: {
-                      position: 'bottom',
-                      align: 'end',
-                      display: true,
-                      labels: {
-                          boxWidth: 20,
-                      },
-                  },
-                  tooltips: {
-                      intersect: false,
-                      mode: 'x'
-                  },
-                  plugins: {
-                      crosshair: {
-                          zoom: {
-                              enabled: false
-                          },
-                          sync: {
-                              enabled: true,            // enable trace line syncing with other charts
-                              group: 1,                 // chart group
-                          },
-                      }
-                  },
-                  layout: {
-                    padding: {
-                        top: 20,
-                        bottom: 0
-                    }
-                  },
-                  scales: {
-                      xAxes: [{
-                          bounds: 'ticks',
-                          type: 'time',
-                          stacked: true,
-                          time: {
-                              // Luxon format string
-                              tooltipFormat: 'DD T',
-                              isoWeekday: true,
-                              unit: 'day'
-                          },
-                          title: {
-                              display: false,
-                              text: 'Date'
-                          },
-                          ticks: {
-                              source: 'auto',
-                              min: new Date(<%= @current_period_start.to_i*1000 %>),
-                              max: new Date(<%= @current_period_end.beginning_of_day.to_i*1000 %>)
-                          }
-                      }],
-                      yAxes: [{
-                          beginAtZero: true,
-                          stacked: false,
-                          title: {
-                              display: false,
-                          },
-                          ticks: {
-                              callback: function(value, index, values) {
-                                  if(value % 1 === 0) {
-                                      return value;
-                                  }
-                              },
-                              min: 0,
-                              max: data.max + 0.5, // prevents top clipping
-                          }
-                      }]
-                  }
-              }
-          };
-
-
-          var myChart = new Chart(
-              chart,
-              config
-          );
+  <% if empty %>
+    <p>Empty</p>
+  <% else %>
+    <%
+      chart = {
+        current_data: current_self_reports.map { |sampling| { x: sampling.scheduled_at.iso8601(3), y: sampling.value.nil? ? 0 : sampling.value } },
+        previous_data: previous_self_reports.map { |sampling| { x: (sampling.scheduled_at + 7.days).iso8601(3), xReal: sampling.scheduled_at.iso8601(3),  y: sampling.value.nil? ? 0 : sampling.value } },
+        min: 1,
+        max: 1 + self_report.scale_steps-1,
+        label: self_report.title
       }
-  </script>
+      
+    %>
+    <%= content_tag :canvas, id: chart_id, class: "self-report-sampling-chart", data: { chart: chart.to_json } do end %>
+    <script>
+
+        /**
+         * Used to show a small bar on the chart if the value is 0
+         * @source https://github.com/chartjs/Chart.js/issues/3915
+         * @type Object
+         */
+        var showZeroPlugin = {
+            beforeRender: function (chartInstance) {
+                var datasets = chartInstance.config.data.datasets;
+
+                for (var i = 0; i < datasets.length; i++) {
+                    var meta = datasets[i]._meta;
+                    // It counts up every time you change something on the chart so
+                    // this is a way to get the info on whichever index it's at
+                    var metaData = meta[Object.keys(meta)[0]];
+                    var bars = metaData.data;
+
+                    for (var j = 0; j < bars.length; j++) {
+                        var model = bars[j]._model;
+
+                        if (metaData.type === "horizontalBar" && model.base === model.x) {
+                            model.x = model.base + 4;
+                        } else if (model.base === model.y) {
+                            model.y = model.base - 4;
+                        }
+                    }
+                }
+
+            }
+        };
+
+        // Enabled by default
+        Chart.pluginService.register(showZeroPlugin);
+
+
+        if(document.querySelectorAll("#<%= chart_id %>").length) {
+
+            var chart = document.querySelector("#<%= chart_id %>");
+            var data = JSON.parse(chart.dataset.chart);
+
+
+            const config = {
+                data: {
+                    datasets: [{
+                        label: "Current week",
+                        data: data.current_data,
+                        backgroundColor: "rgba(96, 165, 250, 0.5)",
+                        borderColor: "rgba(96, 165, 250, 1)",
+                        hoverBackgroundColor: "rgba(96, 165, 250, 1)",
+                        barPercentage: 1,
+                        categoryPercentage: 1,
+                        type: 'bar',
+                    },
+                        {
+                            label: "Previous week",
+                            data: data.previous_data,
+                            backgroundColor: "rgba(209, 213, 219, 0.5)",
+                            borderColor: "rgba(209, 213, 219, 1)",
+                            hoverBackgroundColor: "rgba(209, 213, 219, 1)",
+                            barPercentage: 1,
+                            categoryPercentage: 1,
+                            type: 'bar',
+                        }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'bottom',
+                        align: 'end',
+                        display: true,
+                        labels: {
+                            boxWidth: 20,
+                        },
+                    },
+                    tooltips: {
+                        intersect: false,
+                        mode: 'x'
+                    },
+                    plugins: {
+                        crosshair: {
+                            zoom: {
+                                enabled: false
+                            },
+                            sync: {
+                                enabled: true,            // enable trace line syncing with other charts
+                                group: 1,                 // chart group
+                            },
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            top: 20,
+                            bottom: 0
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                            bounds: 'ticks',
+                            type: 'time',
+                            stacked: true,
+                            time: {
+                                // Luxon format string
+                                tooltipFormat: 'DD T',
+                                isoWeekday: true,
+                                unit: 'day'
+                            },
+                            title: {
+                                display: false,
+                                text: 'Date'
+                            },
+                            ticks: {
+                                source: 'auto',
+                                min: new Date(<%= @current_period_start.to_i*1000 %>),
+                                max: new Date(<%= @current_period_end.beginning_of_day.to_i*1000 %>)
+                            }
+                        }],
+                        yAxes: [{
+                            beginAtZero: true,
+                            stacked: false,
+                            title: {
+                                display: false,
+                            },
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    if(value % 1 === 0) {
+                                        return value;
+                                    }
+                                },
+                                min: 0,
+                                max: data.max + 0.5, // prevents top clipping
+                            }
+                        }]
+                    }
+                }
+            };
+
+
+            var myChart = new Chart(
+                chart,
+                config
+            );
+        }
+    </script>
+  <% end %>
+
 </div>
