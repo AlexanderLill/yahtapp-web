@@ -12,7 +12,7 @@
       chart[:datasets].append({
               label: habit.title,
               type: 'scatter',
-              backgroundColor: "rgba(96, 165, 250, #{0.4 + (index+1)*(0.6/habits.length)})",
+              backgroundColor: chart_color_value(habits.first.goal.color,0.4 + (index+1)*(0.6/habits.length)),
               data: habit.occurrences.where('scheduled_at >= ?', @current_period_start).where('scheduled_at <= ?', @current_period_end).map { |occ| { x: occ.scheduled_at.iso8601(3), y: habit.title, duration: habit.duration, started: occ.started_at.present?, ended: occ.started_at.present?, skipped: occ.skipped_at.present? } }
       })
     end
