@@ -6,6 +6,8 @@
       yLabels: habits.map{ |habit| habit.title }
     }
 
+    chart_id = "habitScheduleChart-#{habits.first.goal.id}"
+
     habits.each_with_index do |habit,index|
       chart[:datasets].append({
               label: habit.title,
@@ -17,14 +19,12 @@
 
   %>
   <div class="text-gray-600 font-semibold -mt-4">Habit Schedule</div>
-  <%= content_tag :canvas, id: "habitScheduleChart-#{habits.first.goal.id}", class: "habitScheduleChart", height: 70,  data: { chart: chart.to_json } do end %>
+  <%= content_tag :canvas, id: chart_id, class: "habitScheduleChart", height: 70,  data: { chart: chart.to_json } do end %>
   <script>
       if(document.querySelectorAll(".habitScheduleChart").length) {
 
-          var chart = document.querySelector(".habitScheduleChart");
+          var chart = document.querySelector("#<%= chart_id %>");
           var data = JSON.parse(chart.dataset.chart);
-
-          console.log(data)
 
           const config = {
               data: {
@@ -43,7 +43,6 @@
                           var index = legendItem.datasetIndex;
                           var ci = this.chart;
                           var meta = ci.getDatasetMeta(index);
-                          console.log(meta);
                           // See controller.isDatasetVisible comment
                           meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
 
@@ -79,6 +78,10 @@
                           sync: {
                               enabled: true,            // enable trace line syncing with other charts
                               group: 1,                 // chart group
+                          },
+                          line: {
+                              color: '#F66',  // crosshair line color
+                              width: 4        // crosshair line width
                           },
                       }
                   },
