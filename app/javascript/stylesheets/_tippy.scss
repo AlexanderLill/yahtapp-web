@@ -1,0 +1,11 @@
+.tippy-box > .tippy-svg-arrow {
+
+}
+.tippy-box {
+  .tippy-content, .tippy-backdrop {
+    @apply bg-gray-800  rounded;
+  }
+  .tippy-content {
+    @apply text-white px-2 font-semibold text-xs;
+  }
+}

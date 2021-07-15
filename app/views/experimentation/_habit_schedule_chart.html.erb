@@ -1,0 +1,158 @@
+
+<div class="">
+  <%
+    chart = {
+      datasets: [],
+      yLabels: habits.map{ |habit| habit.title }
+    }
+
+    habits.each_with_index do |habit,index|
+      chart[:datasets].append({
+              label: habit.title,
+              type: 'scatter',
+              backgroundColor: "rgba(96, 165, 250, #{0.4 + (index+1)*(0.6/habits.length)})",
+              data: habit.occurrences.where('scheduled_at >= ?', @current_period_start).where('scheduled_at <= ?', @current_period_end).map { |occ| { x: occ.scheduled_at.iso8601(3), y: habit.title, duration: habit.duration, started: occ.started_at.present?, ended: occ.started_at.present?, skipped: occ.skipped_at.present? } }
+      })
+    end
+
+  %>
+  <div class="text-gray-600 font-semibold -mt-4">Habit Schedule</div>
+  <%= content_tag :canvas, id: "habitScheduleChart-#{habits.first.goal.id}", class: "habitScheduleChart", height: 70,  data: { chart: chart.to_json } do end %>
+  <script>
+      if(document.querySelectorAll(".habitScheduleChart").length) {
+
+          var chart = document.querySelector(".habitScheduleChart");
+          var data = JSON.parse(chart.dataset.chart);
+
+          console.log(data)
+
+          const config = {
+              data: {
+                  datasets: data.datasets,
+              },
+              options: {
+                  responsive: true,
+                  legend: {
+                      position: 'bottom',
+                      align: 'end',
+                      display: true,
+                      labels: {
+                          boxWidth: 20,
+                      },
+                      onClick: function(e, legendItem) {
+                          var index = legendItem.datasetIndex;
+                          var ci = this.chart;
+                          var meta = ci.getDatasetMeta(index);
+                          console.log(meta);
+                          // See controller.isDatasetVisible comment
+                          meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+
+                          // We hid a dataset ... rerender the chart
+                          ci.update();
+                      }
+                  },
+                  tooltips: {
+                      intersect: false,
+                      mode: 'x',
+                      callbacks: {
+                          label: function (tooltipItem, data) {
+                              var dataset = data.datasets[tooltipItem.datasetIndex]
+                              var label = dataset.label || '';
+                              var datapoint = dataset.data[tooltipItem.index]
+
+                              if(datapoint.started || datapoint.ended) {
+                                  return label
+                              } else if(datapoint.skipped) {
+                                  return label + " (skipped)";
+                              } else {
+                                  return label + " (missed)";
+                              }
+
+                          }
+                      }
+                  },
+                  plugins: {
+                      crosshair: {
+                          zoom: {
+                              enabled: false
+                          },
+                          sync: {
+                              enabled: true,            // enable trace line syncing with other charts
+                              group: 1,                 // chart group
+                          },
+                      }
+                  },
+                  layout: {
+                      padding: {
+                          top: 20,
+                          bottom: 20
+                      }
+                  },
+                  elements: {
+                      point: {
+                          pointStyle: function(ctx) {
+                              if(ctx.dataset.data[ctx.dataIndex].started || ctx.dataset.data[ctx.dataIndex].ended) {
+                                  return 'rectRounded'
+                              }
+                              return 'crossRot'
+                          },
+                          radius: 5,
+                          borderColor: function(ctx) {
+                              if(ctx.dataset.data[ctx.dataIndex].started || ctx.dataset.data[ctx.dataIndex].ended) {
+                                return 'rgba(255,255,255,0)';
+                              }
+                              return 'rgba(156,163,175,1)';
+                          }
+                      }
+                  },
+                  scales: {
+                      xAxes: [{
+                          bounds: 'ticks',
+                          type: 'time',
+                          time: {
+                              // Luxon format string
+                              tooltipFormat: 'DD T',
+                              isoWeekday: true,
+                              unit: 'day'
+                          },
+                          title: {
+                              display: false,
+                              text: 'Date'
+                          },
+                          ticks: {
+                              source: 'auto',
+                              min: new Date(<%= @current_period_start.to_i*1000 %>),
+                              max: new Date(<%= @current_period_end.beginning_of_day.to_i*1000 %>)
+                          }
+                      }],
+                      yAxes: [{
+                          offset: true,
+                          title: {
+                              display: false,
+                          },
+                          scaleLabel: {
+                              display: false,
+                          },
+                          type: 'category',
+                          labels: data.yLabels,
+                          ticks: {
+                              display: false,
+                              align: ''
+                          },
+                          gridLines: {
+                              offsetGridLines: true,
+                              //tickMarkLength: 0
+                          }
+                      }]
+                  }
+              }
+          };
+
+
+          var myChart = new Chart(
+              chart,
+              config
+          );
+      }
+  </script>
+</div>

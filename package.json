@@ -16,9 +16,11 @@
     "autoprefixer": "^9",
     "chart.js": "^3.2.1",
     "chartjs-adapter-luxon": "^1.0.0",
+    "chartjs-plugin-crosshair": "^1.1.6",
     "luxon": "^1.26.0",
     "postcss": "^7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "tippy.js": "^6.3.1",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",

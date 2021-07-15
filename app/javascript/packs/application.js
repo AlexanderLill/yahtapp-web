@@ -13,6 +13,11 @@ import Chart from 'chart.js/auto';
 // TODO: tree-shake chart js
 import 'chartjs-adapter-luxon';
 
+// Tippy for Tooltips
+import tippy from "tippy.js"
+import "tippy.js/dist/tippy.css"
+
+
 // Fontawesome
 import "@fortawesome/fontawesome-pro/js/all"
 // prevents the flickering of icons when using Fontawesome with turbolinks
@@ -38,6 +43,7 @@ document.addEventListener("turbo:before-stream-render", initiate)
 function initiate() {
     initiateChoices()
     initiateChart()
+    initiateTooltips()
 }
 const choiceConfig = {
     addItems: true,
@@ -108,5 +114,12 @@ function initiateChart() {
         );
     }
 }
+
+function initiateTooltips() {
+    tippy("[data-tippy-content]", {
+        delay: [0, 0],
+    })
+}
+
 
 import "stylesheets/application"

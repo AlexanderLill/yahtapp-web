@@ -4,9 +4,9 @@ module ExperimentationHelper
     habit.occurrences
                 .where('scheduled_at >= ?', start_date)
                 .where('scheduled_at <= ?', end_date)
-                .where('started_at IS NOT NULL')
-                .where('ended_at IS NOT NULL')
-                .count
+                .where('started_at IS NOT NULL').count
+                #.where('ended_at IS NOT NULL')
+
   end
 
   def total_occs_from_habit(habit, start_date, end_date)
@@ -30,5 +30,39 @@ module ExperimentationHelper
 
   end
 
+
+  def average_self_report(self_reports)
+    avg = self_reports.average(:value)
+    if avg.nil?
+      "-"
+    else
+      avg.round(2)
+    end
+  end
+
+  def average_percentage_change(current_avg, previous_avg)
+    if current_avg.is_a? Numeric and !previous_avg.is_a? Numeric
+      100
+    end
+    if !current_avg.is_a? Numeric and previous_avg.is_a? Numeric
+      -100
+    end
+    if !current_avg.is_a? Numeric and !previous_avg.is_a? Numeric
+      nil
+    end
+    (current_avg/previous_avg * 100).round(2)
+  end
+
+  def subjective_goal_contribution(habit, start_date, end_date)
+    avg = habit.habit_reflections
+               .where('created_at >= ?', start_date)
+               .where('created_at <= ?', end_date)
+               .average(:rating)
+    if avg.nil?
+      nil
+    else
+      avg.round(2)
+    end
+  end
 
 end
