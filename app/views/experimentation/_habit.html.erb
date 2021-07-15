@@ -1,0 +1,100 @@
+<div class="border-b border-gray-200 mb-8">
+  <h3 class="font-serif mb-1"><%= habit.title %></h3>
+  <div class="text-xs mb-4">
+    <span class="text-gray-500">Last change:</span>
+    <span class="text-gray-800"><%= time_ago_in_words(habit.updated_at) %> ago</span>
+    <span class="ml-4 text-gray-500">Habit added:</span>
+    <span class="text-gray-800"><%= time_ago_in_words(habit.created_at) %> ago</span>
+  </div>
+
+  <div class="pb-4 mb-4">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-3 rounded border border-gray-100 bg-gray-50 p-4">
+        <div class="font-medium text-gray-700 text-xs">
+          Completed
+        </div>
+        <div class="mt-2 text-lg font-semibold text-gray-800">
+          <%= done_occs_from_habit(habit, @current_period_start, @current_period_end) %> / <%= total_occs_from_habit(habit, @current_period_start, @current_period_end) %>
+          <span class="ml-1 text-xs text-gray-500">
+            <%= done_occs_from_habit(habit, @previous_period_start, @previous_period_end) %>/<%= total_occs_from_habit(habit, @current_period_start, @current_period_end) %>
+          </span>
+        </div>
+        <% if percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) > 0 %>
+          <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+            +<%= percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) %>%
+          </p>
+        <% elsif percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) < 0%>
+          <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+            -<%= percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) %>%
+          </p>
+        <% else %>
+          <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 text-gray-800">
+            no change
+          </p>
+        <% end %>
+      </div>
+      <div class="col-span-5 rounded border border-gray-100 bg-gray-50 p-4">
+        <div class="flex flex-row">
+          <div class="flex-grow font-medium text-gray-700 text-xs">
+            Subjective Goal Contribution
+          </div>
+          <div class="text-gray-400 cursor-pointer hover:text-gray-500 ml-auto -mt-1" data-tippy-content="How much the habit has worked towards achieving your goal (based on your reflections)">
+            <i class="fas fa-question-circle"></i>
+          </div>
+        </div>
+
+        <%
+          current_contribution = subjective_goal_contribution(habit, @current_period_start, @current_period_end)
+          current_percentage = current_contribution.nil? ? nil : (current_contribution+2)*25
+          previous_contribution = subjective_goal_contribution(habit, @previous_period_start, @previous_period_end)
+          contribution_change = previous_contribution.nil? ? current_contribution : current_contribution - previous_contribution
+        %>
+        <div class="mt-2 text-lg font-semibold text-gray-800">
+          <div class="flex flex-row">
+            <div class="flex pr-4 w-12"><%= current_contribution %></div>
+            <div class="flex flex-row flex-grow relative">
+              <div class="flex-1 bg-red-400 h-3 mt-2 rounded-l-lg" data-tippy-content="Not at all"></div>
+              <div class="flex-1 bg-red-300 h-3 mt-2" data-tippy-content="Not much"></div>
+              <div class="flex-1 bg-green-300 h-3 mt-2 " data-tippy-content="A bit"></div>
+              <div class="flex-1 bg-green-400 h-3 mt-2 rounded-r-lg" data-tippy-content="Definitely"></div>
+              <div class="absolute text-gray-600 text-center h-3" style="transform: translateX(-50%); left: <%= current_percentage %>%">
+                |
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <% if contribution_change %>
+          <% if contribution_change > 0 %>
+            <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+              +<%= contribution_change %>
+            </p>
+          <% elsif contribution_change < 0 %>
+            <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+              <%= contribution_change %>
+            </p>
+          <% else %>
+            <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 text-gray-800">
+              no change
+            </p>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="col-span-4 pt-4">
+        <div class="space-y-4 float-right">
+          <div class="inline-block">
+            <%= link_to edit_habit_path(habit), class: 'btn btn-secondary mr-2'  do %>
+              <i class="icon far fa-pencil "></i>Edit
+            <% end %>
+          </div>
+          <div class="inline-block">
+            <%= link_to edit_habit_path(habit), class: 'btn btn-secondary mr-2'  do %>
+              <i class="icon far fa-eye-slash "></i>Disable
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
