@@ -18,7 +18,7 @@
     end
 
   %>
-  <div class="text-gray-600 font-semibold -mt-4">Habit Schedule</div>
+  <div class="text-gray-600 font-semibold">Habit Schedule</div>
   <%= content_tag :canvas, id: chart_id, class: "habitScheduleChart", height: 70,  data: { chart: chart.to_json } do end %>
   <script>
       if(document.querySelectorAll(".habitScheduleChart").length) {

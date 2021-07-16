@@ -47,13 +47,13 @@
           <%
             current_self_reports = self_report.samplings.where('scheduled_at >= ?', @current_period_start).where('scheduled_at <= ?', @current_period_end)
             previous_self_reports = self_report.samplings.where('scheduled_at >= ?', @last_period_start).where('scheduled_at <= ?', @last_period_end)
-            avg = current_self_reports.average(:value)
           %>
 
           <%= render "self_report_chart_header", self_report: self_report, current_self_reports: current_self_reports, previous_self_reports: previous_self_reports %>
           <%= render "self_report_chart", self_report: self_report, current_self_reports: current_self_reports, previous_self_reports: previous_self_reports %>
+        <% end %>
+        <% if goal.habits.any? %>
           <%= render "habit_schedule_chart", habits: goal.habits %>
-
         <% end %>
         <%= render partial: "habit", collection: goal.habits %>
         <%= render "add_habits", goal: goal %>
