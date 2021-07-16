@@ -19,3 +19,7 @@
 .turbolinks-progress-bar {
   background-color: rgba(17, 24, 39,1);
 }
+
+[x-cloak] {
+  display: none !important;
+}
