@@ -50,7 +50,7 @@ module ExperimentationHelper
     if !current_avg.is_a? Numeric and !previous_avg.is_a? Numeric
       nil
     end
-    (current_avg/previous_avg * 100).round(2)
+    (((current_avg-previous_avg)/previous_avg) * 100).round(2)
   end
 
   def subjective_goal_contribution(habit, start_date, end_date)

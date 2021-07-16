@@ -101,18 +101,18 @@
     <!-- Linking images also helps with Gmail displaying download links next to them. -->
 
     <!-- A level 2 heading is used to keep the document order correct. -->
-    <h2 style="color: #111827; font-size: 24px; font-weight: 600; line-height: 32px; margin: 24px 0 24px 0; text-align: center;">Your Productivity was up 10%.</h2>
+    <h2 style="color: #111827; font-size: 24px; font-weight: 600; line-height: 32px; margin: 24px 0 24px 0; text-align: center;"><%= @subject %></h2>
     <p style="color: #4B5563;">We&rsquo;ve compiled an overview of your progress with&nbsp;yaht&nbsp;this week. Use it to gain insights about your habits and goals and tweak your settings for next week accordingly.</p>
     <!-- This paragraph uses column-count for multiple columns. A more robust solution would require more tables... -->
 
     <!-- This CTA was adapted from code from Campaign Monitor's buttons.cm. -->
     <center>
       <div style="margin: 48px 0;"><!--[if mso]>
-      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://yaht.app/experimentation" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" stroke="f" fillcolor="#B200FD">
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="<%= @report_url %>" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" stroke="f" fillcolor="#B200FD">
         <w:anchorlock/>
         <center>
       <![endif]-->
-        <a class="button" href="https://yaht.app/experimentation" style="background-color: #111827;border-radius: 4px;color: #ffffff;display: inline-block;font-family: sans-serif;font-size: 18px;font-weight: bold;line-height: 60px;text-align: center;text-decoration: none;width: 300px;-webkit-text-size-adjust: none;" bgcolor="#111827">See Report</a>
+        <a class="button" href="<%= @report_url %>" style="background-color: #111827;border-radius: 4px;color: #ffffff;display: inline-block;font-family: sans-serif;font-size: 18px;font-weight: bold;line-height: 60px;text-align: center;text-decoration: none;width: 300px;-webkit-text-size-adjust: none;" bgcolor="#111827">See Report</a>
         <!--[if mso]>
         </center>
         </v:roundrect>

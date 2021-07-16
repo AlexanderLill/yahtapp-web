@@ -30,6 +30,21 @@
     <%= f.time_zone_select :timezone %>
   </div>
 
+  <div class="field">
+    <div class="relative flex items-start">
+      <div class="flex items-center h-5">
+        <%= f.check_box :experimentation_email %>
+      </div>
+      <div class="ml-3 text-sm">
+        <%= f.label :experimentation_email, "Weekly Experimentation E-Mail" %>
+        <span id="candidates-description" class="text-gray-500">
+          We will send you a weekly reminder to experiment with settings and try out new habits.
+        </span>
+      </div>
+    </div>
+
+  </div>
+
   <div class="actions">
     <%= f.submit "Update settings", class: 'btn btn-primary'%>
   </div>
