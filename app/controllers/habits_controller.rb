@@ -34,6 +34,10 @@ class HabitsController < ApplicationController
     # 1. get list of selected habits
     @habits = Habit.where(id:@habit_ids)
 
+    @habit_path = habits_path
+    return_to = params[:redirect_to].to_s.present? ? params[:redirect_to].to_s : @habit_path
+
+
     if @habits.present?
       Habit.transaction do
         # 2. duplicate habits and habit config
@@ -52,7 +56,7 @@ class HabitsController < ApplicationController
           end
         end
       end
-      redirect_to dashboard_path, notice: "Successfully created #{@habits.count} habits."
+      redirect_to return_to, notice: "Successfully created #{@habits.count} habits."
     else
       redirect_to select_habits_path, alert: "Please select at least one habit."
     end
@@ -67,33 +71,31 @@ class HabitsController < ApplicationController
 
   # GET /habits/new
   def new
-    @habit = HabitForm.new(user: current_user)
+    @habit = HabitForm.new(user: current_user, is_enabled: true)
   end
 
   # GET /habits/1/edit
   def edit
     authorize @habit
-    session[:redirect_to] = params[:redirect_to]
   end
 
   # POST /habits or /habits.json
   def create
-    params = habit_params
-    if params[:user_id].nil? and params[:user].nil? and !policy(@habit).set_user?
-      params[:user] = current_user
+
+    if habit_params[:user_id].nil? and habit_params[:user].nil? and !policy(@habit).set_user?
+      habit_params[:user] = current_user
     end
 
-    @habit = HabitForm.new(params)
+    @habit = HabitForm.new(habit_params)
 
-    respond_to do |format|
-      if @habit.save
-        format.html { redirect_to @habit, notice: "Habit was successfully created." }
-        format.json { render :show, status: :created, location: @habit }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @habit.errors, status: :unprocessable_entity }
-      end
+    return_to = params[:redirect_to].to_s.present? ? params[:redirect_to].to_s : @habit
+
+    if @habit.save
+      redirect_to return_to, notice: "Habit was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
+
   end
 
 
@@ -136,8 +138,8 @@ class HabitsController < ApplicationController
     authorize @habit
     @habit_form = HabitForm.new(habit_params.merge("id" => params[:id]))
     @habit_path = habit_path(@habit_form.id)
-    return_to = session[:redirect_to].to_s.present? ? session[:redirect_to].to_s : @habit_path
-    session[:redirect_to] = nil
+    return_to = params[:redirect_to].to_s.present? ? params[:redirect_to].to_s : @habit_path
+
     if @habit_form.update(habit_params)
       redirect_to return_to, notice: "Habit was successfully updated."
     else
@@ -149,8 +151,11 @@ class HabitsController < ApplicationController
   def destroy
     authorize @habit
     message = @habit.deleted_at.present? ? "Habit was successfully destroyed." : "Habit was put in trash."
+
+    return_to = params[:redirect_to].to_s.present? ? params[:redirect_to].to_s : habits_url
+
     @habit.destroy
-    redirect_to habits_url, notice: message
+    redirect_to return_to, notice: message
   end
 
   def set_recurrence_from_param

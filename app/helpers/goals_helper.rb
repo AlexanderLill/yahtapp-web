@@ -40,4 +40,17 @@ module GoalsHelper
     }
     colors[color.to_sym]
   end
+
+  def new_habits_for_goal(goal)
+    unless goal.template_id
+      return []
+    end
+
+    existing_habits = Habit.where(goal_id: goal.id)
+    existing_template_ids = existing_habits.pluck(:template_id)
+
+    new_habits = Habit.where(goal_id: goal.template_id, is_template: true).where.not(id: existing_template_ids)
+    return new_habits
+  end
+
 end

@@ -1,0 +1,11 @@
+
+<%= render 'shared/modal', id: "new-habit-#{goal.id}" do %>
+
+  <div class="flex flex-col">
+    <div class="flex flex-col border-b border-gray-200 pb-4 mb-4">
+      <h2 class="mb-1">Create new Habit</h2>
+    </div>
+    <%= render 'habits/form', habit: HabitForm.new(user: current_user, goal_id: goal.id, is_enabled: true), redirect_to: request.path %>
+  </div>
+
+<% end %>

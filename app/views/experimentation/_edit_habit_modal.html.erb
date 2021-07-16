@@ -1,0 +1,8 @@
+<%= render 'shared/modal', id: "edit-habit-#{habit.id}" do %>
+  <div class="flex flex-col">
+    <div class="flex flex-col border-b border-gray-200 pb-4 mb-4">
+      <h2 class="mb-1">Edit Habit</h2>
+    </div>
+    <%= render 'habits/form', habit: habit, redirect_to: request.path %>
+  </div>
+<% end %>

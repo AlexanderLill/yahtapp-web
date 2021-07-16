@@ -1,0 +1,28 @@
+
+<%= render 'shared/modal', id: "add-habits-#{goal.id}" do %>
+
+  <div class="flex flex-col">
+    <div class="flex flex-col border-b border-gray-200 pb-4 mb-4">
+      <h2 class="mb-1">Select Habit Template</h2>
+      <p class="text-sm text-gray-500">Based on your current experience with yaht, the following list contains new habits you could try towards achieving your goal to <strong><%= goal.title %></strong>.</p>
+    </div>
+    <% new_habits = new_habits_for_goal(goal) %>
+    <% if new_habits.any? %>
+      <%= form_with(url: clone_habits_path(:redirect_to => request.path), method: "post") do |form| %>
+
+        <div class="">
+          <% new_habits.each_with_index do |habit,index| %>
+            <%= render 'habits/habit_select_list', habit: habit %>
+          <% end %>
+        </div>
+
+        <%= form.submit 'Select Habits', class: 'btn btn-primary mt-2' %>
+      <% end %>
+    <% else %>
+      <%= render "shared/info" do %>
+        There are currently no new habits available as a template for this goal.
+      <% end %>
+    <% end %>
+  </div>
+
+<% end %>

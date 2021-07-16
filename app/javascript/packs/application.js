@@ -31,6 +31,7 @@ import "channels"
 
 // custom components
 import "./Notification"
+import "./Modal"
 
 Rails.start()
 Turbolinks.start()

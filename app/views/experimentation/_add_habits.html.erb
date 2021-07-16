@@ -1,0 +1,19 @@
+<div class="grid mb-2">
+  <div class="flex flex-col mb-4">
+    <h3 class="text-lg text-gray-600 font-semibold mb-1">Try a new habit</h3>
+    <p class="text-sm text-gray-500">If the existing habits do not positively affect your performance, trying a different habit might help.</p>
+  </div>
+  <div class="flex flex-row">
+    <a class="mr-2 btn btn-secondary inline-block self-start" x-data @click="$dispatch('show-modal', '<%= "new-habit-#{goal.id}" %>')">
+      <i class="far fa-plus mr-2"></i>
+      Create new Habit
+    </a>
+
+    <a class="mr-auto btn btn-secondary inline-block self-start" x-data @click="$dispatch('show-modal', '<%= "add-habits-#{goal.id}" %>')">
+      <i class="far fa-wand-magic mr-2"></i>
+      Select from Template
+    </a>
+  </div>
+
+
+</div>

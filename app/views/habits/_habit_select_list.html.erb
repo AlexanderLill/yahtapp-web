@@ -1,0 +1,30 @@
+<label class="my-2 relative block rounded-lg border border-gray-300 bg-white shadow-sm px-6 py-4 cursor-pointer hover:border-gray-400 sm:flex sm:justify-between focus-within:ring-1 focus-within:ring-offset-2 focus-within:ring-gray-400" x-data="{ selected: false }">
+  <input type="checkbox" name="habit_ids[]" x-model="selected" value="<%= habit.id %>" class="sr-only" aria-labelledby="server-size-0-label" aria-describedby="server-size-0-description-0 server-size-0-description-1">
+  <div class="flex items-center">
+    <div class="text-sm">
+      <p  class="font-medium text-gray-900">
+        <%= habit.title %>
+      </p>
+      <% if habit.description.present? %>
+        <div class="text-gray-500 flex">
+          <%= habit.description %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div id="server-size-0-description-1" class="mt-2 flex text-sm sm:mt-0 sm:block sm:ml-4 sm:text-right">
+    <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+      <i class="far fa-calendar-alt mr-2"></i>
+      <p>
+        <%= habit.recurrence_on.map{|day| day.capitalize.slice(0,2)}.join(', ') %> at <%= habit.recurrence_at %>
+      </p>
+    </div>
+    <div class="mt-2 flex items-center justify-end text-sm text-gray-500 sm:mt-0 ml-6">
+      <i class="far fa-clock mr-2"></i>
+      <p>
+        <%= habit.duration %> mins
+      </p>
+    </div>
+  </div>
+  <div :class="{ 'border-transparent': !selected, 'border-gray-900': selected }" class="absolute -inset-px rounded-lg border-2 pointer-events-none" aria-hidden="true"></div>
+</label>

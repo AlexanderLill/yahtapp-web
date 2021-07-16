@@ -37,7 +37,7 @@
 
 <div class="flow-root">
   <% @goals.each do |goal| %>
-    <div class="flex flex-row">
+    <div class="flex flex-row mb-12 border-b border-gray-200 pb-8">
       <div class="flex-grow">
         <h2 class="text-2xl font-serif mb-2"><i class="far fa-bullseye-arrow text-xl mx-auto"></i> <%= goal.title %></h2>
 
@@ -56,7 +56,10 @@
 
         <% end %>
         <%= render partial: "habit", collection: goal.habits %>
+        <%= render "add_habits", goal: goal %>
       </div>
     </div>
+    <%= render "add_habits_modal", goal: goal %>
+    <%= render "new_habit_modal", goal: goal %>
   <% end %>
 </div>

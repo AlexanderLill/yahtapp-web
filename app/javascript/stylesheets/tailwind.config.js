@@ -19,7 +19,8 @@ module.exports = {
         serif: ['QuincyCF','serif']
       },
       width: {
-        small: '42rem'
+        small: '42rem',
+        100: '28rem'
       },
     },
   },

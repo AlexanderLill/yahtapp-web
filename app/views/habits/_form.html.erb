@@ -1,4 +1,8 @@
 <%= form_for(habit) do |form| %>
+  <% if defined?(redirect_to) && !redirect_to.blank? && !redirect_to.nil? %>
+    <%= hidden_field_tag 'redirect_to', redirect_to %>
+  <% end %>
+
   <% if habit.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(habit.errors.count, "error") %> prohibited this habit from being saved:</h2>
@@ -11,8 +15,8 @@
     </div>
   <% end %>
 
-  <div class="pt-8">
-    <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+  <div class="">
+    <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
       <div class="sm:col-span-6">
         <div class="field">
           <%= form.label :title %>
@@ -68,20 +72,20 @@
           <%= form.select :goal_id, policy_scope(Goal).collect { |g| [ g.title, g.id]} %>
         </div>
       </div>
-      <div class="sm:col-span-6">
+      <div class="sm:col-span-2">
         <div class="field">
           <%= form.label :is_skippable %>
           <%= form.check_box :is_skippable %>
         </div>
       </div>
-      <div class="sm:col-span-6">
+      <div class="sm:col-span-2">
         <div class="field">
           <%= form.label :is_enabled %>
           <%= form.check_box :is_enabled %>
         </div>
       </div>
       <% if policy(habit).set_template? %>
-        <div class="sm:col-span-6">
+        <div class="sm:col-span-2">
           <div class="field">
             <%= form.label :is_template %>
             <%= form.check_box :is_template %>
@@ -106,8 +110,14 @@
   <div class="flex my-4">
     <%= form.submit class: 'btn btn-primary' %>
     <% if habit.persisted? %>
-      <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-secondary ml-auto'  do %>
-        <i class="icon far fa-trash-alt "></i>Delete Habit
+      <% if defined?(redirect_to) && !redirect_to.blank? && !redirect_to.nil? %>
+        <%= link_to habit_url(habit, redirect_to: redirect_to), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-secondary ml-auto'  do %>
+          <i class="icon far fa-trash-alt "></i>Delete Habit
+        <% end %>
+      <% else %>
+        <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-secondary ml-auto'  do %>
+          <i class="icon far fa-trash-alt "></i>Delete Habit
+        <% end %>
       <% end %>
     <% end %>
   </div>
