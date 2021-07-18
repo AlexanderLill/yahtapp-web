@@ -15,6 +15,9 @@ class ExperimentationController < ApplicationController
     @last_period_start = @start_datetime.beginning_of_day - 7.days
     @last_period_end = @current_period_start.end_of_day - 1.days
 
+    @has_data_before_start_date = current_user.created_at < @last_period_end
+
+
   end
 
 

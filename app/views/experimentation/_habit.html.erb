@@ -24,16 +24,16 @@
         <div class="mt-2 text-lg font-semibold text-gray-800">
           <%= done_occs_from_habit(habit, @current_period_start, @current_period_end) %> / <%= total_occs_from_habit(habit, @current_period_start, @current_period_end) %>
           <span class="ml-1 text-xs text-gray-500">
-            <%= done_occs_from_habit(habit, @previous_period_start, @previous_period_end) %>/<%= total_occs_from_habit(habit, @current_period_start, @current_period_end) %>
+            <%= done_occs_from_habit(habit, @last_period_start, @last_period_end) %>/<%= total_occs_from_habit(habit, @current_period_start, @current_period_end) %>
           </span>
         </div>
-        <% if percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) > 0 %>
+        <% if percentage_change(habit, @current_period_start, @current_period_end, @last_period_start, @last_period_end) > 0 %>
           <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-            +<%= percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) %>%
+            +<%= percentage_change(habit, @current_period_start, @current_period_end, @last_period_start, @last_period_end) %>%
           </p>
-        <% elsif percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) < 0%>
+        <% elsif percentage_change(habit, @current_period_start, @current_period_end, @last_period_start, @last_period_end) < 0%>
           <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-            -<%= percentage_change(habit, @current_period_start, @current_period_end, @previous_period_start, @previous_period_end) %>%
+            -<%= percentage_change(habit, @current_period_start, @current_period_end, @last_period_start, @last_period_end) %>%
           </p>
         <% else %>
           <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 text-gray-800">
@@ -54,7 +54,7 @@
         <%
           current_contribution = subjective_goal_contribution(habit, @current_period_start, @current_period_end)
           current_percentage = current_contribution.nil? ? nil : (current_contribution+2)*25
-          previous_contribution = subjective_goal_contribution(habit, @previous_period_start, @previous_period_end)
+          previous_contribution = subjective_goal_contribution(habit, @last_period_start, @last_period_end)
           contribution_change = previous_contribution.nil? ? current_contribution : current_contribution - previous_contribution
         %>
         <div class="">

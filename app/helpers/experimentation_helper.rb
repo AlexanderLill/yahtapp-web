@@ -26,7 +26,11 @@ module ExperimentationHelper
     previous_ratio = previous_total.zero? ? 0 : previous_done.to_f / previous_total.to_f
 
 
-    return previous_ratio.zero? ? (current_ratio.zero? ? 0 : 100) : (current_ratio / previous_ratio * 100)
+    if previous_ratio.zero?
+       current_ratio.zero? ? 0 : 100
+    else
+      ((current_ratio - previous_ratio) / previous_ratio * 100).round(0)
+    end
 
   end
 
