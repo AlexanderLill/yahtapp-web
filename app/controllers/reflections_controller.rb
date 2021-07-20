@@ -18,8 +18,9 @@ class ReflectionsController < ApplicationController
     @reflection = Reflection.new(user: current_user)
     @reflection.habit_reflections.build()
     # TODO: find all occurrences between this and last reflection
-    occs = current_user.occurrences.includes(habit: :goal)
+    occs = current_user.occurrences.includes(habit: [:goal,:current_config])
                        .where('scheduled_at <= ?', DateTime.now).order(:scheduled_at)
+                       .where(habit: { habit_configs: { is_enabled: true}})
 
     # group by goal
     @goals = occs.map{ |occ| occ.habit }.uniq.map{ |habit| HabitReflection.new(habit: habit) }.group_by{ |ref| ref.habit.goal_id }
