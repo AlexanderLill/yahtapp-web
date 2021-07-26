@@ -33,7 +33,7 @@
           </p>
         <% elsif percentage_change(habit, @current_period_start, @current_period_end, @last_period_start, @last_period_end) < 0%>
           <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-            -<%= percentage_change(habit, @current_period_start, @current_period_end, @last_period_start, @last_period_end) %>%
+            <%= percentage_change(habit, @current_period_start, @current_period_end, @last_period_start, @last_period_end) %>%
           </p>
         <% else %>
           <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 text-gray-800">
